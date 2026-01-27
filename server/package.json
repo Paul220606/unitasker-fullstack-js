@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "unitasker server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Paul220606/unitasker-fullstack-js.git"
+  },
+  "author": "Ho Thanh Hai Tran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Paul220606/unitasker-fullstack-js/issues"
+  },
+  "homepage": "https://github.com/Paul220606/unitasker-fullstack-js#readme",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
