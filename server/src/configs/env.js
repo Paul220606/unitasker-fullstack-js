@@ -4,6 +4,6 @@ dotenv.config()
 export const PORT = process.env.PORT || 3000
 export const MONGOURL = process.env.MONGO_URL
 
-if (!MONGO_URL) {
+if (!MONGOURL) {
     throw new Error("Missing MONGO_URL")
 }

@@ -1,9 +1,11 @@
 {
   "name": "server",
   "version": "1.0.0",
+  "type": "module",
   "description": "unitasker server",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon --inspect src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +20,7 @@
   "homepage": "https://github.com/Paul220606/unitasker-fullstack-js#readme",
   "dependencies": {
     "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mongoose": "^9.1.5"
