@@ -4,7 +4,7 @@ import cors from "cors"
 
 import "./configs/env.js"
 import connectDB from "./configs/db.js"
-import router from "./routes/index.js"
+import route from "./routes/index.js"
 
 
 const app = express()
@@ -14,7 +14,7 @@ app.use(cors({
   origin: "http://localhost:5173",
 }))
 
-app.use('/api', router)
+route(app)
 
 connectDB()
 

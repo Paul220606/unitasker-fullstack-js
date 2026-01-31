@@ -1,9 +1,11 @@
-import HomePage from "../features/home/pages/Home"
+import Home from "../features/home/pages/Home"
+import Login from "../features/auth/pages/Login"
+import Register from "../features/auth/pages/Register"
 
 const publicRoutes = [
-    {path: '/', component: HomePage,},
-    {path: '/signin', component: 'div',},
-    {path: '/signup', component: 'div',},
+    {path: '/', component: Home,},
+    {path: '/login', component: Login,},
+    {path: '/register', component: Register,},
 ]
 
 export {publicRoutes}
