@@ -23,7 +23,7 @@ class AuthController {
             return res.status(201).json({
                 success: true,
                 state: 'Register success',
-                message: ''
+                username: data['username']
             })
         } catch (err) {
             console.log(err)
@@ -34,6 +34,36 @@ class AuthController {
             })
         }
     }
+    
+    async login (req, res) {
+        const data = checkDataNull({...req.body})
+        const isEmail = (val)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim())
+        const field = isEmail(data['emailOrUsername'])?'email':'username'
+        try {
+            const existedData = await User.findOne({[field]: data['emailOrUsername']})
+            if (existedData && existedData['password'] === data['password']){
+                return res.status(201).json({
+                    success: true,
+                    state: 'Login success',
+                    username: existedData['username']
+                })
+            } else {
+                return res.status(201).json({
+                    success: false,
+                    state: 'Login failed',
+                    message: 'Email, username or password is incorrect.'
+                })
+            }
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json({
+                success: false,
+                title: 'Login failed',
+                message: ''
+            })
+        }
+    }
 }
+
 const authController = new AuthController
 export default authController

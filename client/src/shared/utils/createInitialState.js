@@ -1,9 +1,9 @@
-function createInitialStateObject(inputs) {
+function createInputObject(inputs, value='') {
     const initialState = {}
     inputs.forEach(input => {
-        initialState[input.purpose] = ''
+        initialState[input.purpose] = value
     })
     return initialState
 }
 
-export {createInitialStateObject}
+export {createInputObject}

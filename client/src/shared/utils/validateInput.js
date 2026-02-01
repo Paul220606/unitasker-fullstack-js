@@ -1,4 +1,8 @@
 const defaultRules = {
+    required: {
+        validator: value=> Boolean(value),
+        messageRender: type=>type + ' is required.',    
+    },
     text: {
         validator: val => val.trim().length >= 8,
         messageRender: type => type + ' must be longer then 8 characters.'
@@ -13,8 +17,36 @@ const defaultRules = {
     }
 }
 
+function confirmPasswordRule(password) {
+    return {
+        validator: val => val.trim() === (password ?? '').trim(),
+        messageRender: msg => msg + ' must match the password above.'
+    }
+}
+
 function validateInput(type, value, textMessage, rule = defaultRules[type]){
     return !rule.validator(value) && rule.messageRender(textMessage)
 }
 
-export default validateInput
+function validateAllInputs (inputs, data, setErrors, isRegistered) {
+    const newErrors = {}
+    inputs.forEach((input)=> {
+        const id = input.purpose
+        const value = data[id]
+        let err = null
+        if (isRegistered){
+            if (id == 'confirmPassword'){
+                err = validateInput(input.type, value, input.textMessage, confirmPasswordRule(data['password']))
+            } else {
+                err = validateInput(input.type, value, input.textMessage)
+            }
+        } else {
+            err = validateInput('required', value, input.textMessage)
+        }
+        newErrors[id] = err
+    })
+    setErrors(newErrors)
+    return newErrors
+}
+
+export {confirmPasswordRule, validateAllInputs, validateInput}

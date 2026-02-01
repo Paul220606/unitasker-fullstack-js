@@ -1,34 +1,31 @@
-import { useState, useContext } from "react"
+import { useState, useContext, useRef } from "react"
 import {useNavigate} from "react-router-dom"
 
-import { ToastContext } from "../../../app/App"
-import { createInitialStateObject } from "../../../shared/utils/createInitialState"
-import validateInput from "../../../shared/utils/validateInput"
+import { AppContext } from "../../../app/App"
+import { createInputObject } from "../../../shared/utils/createInitialState"
+import { confirmPasswordRule, validateAllInputs, validateInput} from "../../../shared/utils/validateInput"
 
 function AuthForm({ title, inputs, submitText, apiFunction}) {
     const navigate = useNavigate()
-    const {showToast} = useContext(ToastContext)
-    const [errors, setErrors] = useState(()=> (createInitialStateObject(inputs)))
-    const [data, setData] = useState(()=> (createInitialStateObject(inputs)))
+    const inputRefs = useRef([])
+    const {showToast, setUser} = useContext(AppContext)
+    const [data, setData] = useState(()=> (createInputObject(inputs)))
+    const [errors, setErrors] = useState(()=> (createInputObject(inputs)))
 
     const handleChange = (e, type, textMessage) => {
         const {id, value} = e.target
-
-        setData(prev => ({
-            ...prev,
-            [id]: value
-        }))
-
-        let err = null
-        if (id=="confirmPassword"){
-            err = validateInput(type, value, textMessage, {
-                validator: (val) => val.trim() === data['password'].trim(),
-                messageRender: (textMessage) => textMessage + ' must be matched with the password above.'
-            })
+        const nextData = {...data, [id]: value}
+        setData(nextData)
+        let err
+        if (title=== 'Register'){
+            if (id=="confirmPassword"){
+                err = validateInput(type, value, textMessage, confirmPasswordRule(nextData.password))
+            } else {
+                err = validateInput(type, value, textMessage)
+            }
         } else {
-            err = validateInput(type, value, textMessage)
+            err = validateInput('required', value, textMessage)
         }
-
         setErrors(prev => ({
             ...prev,
             [id]: err
@@ -37,8 +34,15 @@ function AuthForm({ title, inputs, submitText, apiFunction}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        let newErrors
+        if (title === 'Register'){
+            newErrors = validateAllInputs(inputs, data, setErrors)
+        } else {
+            newErrors = validateAllInputs(inputs, data, setErrors)
+        }
+
         let skip = false
-        Object.entries(errors).forEach((arr)=>{
+        Object.entries(newErrors).forEach((arr)=>{
             const err = arr[1]
             if (err){
                 showToast('Invalid field(s)', err, 'warning')
@@ -46,12 +50,13 @@ function AuthForm({ title, inputs, submitText, apiFunction}) {
             }
         })
         if (skip) {return}
-
         try {
             const res = await apiFunction(data)
             if (res.success){
+                setUser(res.username)
                 navigate('/')
             } else {
+                if (title === 'Log in') setErrors(createInputObject(inputs, res.message))
                 showToast(res.state, res.message)
             }
         }
@@ -70,18 +75,31 @@ function AuthForm({ title, inputs, submitText, apiFunction}) {
                 {inputs.map((input, index) => {
                     const isPassword = input.type == 'password'
                     return (
-                        <div key={index} className="mb-3">
+                        <div className="mb-3" key={index}>
                             <label htmlFor={input.purpose} className="form-label">{input.textMessage+':'}</label>
                             <div className="input-group">
-                                <input type={isPassword?(input.showPassword?'text':'password'):input.type} className={"form-control " + (errors[input.purpose]?'is-invalid':'')} id={input.purpose} value={data[input.purpose]} onChange={(e)=> handleChange(e, input.type, input.textMessage)}/>
+                                <input
+                                ref={(el)=>(inputRefs.current[index] = el)}
+                                type={isPassword?(input.showPassword?'text':'password'):input.type} 
+                                className={"form-control " + (errors[input.purpose]?'is-invalid':'')} 
+                                id={input.purpose} 
+                                value={data[input.purpose]} 
+                                onChange={(e)=> handleChange(e, input.type, input.textMessage)}
+                                onKeyDown={(e) => {
+                                    const nextInput = inputRefs.current[index + 1]
+                                    if (e.key === "Enter" && nextInput) {
+                                        e.preventDefault()
+                                        nextInput.focus()
+                                    } 
+                                }}/>
                                 {isPassword && 
                                 <button type="button" className="btn btn-dark" onClick={()=>{input.setShowPassword(prev=>!prev)}}>
                                     <i className={input.showPassword?"bi bi-eye-fill":"bi bi-eye-slash-fill"}></i>
                                 </button>}
                             </div>
-                            {errors[input.purpose] && (
+                            {(errors[input.purpose] && (
                                 <div className="text-danger mt-1">{errors[input.purpose]}</div>
-                            )}
+                            ))}
                         </div>
                     )
                 })}

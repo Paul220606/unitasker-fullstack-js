@@ -1,5 +1,5 @@
-async function validateUniqueness(type, value, Model) {
-    const existed = await Model.findOne({ [type]: value })
+async function validateUniqueness(field, value, Model) {
+    const existed = await Model.findOne({ [field]: value })
     return !!existed
 }
 
