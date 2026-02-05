@@ -34,6 +34,7 @@ function validateAllInputs (inputs, data, setErrors, isRegistered) {
         const id = input.purpose
         const value = data[id]
         let err = null
+        if (input.required) 
         if (isRegistered){
             if (id == 'confirmPassword'){
                 err = validateInput(input.type, value, input.textMessage, confirmPasswordRule(data['password']))

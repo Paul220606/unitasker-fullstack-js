@@ -1,7 +1,10 @@
+import jwt from "jsonwebtoken"
+
 import User from "../models/User.js"
 import { checkDataNull } from "../helpers/checkNull.js"
 import { validateUniqueness } from "../helpers/validateUniqueness.js"
-
+import { JWTSECRET } from "../configs/env.js"
+import { createAuthJWT } from "../helpers/createJWT.js"
 
 class AuthController {
     async register (req, res) {
@@ -20,11 +23,14 @@ class AuthController {
 
             const user = new User(data)
             await user.save()
-            return res.status(201).json({
-                success: true,
-                state: 'Register success',
-                username: data['username']
-            })
+            const token = createAuthJWT(data._id, data.username)
+                return res.status(201).json({
+                    success: true,
+                    state: 'Register success',
+                    message: 'You have now logged in.',
+                    username: data.username,
+                    token
+                })
         } catch (err) {
             console.log(err)
             return res.status(500).json({
@@ -42,10 +48,13 @@ class AuthController {
         try {
             const existedData = await User.findOne({[field]: data['emailOrUsername']})
             if (existedData && existedData['password'] === data['password']){
+                const token = createAuthJWT(existedData._id, existedData.username)
                 return res.status(201).json({
                     success: true,
                     state: 'Login success',
-                    username: existedData['username']
+                    message: 'You have now logged in.',
+                    username: existedData.username,
+                    token
                 })
             } else {
                 return res.status(201).json({

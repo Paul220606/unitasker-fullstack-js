@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 dotenv.config()
 
+export const JWTSECRET = process.env.JWT_SECRET || "unitasker_secret"
 export const PORT = process.env.PORT || 3000
 export const MONGOURL = process.env.MONGO_URL
 

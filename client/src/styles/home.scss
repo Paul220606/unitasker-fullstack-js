@@ -1,0 +1,40 @@
+.feature-card {
+            transition: all 0.3s ease;
+          }
+
+          .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+          }
+
+          .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+          }
+
+          .delay-1 { animation-delay: 0.2s; }
+          .delay-2 { animation-delay: 0.4s; }
+
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .step-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #0d6efd;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 12px;
+          }
