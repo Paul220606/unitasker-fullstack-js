@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken"
 import { JWTSECRET } from "../configs/env.js"
 
-export function createAuthJWT(id, username) {
+const createAuthJWT = (id) => {
     return jwt.sign(
         {
             id,
-            username,
         },
         JWTSECRET,
         { expiresIn: "2h" }
     )
 }
+export {createAuthJWT}

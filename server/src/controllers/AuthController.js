@@ -1,9 +1,7 @@
-import jwt from "jsonwebtoken"
 
 import User from "../models/User.js"
 import { checkDataNull } from "../helpers/checkNull.js"
 import { validateUniqueness } from "../helpers/validateUniqueness.js"
-import { JWTSECRET } from "../configs/env.js"
 import { createAuthJWT } from "../helpers/createJWT.js"
 
 class AuthController {
@@ -23,7 +21,7 @@ class AuthController {
 
             const user = new User(data)
             await user.save()
-            const token = createAuthJWT(data._id, data.username)
+            const token = createAuthJWT(data._id)
                 return res.status(201).json({
                     success: true,
                     state: 'Register success',
@@ -48,7 +46,7 @@ class AuthController {
         try {
             const existedData = await User.findOne({[field]: data['emailOrUsername']})
             if (existedData && existedData['password'] === data['password']){
-                const token = createAuthJWT(existedData._id, existedData.username)
+                const token = createAuthJWT(existedData._id)
                 return res.status(201).json({
                     success: true,
                     state: 'Login success',

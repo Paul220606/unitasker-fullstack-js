@@ -1,6 +1,7 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
-import FormBuilder from "../../../shared/components/FormBuilder"
+import FormBuilder from "../../../shared/components/Form/FormBuilder"
 import { register } from "../auth.api"
 
 function Register() {
@@ -12,6 +13,7 @@ function Register() {
     purpose: 'username',
     textMessage: 'Username',
     type: 'text',
+    placeholder: 'e.g. paul1234',
     required: true,
     col: 12
   },
@@ -19,6 +21,7 @@ function Register() {
     purpose: 'email',
     textMessage: 'Email',
     type: 'email',
+    placeholder: 'e.g. paul@gmail.com',
     required: true,
     col: 12
   },
@@ -26,19 +29,21 @@ function Register() {
     purpose: 'password',
     textMessage: 'Password',
     type: 'password',
+    placeholder: 'e.g. Paul123!',
     required: true,
     showPassword: showPassword1,
     setShowPassword: setShowPassword1,
-    col: 6
+    col: 12
   },
   {
     purpose: 'confirmPassword',
     textMessage: 'Confirm password',
     type: 'password',
+    placeholder: 'e.g. Paul123!',
     required: true,
     showPassword: showPassword2,
     setShowPassword: setShowPassword2,
-    col: 6
+    col: 12
   }
 ]
 
@@ -46,7 +51,17 @@ function Register() {
     return (
         <div className="d-flex justify-content-center align-items-center p-4">
             <div className="card border-0 shadow-lg" style={{ width: "400px" }}>
-                <FormBuilder title="Register" inputs={registerInputs} submitText="Register" apiFunction={register}/>
+                <FormBuilder 
+                title="Register" 
+                inputs={registerInputs} 
+                submitText="Register" 
+                description={
+                    <div>
+                        Already a member?  
+                        <Link to="/login" className="fw-semibold text-decoration-none text-decoration-underline"> Log in here</Link>
+                    </div>
+                }
+                apiFunction={register}/>
             </div>
         </div>
     )

@@ -22,11 +22,6 @@ function Footer() {
                     </Link>
                     </li>
                     <li>
-                    <Link to="/dashboard" className="text-secondary text-decoration-none">
-                        Dashboard
-                    </Link>
-                    </li>
-                    <li>
                     <Link to="/tasks" className="text-secondary text-decoration-none">
                         Browse Tasks
                     </Link>

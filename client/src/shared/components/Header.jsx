@@ -19,13 +19,15 @@ function Header() {
                                 <i className="bi bi-person-fill me-1"></i>
                                 {user.length<12?user:(user.substring(0, 13))}
                             </Link>
-                            <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="#"><i className="bi bi-person-circle me-1"></i>My account</Link></li>
+                            <ul className="dropdown-menu dropdown-menu-dark">
+                                <li><Link className="dropdown-item" to="/profile"><i className="bi bi-person-circle me-1"></i>My profile</Link></li>
+                                <li><Link className="dropdown-item" to="/tasks"><i className="bi bi-list-task me-1"></i>My tasks</Link></li>
                                 <li><hr className="dropdown-divider"/></li>
                                 <li><Link className="dropdown-item" onClick={()=> {
                                     localStorage.removeItem('user')
+                                    localStorage.removeItem('token')
                                     setUser('')
-                                    window.location.reload()
+                                    window.location.href = '/'
                                 }}><i className="bi bi-box-arrow-right me-1"></i>Log out</Link></li>
                             </ul>
                         </li>

@@ -1,22 +1,11 @@
-import axios from 'axios'
-const API_URL = import.meta.env.VITE_API_URL
-
-const fetchingAuthData = async (data, action) => {
-    try {
-        const res = await axios.post(`${API_URL}/auth/${action}`, data)
-        return res.data
-    } catch (err) {{
-        console.log(`Error while fetching ${action} data`, err)
-        throw err
-    }}
-}
+import {requestData} from "../../shared/utils/requestData"
 
 const login = async (data) => {
-    return await fetchingAuthData(data, 'login')
+    return await requestData(data, 'auth', 'login', 'post')
 }
 
 const register = async (data) => {
-    return await fetchingAuthData(data, 'register')
+    return await requestData(data, 'auth', 'register', 'post')
 }
 
 export {login, register}

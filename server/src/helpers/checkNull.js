@@ -1,4 +1,4 @@
-function checkDataNull(data) {
+const checkDataNull = (data)=> {
     Object.keys(data).forEach(key => {
         if (data[key] === null || data[key] === '') {
             delete data[key]
@@ -7,7 +7,7 @@ function checkDataNull(data) {
     return data
 }
 
-function checkDataArrayNull(dataArr){
+const checkDataArrayNull = (dataArr) => {
     
 }
 

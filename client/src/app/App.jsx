@@ -10,10 +10,11 @@ const AppContext = createContext()
 export {AppContext}
 
 function App() {
+    const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(() => (localStorage.getItem('user')|| ''))
     let routes = [...publicRoutes, ...(user?privateRoutes:onlyPublicRoutes)]
     return (
-        <AppContext.Provider value={{user, setUser}}>
+        <AppContext.Provider value={{user, setUser, loading, setLoading}}>
             <Router>
                 <Routes>
                     {routes.map((route, index)=>{

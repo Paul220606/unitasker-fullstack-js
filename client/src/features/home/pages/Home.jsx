@@ -1,24 +1,19 @@
-import { useContext } from 'react'
+import { useContext, useState} from 'react'
+import { Link } from 'react-router-dom'
 
 import '../../../styles/home.scss'
+import FormModal from '../../../shared/components/Form/FormModal.jsx'
+import useFetchingData from '../../../shared/hooks/useFetchingData'
 import { AppContext } from '../../../app/App'
 
 function Home() {
-    // These are sample stats just for checking UI before rending from backend
-    const stats = [
-        { title: "Tasks Posted", value: 12 },
-        { title: "Tasks Completed", value: 8 },
-        { title: "Earnings ($)", value: 240 },
-        { title: "Pending Tasks", value: 2 },
-    ]
-    const recentTasks = [
-        { id: 1, title: "Deliver documents", status: "Completed", date: "2026-02-01" },
-        { id: 2, title: "Pick up groceries", status: "In Progress", date: "2026-02-02" },
-        { id: 3, title: "Design logo", status: "Pending", date: "2026-02-03" },
-        { id: 4, title: "Set up website", status: "Completed", date: "2026-01-30" },
-    ]
+    const {user, loading, setLoading} = useContext(AppContext)
+    const [recentTasks, setRecentTasks] = useState([])
+    const [stats, setStats] = useState([])
+    const [modalTask, setModalTask] = useState([])
+    
+    useFetchingData(user, 'home', 'render', setLoading, [setRecentTasks, setStats])
 
-    const {user} = useContext(AppContext)
     return (
         user? 
         /* With Login */
@@ -29,12 +24,17 @@ function Home() {
                     <p className="text-secondary">Here's a quick overview of your Unitasker activity</p>
                 </div>
 
-                <div className="row g-3 mb-5">
+                <div className="row g-3 mb-4">
                     {stats.map((stat, index) => (
                         <div className="col-md-3" key={index}>
                             <div className="card bg-dark text-light shadow-sm p-3">
-                                <h6 className="text-light">{stat.title}</h6>
-                                <h3 className="fw-bold">{stat.value}</h3>
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="text-light mb-1">{stat.title}</h6>
+                                    <h3 className="fw-bold mb-0">{stat.value}</h3>
+                                </div>
+                                <i className={`bi ${stat.icon} fs-1 opacity-50`}></i>
+                            </div>
                             </div>
                         </div>
                     ))}
@@ -52,27 +52,35 @@ function Home() {
                                     <th>#</th>
                                     <th>Task</th>
                                     <th>Status</th>
-                                    <th>Date</th>
+                                    <th>Due Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            {recentTasks.map(task => (
+                            { recentTasks.length > 0 ?
+                            recentTasks.map(task => (
                                 <tr key={task.id}>
                                     <td></td>
                                     <td>{task.id}</td>
                                     <td>{task.title}</td>
                                     <td>
-                                    <span className={`badge ${task.status === "Completed" ? "bg-success" : task.status === "Pending" ? "bg-warning text-dark" : "bg-primary"}`}>
+                                    <span className={`badge ${task.status === "Completed" ? "bg-success" : task.status === "Pending" ? "bg-warning" : task.status === "Canceled"? "bg-danger" : "bg-primary"}`}>
                                     {task.status}
                                     </span>
                                     </td>
-                                    <td>{task.date}</td>
+                                    <td>{task.dueDate}</td>
                                     <td>
-                                    <button className="btn btn-sm btn-outline-light">View</button>
+                                    <button type="button" className="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#viewModal" data-bs-whatever="@getbootstrap"
+                                    onClick={()=>{setModalTask(task)}}>View</button>
                                     </td>
                                 </tr>
-                            ))}
+                            ))
+                            :
+                                <tr className='p-4'> 
+                                <td colSpan={6}>
+                                    You have not created any task. Click <Link to='/tasks/new'>here</Link> to create one.
+                                </td>
+                                </tr>}
                             </tbody>
                         </table>
                     </div>
@@ -83,6 +91,7 @@ function Home() {
                     <button className="btn btn-dark btn-lg">View Profile</button>
                 </div>
             </div>
+            <FormModal id="viewModal" task={modalTask} inputDisabled={true}/>
         </> :
 
         /* Without Login */

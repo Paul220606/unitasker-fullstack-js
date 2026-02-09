@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-import FormBuilder from "../../../shared/components/FormBuilder"
+import FormBuilder from "../../../shared/components/Form/FormBuilder"
 import { login } from "../auth.api"
 
 function Login() {
@@ -11,6 +11,7 @@ function Login() {
     purpose: 'emailOrUsername',
     textMessage: 'Email or username',
     type: 'text',
+    placeholder: 'e.g. paul1234',
     required: true,
     col: 12
   },
@@ -18,6 +19,7 @@ function Login() {
     purpose: 'password',
     textMessage: 'Password',
     type: 'password',
+    placeholder: 'e.g. Paul123!',
     showPassword,
     setShowPassword,
     required: true,
@@ -34,8 +36,8 @@ function Login() {
                 submitText="Log in" 
                 description={
                     <div>
-                        Already a member?  
-                        <Link to="/login" className="fw-semibold text-decoration-none text-decoration-underline"> Log in here</Link>
+                        Not a member?  
+                        <Link to="/register" className="fw-semibold text-decoration-none text-decoration-underline"> Register here</Link>
                     </div>
                 } 
                 apiFunction={login}/>
