@@ -2,6 +2,8 @@ import { useContext, useState} from 'react'
 import { Link } from 'react-router-dom'
 
 import '../../../styles/home.scss'
+import StatsDisplay from '../../../shared/components/StatsDisplay.jsx'
+import Table from '../../../shared/components/Table.jsx'
 import FormModal from '../../../shared/components/Form/FormModal.jsx'
 import useFetchingData from '../../../shared/hooks/useFetchingData'
 import { AppContext } from '../../../app/App'
@@ -10,8 +12,22 @@ function Home() {
     const {user, loading, setLoading} = useContext(AppContext)
     const [recentTasks, setRecentTasks] = useState([])
     const [stats, setStats] = useState([])
-    const [modalTask, setModalTask] = useState([])
-    
+    const [modalTask, setModalState] = useState({
+        task: [],
+        title: '',
+        textMessage: ''
+    })
+
+    const tableTitle = 'Recent Tasks'
+    const tableStats = ['Task', 'Status', 'Due Date']
+    const tableTasks = recentTasks.map(task=>({
+        allStats: task,
+        displayedStats: [task.id, task.title, task.status, task.dueDate],
+    }))
+    const buttonsData = [{type: 'light', content: 'View', modalTitle: 'View Task', modalMessage: ''}]
+    const noDataMessage = <>
+        You have not created any task. Click <Link to='/tasks/new'>here</Link> to create one.
+    </>
     useFetchingData(user, 'home', 'render', setLoading, [setRecentTasks, setStats])
 
     return (
@@ -24,74 +40,21 @@ function Home() {
                     <p className="text-secondary">Here's a quick overview of your Unitasker activity</p>
                 </div>
 
-                <div className="row g-3 mb-4">
-                    {stats.map((stat, index) => (
-                        <div className="col-md-3" key={index}>
-                            <div className="card bg-dark text-light shadow-sm p-3">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 className="text-light mb-1">{stat.title}</h6>
-                                    <h3 className="fw-bold mb-0">{stat.value}</h3>
-                                </div>
-                                <i className={`bi ${stat.icon} fs-1 opacity-50`}></i>
-                            </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="card bg-dark text-light shadow-sm mb-5">
-                    <div className="card-header">
-                        <h5 className="mb-0">Recent Tasks</h5>
-                    </div>
-                    <div className="card-body p-0">
-                        <table className="table table-dark table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>#</th>
-                                    <th>Task</th>
-                                    <th>Status</th>
-                                    <th>Due Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            { recentTasks.length > 0 ?
-                            recentTasks.map(task => (
-                                <tr key={task.id}>
-                                    <td></td>
-                                    <td>{task.id}</td>
-                                    <td>{task.title}</td>
-                                    <td>
-                                    <span className={`badge ${task.status === "Completed" ? "bg-success" : task.status === "Pending" ? "bg-warning" : task.status === "Canceled"? "bg-danger" : "bg-primary"}`}>
-                                    {task.status}
-                                    </span>
-                                    </td>
-                                    <td>{task.dueDate}</td>
-                                    <td>
-                                    <button type="button" className="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#viewModal" data-bs-whatever="@getbootstrap"
-                                    onClick={()=>{setModalTask(task)}}>View</button>
-                                    </td>
-                                </tr>
-                            ))
-                            :
-                                <tr className='p-4'> 
-                                <td colSpan={6}>
-                                    You have not created any task. Click <Link to='/tasks/new'>here</Link> to create one.
-                                </td>
-                                </tr>}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <StatsDisplay stats={stats}/>
+                
+                <Table title={tableTitle} 
+                stats={tableStats} 
+                tasks={tableTasks}
+                buttonsData={buttonsData}
+                noDataMessage={noDataMessage}
+                modalFunc={setModalState}/>
 
                 <div className="d-flex gap-3 mb-5">
                     <button className="btn btn-dark btn-lg" onClick={()=>{window.location.href='/tasks/new'}}>Post New Task</button>
                     <button className="btn btn-dark btn-lg">View Profile</button>
                 </div>
             </div>
-            <FormModal id="viewModal" task={modalTask} inputDisabled={true}/>
+            <FormModal id="formModal" {...modalTask} title='View task'/>
         </> :
 
         /* Without Login */

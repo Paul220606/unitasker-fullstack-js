@@ -8,13 +8,13 @@ import FormFields from "./FormFields.jsx"
 import { AppContext } from "../../../app/App.jsx"
 import { showToast } from "../../utils/toast.jsx"
 import { validateAllInputs} from "../../utils/validateInput.js"
-import { createInputObject } from "../../utils/createInitialState.js"
+import { createInputObject, createNullInputObject } from "../../utils/createInitialState.js"
 
 
 function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
     const {setUser} = useContext(AppContext)
-    const [data, setData] = useState(()=> (createInputObject(inputs)))
-    const [errors, setErrors] = useState(()=> (createInputObject(inputs)))
+    const [data, setData] = useState(()=> (createNullInputObject(inputs)))
+    const [errors, setErrors] = useState(()=> (createNullInputObject(inputs)))
     const navigate = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -45,7 +45,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
                     localStorage.setItem('user', res.username)
                     setUser(res.username)
                 }
-                navigate('/')
+                navigate(-1)
             } else {
                 if (title === 'Log in') setErrors(createInputObject(inputs, res.message))
                 showToast(res.state, res.message)
@@ -63,7 +63,19 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
                 {description}
               </small>
             </div>
-            <FormFields inputs={inputs} handleSubmit={handleSubmit} submitText={submitText} apiFunction={apiFunction} errors = {errors} setErrors={setErrors} data={data} setData={setData} title={title} readOnly={false}/>    
+            <FormFields inputs={inputs} errors = {errors} setErrors={setErrors} data={data} setData={setData} title={title} readOnly={false}/>  
+            <div className="d-flex justify-content-end gap-2 px-4 pb-3">
+                <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={() => { navigate(-1)}}
+                >
+                    Cancel
+                </button>
+                <button type="submit" className="btn btn-dark px-4">
+                    {submitText}
+                </button>
+            </div>  
         </form>
     )
 }

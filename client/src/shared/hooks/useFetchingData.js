@@ -2,9 +2,8 @@ import { useEffect } from "react"
 
 import { requestData } from "../utils/requestData.js"
 
-const useFetchingData = (user, feature, action, setLoading, setFunctions, checkedData) => {
-    useEffect(()=> {
-        const fetchingData = async ()=> {
+const useFetchingData = (user, feature, action, setLoading, setFunctions, checkedData={}) => {
+    const fetchingData = async ()=> {
             if (user) {
                 try {
                     setLoading(true)
@@ -21,8 +20,10 @@ const useFetchingData = (user, feature, action, setLoading, setFunctions, checke
                 setLoading(false)
             }
         }
+    useEffect(()=> {
         fetchingData()
     }, [user, checkedData])
+    return fetchingData
 }
 
 export default useFetchingData

@@ -20,6 +20,7 @@ function Header() {
                                 {user.length<12?user:(user.substring(0, 13))}
                             </Link>
                             <ul className="dropdown-menu dropdown-menu-dark">
+                                <li><Link className="dropdown-item" to="/"><i className="bi bi-clipboard2-data"></i>Dashboard</Link></li>
                                 <li><Link className="dropdown-item" to="/profile"><i className="bi bi-person-circle me-1"></i>My profile</Link></li>
                                 <li><Link className="dropdown-item" to="/tasks"><i className="bi bi-list-task me-1"></i>My tasks</Link></li>
                                 <li><hr className="dropdown-divider"/></li>

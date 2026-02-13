@@ -16,7 +16,6 @@ function NewTask() {
     component: 'textarea',
     placeholder: 'e.g. Buy ingredients and start to cook',
     required: false,
-    rows: 4,
     col: 12
   },
   {
@@ -25,25 +24,26 @@ function NewTask() {
     type: 'number',
     placeholder: 'e.g. 50',
     required: false,
-    col: 6
-  },
-  {
-    purpose: 'dueDate',
-    textMessage: 'Due Date',
-    type: 'date',
-    required:false,
-    col: 6
+    col: 4
   },
   {
     purpose: 'category',
     textMessage: 'Category',
     component: 'select',
+    required: true,
     options: [
       'Housework',
       'Schoolwork',
       'Job',
       'Other',
     ],
+    col: 8
+  },
+  {
+    purpose: 'dueDate',
+    textMessage: 'Due Date',
+    type: 'datetime-local',
+    required:false,
     col: 12
   },
   {

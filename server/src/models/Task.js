@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import mongooseDelete from "mongoose-delete"
 
 const Schema = mongoose.Schema
 
@@ -17,6 +18,11 @@ const Task = new Schema ({
     },
 }, {
     timestamps: true
+})
+
+Task.plugin(mongooseDelete, { 
+    deletedAt : true,
+    overrideMethods: true,
 })
 
 export default mongoose.model('Task', Task)
