@@ -5,7 +5,17 @@ class SiteController {
     async homeRender (req, res) {
         const userId = req.user.id
         try {
-            const tasks = await Task.find({userId}).limit(5)
+            let tasks = await Task.find({userId, dueDate: {$ne: null}, status: {$nin: ['Completed', 'Canceled']}}).sort({dueDate: 1}).limit(5)
+            if (tasks.length <5){
+                let alreadyGot = tasks.map((task)=>task._id)
+                let extTasks = await Task.find({_id: {$nin: alreadyGot}, status: {$nin: ['Completed', 'Canceled']}}).limit(5 - tasks.length)
+                tasks = [...tasks, ...extTasks]
+                if (tasks.length < 5) {
+                    alreadyGot = tasks.map((task)=>task._id)
+                    extTasks = await Task.find({_id: {$nin: alreadyGot}}).limit(5-tasks.length)
+                    tasks = [...tasks, ...extTasks]
+                }
+            }
             const recentTasks = tasks.map((task)=>{return {
                 id: task.taskNumber,
                 title: task.title,

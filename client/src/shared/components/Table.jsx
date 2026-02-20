@@ -8,7 +8,6 @@ function Table({title, stats=[], tasks=[], buttonsData=[], noDataMessage, modalF
                 <table className="table table-dark table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             {stats.map((title, index)=><th key={index}>{title}</th>)}
                             <th>Actions</th>
                         </tr>
@@ -20,10 +19,10 @@ function Table({title, stats=[], tasks=[], buttonsData=[], noDataMessage, modalF
                             <tr key={task.displayedStats[0]}>
                                 {task.displayedStats.map((taskStat, index)=>(
                                     <td key={index}>
-                                        {stats[index-1]==='Status'?
+                                        {stats[index]==='Status'?
                                         <span className={`badge ${taskStat === "Completed" ? "bg-success" : taskStat === "Pending" ? "bg-warning" : taskStat === "Canceled"? "bg-danger" : "bg-primary"}`}>
                                         {taskStat}
-                                        </span>: <div>{taskStat}</div>}
+                                        </span>: <div>{typeof taskStat === 'string' && taskStat.length > 25? (taskStat.substring(0, 23) + '...'): taskStat}</div>}
                                     </td>
                                 ))}
                                 <td>

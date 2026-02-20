@@ -1,11 +1,15 @@
+import * as bootstrap from 'bootstrap'
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
+import FormModal from "../../../shared/components/Form/FormModal"
+import PinModal from "../components/PinModal"
 import FormBuilder from "../../../shared/components/Form/FormBuilder"
 import { login } from "../auth.api"
 
 function Login() {
     const [showPassword, setShowPassword] = useState(false)
+    const [userInfo, setUserInfo] = useState({})
     const loginInputs = [
   {
     purpose: 'emailOrUsername',
@@ -41,7 +45,19 @@ function Login() {
                     </div>
                 } 
                 apiFunction={login}/>
+                <small className="text-center pb-3">
+                    Another way to log in? <Link 
+                    data-bs-toggle="modal"
+                    data-bs-target="#formModal" >Click here</Link>
+                </small>
             </div>
+            <FormModal id="formModal" task={[]} title="Alternative Log In" textMessage="Confirm" fetchingFunction={(user, email)=>{
+                setUserInfo({userId: user, email})
+                const pinModal = document.getElementById('otpModal')
+                const modal = new bootstrap.Modal(pinModal)
+                modal.show()
+            }}/>
+            <PinModal id='otpModal' {...userInfo}/>
         </div>
     )
 }

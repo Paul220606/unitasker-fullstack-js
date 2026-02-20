@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 
+import { AppContext } from "../../../app/App"
 import FormFields from "./FormFields"
-import convertDateTimeInput from "../../utils/convertDateTimeInput"
+import {convertDateTimeInput} from "../../utils/convertDateTimeInput"
 import { createInputObject, createNullInputObject } from "../../utils/createInitialState"
 import { validateAllInputs } from "../../utils/validateInput"
 import { showToast } from "../../utils/toast"
 import { editTask, deleteTask, deleteTaskPermanent, restoreTask } from "../../../features/tasks/task.api"
+import { sendPin } from "../../../features/auth/auth.api"
 
-function FormModal({id, task, textMessage, title, fetchingFunction}){
+function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     const dueDateIsNull = (task.dueDate && task.dueDate !== 'None')
+    const {loading, setLoading} = useContext(AppContext)
     const taskInputs = [
   {
     purpose: 'title',
@@ -71,16 +74,64 @@ function FormModal({id, task, textMessage, title, fetchingFunction}){
     col: 12
   }, 
   ]
-    const [data, setData] = useState(()=> (createInputObject(taskInputs)))
-    const [errors, setErrors] = useState(()=> (createNullInputObject(taskInputs)))
+    const statusInputs = [{
+    purpose: 'status',
+    textMessage: 'Status',
+    component: 'select',
+    value: task.status || 'Pending',
+    required: true,
+    options: [
+        'In Progress',
+        'Canceled',
+        'Pending',
+        'Completed'
+    ],
+    col: 12
+  }]
+    const altLoginInputs = [{
+    purpose: 'emailOrUsername',
+    textMessage: 'Email or username',
+    type: 'text',
+    placeholder: 'e.g. paul1234',
+    required: true,
+    col: 12
+  }]
+    let activeInputs
+    switch (title){
+        case 'Alternative Log In':
+            activeInputs = altLoginInputs
+            break
+        case 'Update Status':
+            activeInputs = statusInputs
+            break
+        default:
+            activeInputs = taskInputs
+    }
+    const [isOpened, setIsOpened] = useState(false)
+    const [data, setData] = useState(()=> (createInputObject(activeInputs)))
+    const [errors, setErrors] = useState(()=> (createNullInputObject(activeInputs)))
     useEffect(()=> {
-      setData(createInputObject(taskInputs))
-      setErrors(createNullInputObject(taskInputs))  
+      setData(createInputObject(activeInputs))
+      setErrors(createNullInputObject(activeInputs))  
     }, [task])
-    
+
+    useEffect(()=>{
+        const modalEl = document.getElementById(id)
+        if (!modalEl) return
+        const modalShown = ()=> {setIsOpened(true)}
+        const modalHidden = ()=> {setIsOpened(false)}
+        const listenModal = ()=> {
+            modalEl.addEventListener('shown.bs.modal', modalShown)
+            modalEl.addEventListener('hidden.bs.modal', modalHidden)
+        }
+        listenModal()
+        return listenModal
+        
+    }, [id])
+
     const handleEditSubmit = async (e) => {
         e.preventDefault()
-        const newErrors = validateAllInputs(taskInputs, data, setErrors, false)
+        const newErrors = validateAllInputs(activeInputs, data, setErrors, false)
         let skip
         Object.entries(newErrors).forEach((arr)=>{
             const err = arr[1]
@@ -103,9 +154,32 @@ function FormModal({id, task, textMessage, title, fetchingFunction}){
         }
     }
 
+    const handleAltLoginSubmit = async (e) =>{
+        e.preventDefault()
+        console.log( 'prevent Default')
+        try {
+            setLoading(true)
+            console.log('start send')
+            const res = await sendPin({data})
+            console.log('end send')
+            if (res.success){
+                fetchingFunction(res.userId, res.email)
+                showToast(res.state, res.message, 'success')
+            } else {
+                showToast(res.state, res.message)
+            }
+        } catch (err) {
+            throw err
+        } finally {
+            setLoading(false)
+            console.log('done')
+        }
+    }
+
     const handleRestoreSubmit = async (e) => {
         e.preventDefault()
         try {
+            setLoading(true)
             const res = await restoreTask({taskNumber: task.id, status: task.status})
             if (res.success){
                 fetchingFunction()
@@ -115,12 +189,15 @@ function FormModal({id, task, textMessage, title, fetchingFunction}){
             }
         } catch (err) {
             throw err
+        } finally {
+            setLoading(false)
         }
     }
 
     const handleDeleteSubmit = async (e) => {
         e.preventDefault()
         try {
+            setLoading(true)
             const res = await deleteTask({taskNumber: task.id, status: task.status})
             if (res.success){
                 fetchingFunction()
@@ -130,6 +207,8 @@ function FormModal({id, task, textMessage, title, fetchingFunction}){
             }
         } catch (err) {
             throw err
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -177,9 +256,26 @@ function FormModal({id, task, textMessage, title, fetchingFunction}){
                 </div>
             )
             break
+        case 'Update status':
+            handleSubmit = handleEditSubmit
+            formBody = (
+        <FormFields
+            inputs={activeInputs}
+            title={title}
+            data={data}
+            setData={setData}
+            errors={errors}
+            setErrors={setErrors}
+        />)
+            break
+        case 'Alternative Log In':
+            handleSubmit = handleAltLoginSubmit
+            formBody = <FormFields inputs={activeInputs} isOpened={isOpened} title={title} data={data} setData={setData} errors={errors} setErrors={setErrors}/>
+            break
+
         default: 
-            handleSubmit = handleEditSubmit 
-            formBody = <FormFields inputs={taskInputs} title={title} data={data} setData={setData} errors={errors} setErrors={setErrors}/>
+            handleSubmit = handleEditSubmit
+            formBody = <FormFields inputs={activeInputs} isOpened={isOpened} title={title} data={data} setData={setData} errors={errors} setErrors={setErrors}/>
     }
     return (
     <div className="modal fade" id={id} tabIndex="-1" aria-labelledby={id+'Label'} aria-hidden="true">

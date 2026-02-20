@@ -1,9 +1,17 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { confirmPasswordRule, validateInput} from "../../utils/validateInput.js"
 
-function FormFields({inputs, errors, setErrors, data, setData, title}) {
+function FormFields({inputs, errors, setErrors, data, setData, title, isOpened = false}) {
     const inputRefs = useRef([])
-
+    const firstInputRef = useRef(null)
+    useEffect(() => {
+        const timer = setTimeout(()=> {
+            if (firstInputRef && title!=='View task'){
+                firstInputRef.current.focus()
+            }
+        }, 0)
+        return ()=> clearTimeout(timer)
+    }, [title, isOpened])
     const handleChange = (e, type, textMessage, required) => {
         const {id, value, checked} = e.target
         const inputValue = (type === 'checkbox' || type === 'radio') ? checked : value
@@ -31,7 +39,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title}) {
                 const isPassword = input.type == 'password'
                 const Component = input.component || 'input'
                 const colClass = `col-md-${input.col || 12} mb-3 input-animate`
-
+                const isFirstInput = index==0
                 return (
                     <div key={index} className={colClass}>
                         {(input.type === 'checkbox' || input.type === 'radio') ||
@@ -44,6 +52,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title}) {
                                 <select
                                     id={input.purpose}
                                     value= {data[input.purpose]}
+                                    ref={isFirstInput ? firstInputRef : null}
                                     {...title ==='View task'?{className: "form-select", disabled: true}:{className: ("form-select " + (errors[input.purpose] ? 'is-invalid' : '')), onChange: (e) => handleChange(e, input.type, input.textMesage, input.required)}}
                                 >
                                     {title ==='View task'?
@@ -65,6 +74,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title}) {
                                 <Component
                                     type={isPassword ? (input.showPassword ? 'text' : 'password') : input.type}
                                     id={input.purpose}
+                                    ref={isFirstInput ? firstInputRef : (el) => (inputRefs.current[index] = el)}
                                     {... input.type === 'checkbox' || input.type === 'radio'
                                             ? { checked: data[input.purpose] || false }
                                             : { value: data[input.purpose] || "" }}
@@ -75,7 +85,6 @@ function FormFields({inputs, errors, setErrors, data, setData, title}) {
                                         }
                                         :
                                         {
-                                            ref: (el)=>(inputRefs.current[index]= el),
                                             className: ((input.type === "checkbox" || input.type === "radio" ? "form-check-input" : "form-control ")+ (errors[input.purpose] ? 'is-invalid' : '') + " rounded"),
                                             placeholder: input.placeholder,
                                             onKeyDown: (e) => { 
@@ -84,7 +93,6 @@ function FormFields({inputs, errors, setErrors, data, setData, title}) {
                                                     e.preventDefault() 
                                                     handleChange(e, input.type, input.textMessage, input.required) 
                                                     nextInput.focus() }},
-                                            autoFocus: inputs.indexOf(input) == 0,
                                             onChange: (e) => handleChange(e, input.type, input.textMessage, input.required)
                                         }
                                     }

@@ -5,6 +5,8 @@ import { useState, useContext } from "react"
 
 import '../../../styles/form.scss'
 import FormFields from "./FormFields.jsx"
+import { usePreviousPath } from "../../hooks/usePreviousPath.js"
+import { onlyPublicRoutes } from "../../../app/router.jsx"
 import { AppContext } from "../../../app/App.jsx"
 import { showToast } from "../../utils/toast.jsx"
 import { validateAllInputs} from "../../utils/validateInput.js"
@@ -16,6 +18,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
     const [data, setData] = useState(()=> (createNullInputObject(inputs)))
     const [errors, setErrors] = useState(()=> (createNullInputObject(inputs)))
     const navigate = useNavigate()
+    const previousPath  = usePreviousPath()
     const handleSubmit = async (e) => {
         e.preventDefault()
         let newErrors
@@ -39,13 +42,18 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
         try {
             const res = await apiFunction(data)
             if (res.success){
-                showToast(res.state, res.message, 'success')
                 if (res.token){
                     localStorage.setItem('token', res.token)
                     localStorage.setItem('user', res.username)
                     setUser(res.username)
                 }
-                navigate(-1)
+                const currentUndefinedRoutes = onlyPublicRoutes.map((route)=>route.path)
+                if (currentUndefinedRoutes.includes(previousPath)){
+                    navigate('/')
+                } else {
+                    navigate(-1)
+                }
+                showToast(res.state, res.message, 'success')
             } else {
                 if (title === 'Log in') setErrors(createInputObject(inputs, res.message))
                 showToast(res.state, res.message)

@@ -1,7 +1,8 @@
 import { useContext, useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import '../../../styles/home.scss'
+import CompactBanner from '../components/CompactBanner.jsx'
 import StatsDisplay from '../../../shared/components/StatsDisplay.jsx'
 import Table from '../../../shared/components/Table.jsx'
 import FormModal from '../../../shared/components/Form/FormModal.jsx'
@@ -9,9 +10,15 @@ import useFetchingData from '../../../shared/hooks/useFetchingData'
 import { AppContext } from '../../../app/App'
 
 function Home() {
+    /**
+     * Trích xuất những task có deadline trước, sau đó mới trích xuất theo thứ tự
+     * Tạo bộ đếm giờ cho task gần nhất
+     */
     const {user, loading, setLoading} = useContext(AppContext)
     const [recentTasks, setRecentTasks] = useState([])
     const [stats, setStats] = useState([])
+    
+    const navigate = useNavigate()
     const [modalTask, setModalState] = useState({
         task: [],
         title: '',
@@ -19,16 +26,21 @@ function Home() {
     })
 
     const tableTitle = 'Recent Tasks'
-    const tableStats = ['Task', 'Status', 'Due Date']
+    const tableStats = ['#', 'Task', 'Status', 'Due Date']
     const tableTasks = recentTasks.map(task=>({
         allStats: task,
         displayedStats: [task.id, task.title, task.status, task.dueDate],
     }))
-    const buttonsData = [{type: 'light', content: 'View', modalTitle: 'View Task', modalMessage: ''}]
+    const buttonsData = [
+        {type: 'light', content: <i className="bi bi-eye"></i>, modalTitle: 'View Task', modalMessage: ''},
+        {type: 'light', content: <i className="bi bi-pencil-square"></i>, modalTitle: 'Update Status', modalMessage: 'Update'}
+    ]
     const noDataMessage = <>
         You have not created any task. Click <Link to='/tasks/new'>here</Link> to create one.
     </>
-    useFetchingData(user, 'home', 'render', setLoading, [setRecentTasks, setStats])
+
+    
+    const loadData = useFetchingData(user, 'home', 'render', setLoading, [setRecentTasks, setStats], {})
 
     return (
         user? 
@@ -50,11 +62,12 @@ function Home() {
                 modalFunc={setModalState}/>
 
                 <div className="d-flex gap-3 mb-5">
-                    <button className="btn btn-dark btn-lg" onClick={()=>{window.location.href='/tasks/new'}}>Post New Task</button>
+                    <button className="btn btn-dark btn-lg" onClick={()=>{navigate('/tasks/new')}}>Post New Task</button>
                     <button className="btn btn-dark btn-lg">View Profile</button>
                 </div>
             </div>
-            <FormModal id="formModal" {...modalTask} title='View task'/>
+            <FormModal id="formModal" {...modalTask} fetchingFunction={loadData}/>
+            <CompactBanner tasks={recentTasks}/>
         </> :
 
         /* Without Login */
@@ -64,14 +77,14 @@ function Home() {
             <h1 className="fw-bold display-5 mb-3 fade-in">
                 Get Things Done with Unitasker
             </h1>
-            <p className="lead text-light mb-4 fade-in delay-1" onClick={()=>{window.location.href='/info'}}>
+            <p className="lead text-light mb-4 fade-in delay-1" onClick={()=>{navigate('/info')}}>
                 A simple way to post small tasks and get real help.
             </p>
             <div className="d-flex justify-content-center gap-3 fade-in delay-2">
-                <button className="btn btn-primary btn-lg" onClick={()=>{window.location.href='/register'}}>
+                <button className="btn btn-primary btn-lg" onClick={()=>{navigate('/register')}}>
                 Get Started
                 </button>
-                <button className="btn btn-outline-light btn-lg" onClick={()=>{window.location.href='/about'}}>
+                <button className="btn btn-outline-light btn-lg" onClick={()=>{navigate('/about')}}>
                 Learn More
                 </button>
             </div>

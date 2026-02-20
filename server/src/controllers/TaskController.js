@@ -38,11 +38,24 @@ class TaskController {
     }
 
     async list(req, res){
-        const {searchTitle, status} = req.query
+        const {searchTitle, status, category, sortTitle, sortOrder} = req.query
         const userId = req.user.id
+        let sortedStat
+        switch (sortTitle){
+            case '#':
+                sortedStat = 'taskNumber'
+                break
+            case 'Due Date':
+                sortedStat = 'dueDate'
+                break
+            default:
+                sortedStat = sortTitle.toLowerCase()
+        }
         try {
-            const checkFields = status === 'All Tasks'? {userId}: {userId, status}
-            let taskData = await Task.find(checkFields).limit(30)
+            const statusObj =  (!status || status === 'All Tasks')? {}: {status}
+            const categoryObj = (!category || category === 'All Tasks')? {}: {category}
+            const checkFields = {userId, ...statusObj, ...categoryObj}
+            let taskData = await Task.find(checkFields).sort({[sortedStat]: sortOrder === 'asc'?1:-1}).limit(30)
             if (searchTitle){
                 const fuse = new Fuse(taskData, {keys: ["title"], threshold: 0.5})
                 taskData = fuse.search(searchTitle).map(r => r.item)
@@ -81,11 +94,24 @@ class TaskController {
     }
 
     async listDeleted(req, res){
-        const {searchTitle, status} = req.query
+        const {searchTitle, status, category, sortTitle, sortOrder} = req.query
         const userId = req.user.id
+        let sortedStat
+        switch (sortTitle){
+            case '#':
+                sortedStat = 'taskNumber'
+                break
+            case 'Deleted At':
+                sortedStat = 'deletedAt'
+                break
+            default:
+                sortedStat = sortTitle.toLowerCase()
+        }
         try {
-            const checkFields = status === 'All Tasks'? {userId}: {userId, status}
-            let taskData = await Task.findDeleted(checkFields).limit(30)
+            const statusObj =  (!status || status === 'All Tasks')? {}: {status}
+            const categoryObj = (!category || category === 'All Tasks')? {}: {category}
+            const checkFields = {userId, ...statusObj, ...categoryObj}            
+            let taskData = await Task.findDeleted(checkFields).sort({[sortedStat]: sortOrder === 'asc'?1:-1}).limit(30)
             if (searchTitle){
                 const fuse = new Fuse(taskData, {keys: ["title"], threshold: 0.5})
                 taskData = fuse.search(searchTitle).map(r => r.item)

@@ -5,6 +5,7 @@ import cors from "cors"
 import connectDB from "./configs/db.js"
 import route from "./routes/index.js"
 import { PORT } from "./configs/env.js"
+import { initMail } from "./configs/mail.js"
 
 const app = express()
 app.use(bodyParser.json())
@@ -12,6 +13,8 @@ app.use(bodyParser.json())
 app.use(cors({
   origin: "http://localhost:5173",
 }))
+
+initMail()
 
 route(app)
 

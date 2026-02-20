@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { AppContext } from '../../../app/App'
 import NavTabsBar from '../../../shared/components/navsTabsBar'
 import Table from '../../../shared/components/Table'
+import FieldSortTitle from '../components/FieldSortTitle'
 import StatsDisplay from '../../../shared/components/StatsDisplay'
 import FormModal from '../../../shared/components/Form/FormModal'
 import useFetchingData from '../../../shared/hooks/useFetchingData'
@@ -18,20 +19,36 @@ function TaskList() {
         title: '',
         textMessage: ''
     })
-    const [activeNav, setActiveNav] = useState(0)
-    const navItems = ['All Tasks', 'Pending', 'In Progress', 'Completed', 'Canceled']
+    const [activeNav, setActiveNav] = useState({field: 'status', data: 'All Tasks'})
+    const [sortedStats, setSortedStats] = useState({title: '#', order : 'asc'})
     const [searchTitle, setSearchTitle] = useState('')
     const filter = useMemo(() => ({
-        status: navItems[activeNav],
+        sortTitle: sortedStats.title,
+        sortOrder: sortedStats.order,
+        [activeNav.field]: activeNav.data,
         searchTitle
-    }), [activeNav, searchTitle])
+    }), [activeNav, searchTitle, sortedStats])
     const loadData = useFetchingData(user, 'task', 'list', setLoading, [setTasks, setStats], filter)
 
     const tableTitle = 'Task List'
-    const tableStats = ['Task', 'Description', 'Status', 'Category', 'Budget', 'Due Date']
+    let tableStats = [
+        '#', 
+        'Title', 
+        'Description', 
+        'Status', 
+        'Category', 
+        'Budget', 
+        'Due Date'
+    ]
+    tableStats = tableStats.map((title)=> ['Status', 'Category'].includes(title) ? title : <FieldSortTitle 
+                title={title} 
+                sortedStats={sortedStats}
+                setSortedStats={setSortedStats}
+                {...title === '#'? {firstOrder : 'asc'}:{}}/>
+            )
     const tableTasks = tasks.map(task=>({
         allStats: task,
-        displayedStats: [task.id, task.title, task.description, task.status, task.category, task.budget, task.dueDate],
+        displayedStats: [task.id, task.title, task.description, task.status, task.category, task.budget||'0', task.dueDate],
     }))
     const buttonsData = [
         {type: 'light', content: <i className="bi bi-eye"></i>, modalTitle: 'View Task', modalMessage: ''},
@@ -40,9 +57,9 @@ function TaskList() {
     ]
     const noDataMessage = <>
         {
-            activeNav?
+            activeNav.data?
             <>
-                There is no {navItems[activeNav].toLowerCase()} tasks created.
+                There is no {activeNav.data.toLowerCase()} tasks created.
             </>
             :
             <>
@@ -70,7 +87,7 @@ function TaskList() {
 
             <StatsDisplay stats={stats}/>
 
-            <NavTabsBar navItems={navItems} activeNav={activeNav} setActiveNav={setActiveNav} fetchingFunction={loadData} setSearchTitle={setSearchTitle}/>
+            <NavTabsBar activeNav={activeNav} setActiveNav={setActiveNav} fetchingFunction={loadData} setSearchTitle={setSearchTitle}/>
             
             <Table title={tableTitle} 
                 stats={tableStats} 

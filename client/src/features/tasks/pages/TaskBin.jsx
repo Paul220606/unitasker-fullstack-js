@@ -2,6 +2,7 @@ import { useContext, useState, useMemo } from 'react'
 import '../../../styles/task.scss'
 import { Link } from 'react-router-dom'
 import { AppContext } from '../../../app/App'
+import FieldSortTitle from '../components/FieldSortTitle'
 import NavTabsBar from '../../../shared/components/navsTabsBar'
 import Table from '../../../shared/components/Table'
 import FormModal from '../../../shared/components/Form/FormModal'
@@ -10,14 +11,28 @@ import useFetchingData from '../../../shared/hooks/useFetchingData'
 function TaskBin() {
     const {user, loading, setLoading} = useContext(AppContext)
     const [tasks, setTasks] = useState([])
+    const [sortedStats, setSortedStats] = useState({title: '#', order : 'asc'})
     const [modalState, setModalState] = useState({
         task: [],
         title: '',
         textMessage: ''
     })
-
+    const [activeNav, setActiveNav] = useState({field: 'status', data: 'All Tasks'})
+    const [searchTitle, setSearchTitle] = useState('')
+    const filter = useMemo(() => ({
+        sortTitle: sortedStats.title,
+        sortOrder: sortedStats.order,
+        [activeNav.field]: activeNav.data,
+        searchTitle
+    }), [activeNav, searchTitle, sortedStats])
     const tableTitle = 'Deleted tasks'
-    const tableStats = ['Task', 'Description', 'Status', 'Category', 'Budget', 'Deleted At']
+    let tableStats = ['#', 'Title', 'Description', 'Status', 'Category', 'Budget', 'Deleted At']
+    tableStats = tableStats.map((title)=> ['Status', 'Category'].includes(title) ? title : <FieldSortTitle 
+        title={title} 
+        sortedStats={sortedStats}
+        setSortedStats={setSortedStats}
+        {...title === '#'? {firstOrder : 'asc'}:{}}/>
+    )
     const tableTasks = tasks.map(task=>({
         allStats: task,
         displayedStats: [task.id, task.title, task.description, task.status, task.category, task.budget, task.deletedAt],
@@ -28,15 +43,6 @@ function TaskBin() {
         {type: 'danger', content: <i className="bi bi-trash"></i>, modalTitle: 'Delete permanently', modalMessage: 'Confirm Delete'}
     ]
     const noDataMessage = 'Task bin is empty!'
-
-
-    const [activeNav, setActiveNav] = useState(0)
-    const navItems = ['All Tasks', 'Pending', 'In Progress', 'Completed', 'Canceled']
-    const [searchTitle, setSearchTitle] = useState('')
-    const filter = useMemo(() => ({
-        status: navItems[activeNav],
-        searchTitle
-    }), [activeNav, searchTitle])
     const loadData = useFetchingData(user, 'task', 'bin', setLoading, [setTasks], filter)
 
     return (
@@ -51,7 +57,7 @@ function TaskBin() {
                 </Link>
             </div>
 
-            <NavTabsBar navItems={navItems} activeNav={activeNav} setActiveNav={setActiveNav} fetchingFunction={loadData} setSearchTitle={setSearchTitle}/>
+            <NavTabsBar activeNav={activeNav} setActiveNav={setActiveNav} fetchingFunction={loadData} setSearchTitle={setSearchTitle}/>
 
             <Table title={tableTitle} 
                 stats={tableStats} 

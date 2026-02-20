@@ -1,5 +1,6 @@
 import { useContext } from "react"
 import { Link } from "react-router-dom"
+import { NavDropdown } from 'react-bootstrap'
 
 import { AppContext } from "../../app/App"
 
@@ -14,24 +15,36 @@ function Header() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     { user?(
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li className="nav-item dropdown">
-                            <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i className="bi bi-person-fill me-1"></i>
-                                {user.length<12?user:(user.substring(0, 13))}
-                            </Link>
-                            <ul className="dropdown-menu dropdown-menu-dark">
-                                <li><Link className="dropdown-item" to="/"><i className="bi bi-clipboard2-data"></i>Dashboard</Link></li>
-                                <li><Link className="dropdown-item" to="/profile"><i className="bi bi-person-circle me-1"></i>My profile</Link></li>
-                                <li><Link className="dropdown-item" to="/tasks"><i className="bi bi-list-task me-1"></i>My tasks</Link></li>
-                                <li><hr className="dropdown-divider"/></li>
-                                <li><Link className="dropdown-item" onClick={()=> {
+                        <NavDropdown 
+                            title={
+                                <>
+                                    <i className="bi bi-person-fill me-1"></i>
+                                    {user.length < 12 ? user : user.substring(0, 13)}
+                                </>
+                            }
+                            id="user-dropdown"
+                            className="nav-item"
+                            menuVariant="dark"
+                        >
+                            <NavDropdown.Item as={Link} to="/">
+                                <i className="bi bi-clipboard2-data me-1"></i>Dashboard
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/profile">
+                                <i className="bi bi-person-circle me-1"></i>My profile
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/tasks">
+                                <i className="bi bi-list-task me-1"></i>My tasks
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item onClick={()=> {
                                     localStorage.removeItem('user')
                                     localStorage.removeItem('token')
                                     setUser('')
                                     window.location.href = '/'
-                                }}><i className="bi bi-box-arrow-right me-1"></i>Log out</Link></li>
-                            </ul>
-                        </li>
+                                }}>
+                                <i className="bi bi-box-arrow-right me-1"></i>Log out
+                            </NavDropdown.Item>
+                        </NavDropdown>
                         <li className="nav-item">
                             <Link className="nav-link" to="#">
                                 <i className="bi bi-globe me-1"></i>

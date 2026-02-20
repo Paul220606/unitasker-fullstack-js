@@ -22,7 +22,7 @@ const useFetchingData = (user, feature, action, setLoading, setFunctions, checke
         }
     useEffect(()=> {
         fetchingData()
-    }, [user, checkedData])
+    }, [user, JSON.stringify(checkedData)])
     return fetchingData
 }
 
