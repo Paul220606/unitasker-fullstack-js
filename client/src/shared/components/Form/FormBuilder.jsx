@@ -45,6 +45,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
                 if (res.token){
                     localStorage.setItem('token', res.token)
                     localStorage.setItem('user', res.username)
+                    localStorage.setItem('categories', res.categories)
                     setUser(res.username)
                 }
                 const currentUndefinedRoutes = onlyPublicRoutes.map((route)=>route.path)

@@ -1,6 +1,7 @@
 import FormBuilder from "../../../shared/components/Form/FormBuilder"
 import { createTask } from "../task.api"
 function NewTask() {
+  const categories = localStorage.getItem('categories')
   const newTaskInputs = [
   {
     purpose: 'title',
@@ -31,12 +32,7 @@ function NewTask() {
     textMessage: 'Category',
     component: 'select',
     required: true,
-    options: [
-      'Housework',
-      'Schoolwork',
-      'Job',
-      'Other',
-    ],
+    options: categories?categories.split(', '): ['Nothing'],
     col: 8
   },
   {

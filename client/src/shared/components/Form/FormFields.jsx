@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { confirmPasswordRule, validateInput} from "../../utils/validateInput.js"
 
-function FormFields({inputs, errors, setErrors, data, setData, title, isOpened = false}) {
+function FormFields({inputs, errors, setErrors, data, setData, title, isOpened = false, extra=<div></div>}) {
     const inputRefs = useRef([])
     const firstInputRef = useRef(null)
     useEffect(() => {
@@ -19,7 +19,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
         setData(nextData)
         if (!required) return
         let err
-        if (title=== 'Register'){
+        if (['Register', 'Reset Password', 'Change Password'].includes(title)){
             if (id=="confirmPassword"){
                 err = validateInput(type, value, textMessage, confirmPasswordRule(nextData.password))
             } else {
@@ -74,6 +74,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
                                 <Component
                                     type={isPassword ? (input.showPassword ? 'text' : 'password') : input.type}
                                     id={input.purpose}
+                                    rows={input.component === 'textarea' ? input.rows || 4 : undefined}
                                     ref={isFirstInput ? firstInputRef : (el) => (inputRefs.current[index] = el)}
                                     {... input.type === 'checkbox' || input.type === 'radio'
                                             ? { checked: data[input.purpose] || false }
@@ -88,6 +89,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
                                             className: ((input.type === "checkbox" || input.type === "radio" ? "form-check-input" : "form-control ")+ (errors[input.purpose] ? 'is-invalid' : '') + " rounded"),
                                             placeholder: input.placeholder,
                                             onKeyDown: (e) => { 
+                                                if (input.type === "textarea") return
                                                 const nextInput = inputRefs.current[index + 1] 
                                                 if (e.key === "Enter" && nextInput) { 
                                                     e.preventDefault() 
@@ -108,7 +110,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
                     </div>
                 )
             })}
-            
+            {extra}
         </div>
     )
 }

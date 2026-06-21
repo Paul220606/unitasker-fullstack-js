@@ -58,7 +58,6 @@ class AuthController {
 
     async checkPin (req, res) {
         const {otp, userId} = req.body
-        console.log(req.body)
         try {
             const otpVerification = await UserOTPVerification.findOne({userId})
             const user = await User.findOne({_id: userId})
@@ -67,8 +66,9 @@ class AuthController {
                 return res.status(201).json({
                     success: true,
                     state: 'Check pin success',
-                    message: 'You have now loged in.',
+                    message: 'Please reset your password.',
                     username: user.username,
+                    categories: user.categories,
                     token
                 })
             } else {
@@ -111,12 +111,13 @@ class AuthController {
 
             const user = new User(data)
             await user.save()
-            const token = createAuthJWT(data._id)
+            const token = createAuthJWT(user._id)
                 return res.status(201).json({
                     success: true,
                     state: 'Register success',
                     message: 'You have now logged in.',
-                    username: data.username,
+                    username: user.username,
+                    categories: user.categories,
                     token
                 })
         } catch (err) {
@@ -135,13 +136,14 @@ class AuthController {
         const field = isEmail(data['emailOrUsername'])?'email':'username'
         try {
             const existedData = await User.findOne({[field]: data['emailOrUsername']})
-            if (existedData && existedData['password'] === data['password']){
+            if (existedData && await existedData.comparePassword(data['password'])){
                 const token = createAuthJWT(existedData._id)
                 return res.status(201).json({
                     success: true,
                     state: 'Login success',
                     message: 'You have now logged in.',
                     username: existedData.username,
+                    categories: existedData.categories,
                     token
                 })
             } else {
@@ -156,6 +158,34 @@ class AuthController {
             return res.status(500).json({
                 success: false,
                 state: 'Login failed',
+                message: ''
+            })
+        }
+    }
+
+    async edit (req, res) {
+        const data = checkDataNull({...req.body})
+        const _id = req.user.id
+        try {
+            const user = await User.findOne({_id})
+            if (data.oldPassword && user.password !== data.oldPassword){
+                return res.status(202).json({
+                    success:false,
+                    state: 'Profile can not be edited',
+                    message: 'Old password is not matched.'
+                })
+            }
+            await User.findOneAndUpdate({_id}, data, {new: true})
+            return res.status(201).json({
+                success: true,
+                state: 'Profile is edited',
+                message: data.password? 'Password is updated successfully.' : 'You now can view in the profile page.'
+            })
+        } catch (err){
+            console.log(err)
+            return res.status(500).json({
+                success: false,
+                state: 'Profile is not editted',
                 message: ''
             })
         }

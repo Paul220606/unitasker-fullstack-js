@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react"
 function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle}) {
+    const categories = localStorage.getItem('categories')
     const [searchText, setSearchText] = useState('')
     const [isStatusView, setIsStatusView] = useState(true)
     const statusItems = ['All Tasks', 'Pending', 'In Progress', 'Completed', 'Canceled'] 
-    const categoryItems = ['All Tasks', ...['Housework', 'Schoolwork', 'Job', 'Other']]
+    const categoryItems = ['All Tasks', ...categories? categories.split(', '): []]
     const navItems = isStatusView? statusItems: categoryItems
     const field = isStatusView? 'status': 'category'
     return (

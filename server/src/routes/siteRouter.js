@@ -7,6 +7,7 @@ const siteRouter = express.Router()
 
 
 siteRouter.get('/home/render', authMiddleware, siteController.homeRender)
+siteRouter.get('/profile/render', authMiddleware, siteController.profileRender)
 
 
 export default siteRouter

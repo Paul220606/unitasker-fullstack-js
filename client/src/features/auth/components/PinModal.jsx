@@ -1,13 +1,11 @@
 import { useRef, useState, useContext, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 
 import { AppContext } from "../../../app/App"
 import { checkPin, sendPin } from "../auth.api"
 import { showToast } from "../../../shared/utils/toast"
-function PinModal({id, userId, email}) {
-    const {loading, setLoading, setUser} = useContext(AppContext)
+function PinModal({id, userId, email, resFunction=()=>{}}) {
+    const {loading, setLoading} = useContext(AppContext)
     const [otp, setOtp] = useState(["", "", "", "", "", ""])
-    const navigate = useNavigate()
     const inputsRef = useRef([])
     useEffect(() => {
         const modalEl = document.getElementById(id)
@@ -63,7 +61,6 @@ function PinModal({id, userId, email}) {
   };
 
   const handleSubmit = async () => {
-    console.log(userId)
     const code = otp.join("");
     if (code.length === 6) {
         const res = await checkPin({userId: userId, otp: code})
@@ -72,9 +69,8 @@ function PinModal({id, userId, email}) {
             if (res.token){
                 localStorage.setItem('token', res.token)
                 localStorage.setItem('user', res.username)
-                setUser(res.username)
             }
-            navigate('/')
+            resFunction()
         } else {
             showToast(res.state, res.message)
         }

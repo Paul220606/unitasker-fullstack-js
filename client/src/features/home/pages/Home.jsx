@@ -10,10 +10,6 @@ import useFetchingData from '../../../shared/hooks/useFetchingData'
 import { AppContext } from '../../../app/App'
 
 function Home() {
-    /**
-     * Trích xuất những task có deadline trước, sau đó mới trích xuất theo thứ tự
-     * Tạo bộ đếm giờ cho task gần nhất
-     */
     const {user, loading, setLoading} = useContext(AppContext)
     const [recentTasks, setRecentTasks] = useState([])
     const [stats, setStats] = useState([])
@@ -63,7 +59,7 @@ function Home() {
 
                 <div className="d-flex gap-3 mb-5">
                     <button className="btn btn-dark btn-lg" onClick={()=>{navigate('/tasks/new')}}>Post New Task</button>
-                    <button className="btn btn-dark btn-lg">View Profile</button>
+                    <button className="btn btn-dark btn-lg" onClick={()=> {navigate('/profile')}}>View Profile</button>
                 </div>
             </div>
             <FormModal id="formModal" {...modalTask} fetchingFunction={loadData}/>

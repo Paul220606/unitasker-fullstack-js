@@ -7,12 +7,16 @@ const defaultRules = {
         validator: val => val.trim().length >= 8,
         messageRender: type => type + ' must be longer then 8 characters.'
     },
+    tel: {
+        validator: val => /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,4}$/im.test(val.trim()),
+        messageRender: type => type + ' must be a valid phone number (max 12 digits).'
+    },
     email: {
         validator: val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim()),
         messageRender: type => type + ' must be in an email format.'
     },
     password: {
-        validator: val => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(val.trim()),
+        validator: val => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(val.trim()),
         messageRender: type => type + ' must be at least 8 characters long, including at least one uppercase letter, one lowercase letter, and one number.'
     }
 }

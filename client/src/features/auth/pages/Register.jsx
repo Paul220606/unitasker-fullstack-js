@@ -10,6 +10,14 @@ function Register() {
 
     const registerInputs = [
   {
+    purpose: 'fullName',
+    textMessage: 'Full Name',
+    type: 'text',
+    placeholder: 'e.g. Paul Tran',
+    required: true,
+    col: 12
+  },
+  {
     purpose: 'username',
     textMessage: 'Username',
     type: 'text',
@@ -23,6 +31,22 @@ function Register() {
     type: 'email',
     placeholder: 'e.g. paul@gmail.com',
     required: true,
+    col: 12
+  },
+  {
+    purpose: 'phone',
+    textMessage: 'Phone Number',
+    type: 'tel',
+    placeholder: '+61 123456789',
+    required: true,
+    col: 12
+  },
+  {
+    purpose: 'location',
+    textMessage: 'Location',
+    type: 'text',
+    placeholder: 'Melbourne, Australia',
+    required: false,
     col: 12
   },
   {

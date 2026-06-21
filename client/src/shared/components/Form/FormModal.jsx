@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react"
-
+import { useNavigate } from "react-router-dom"
 import { AppContext } from "../../../app/App"
 import FormFields from "./FormFields"
 import {convertDateTimeInput} from "../../utils/convertDateTimeInput"
@@ -8,10 +8,16 @@ import { validateAllInputs } from "../../utils/validateInput"
 import { showToast } from "../../utils/toast"
 import { editTask, deleteTask, deleteTaskPermanent, restoreTask } from "../../../features/tasks/task.api"
 import { sendPin } from "../../../features/auth/auth.api"
+import { editProfile } from "../../../features/manager/manager.api"
 
 function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     const dueDateIsNull = (task.dueDate && task.dueDate !== 'None')
-    const {loading, setLoading} = useContext(AppContext)
+    const categories = localStorage.getItem('categories')
+    const {loading, setLoading, setUser} = useContext(AppContext)
+    const [showPassword1, setShowPassword1] = useState(false)
+    const [showPassword2, setShowPassword2] = useState(false)
+    const [showPassword3, setShowPassword3] = useState(false)
+    const navigate = useNavigate()
     const taskInputs = [
   {
     purpose: 'title',
@@ -65,12 +71,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     component: 'select',
     value: task.category || 'Other',
     required: true,
-    options: [
-      'Housework',
-      'Schoolwork',
-      'Job',
-      'Other',
-    ],
+    options: categories? categories.split(', '): [],
     col: 12
   }, 
   ]
@@ -96,6 +97,36 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     required: true,
     col: 12
   }]
+    const resetPassInputs = [{
+        purpose: 'password',
+        textMessage: 'New Password',
+        type: 'password',
+        placeholder: 'e.g. paul1234',
+        showPassword: showPassword2,
+        setShowPassword: setShowPassword2,
+        required: true,
+        col: 12
+    },
+    {
+        purpose: 'confirmPassword',
+        textMessage: 'Confirm Password',
+        type: 'password',
+        placeholder: 'e.g. paul1234',
+        showPassword: showPassword3,
+        setShowPassword: setShowPassword3,
+        required: true,
+        col: 12
+    }]
+    const changePassInputs = [{
+        purpose: 'oldPassword',
+        textMessage: 'Old Password',
+        type: 'password',
+        placeholder: 'e.g. paul1234',
+        showPassword: showPassword1,
+        setShowPassword: setShowPassword1,
+        required: true,
+        col: 12
+    }, ...resetPassInputs]
     let activeInputs
     switch (title){
         case 'Alternative Log In':
@@ -103,6 +134,12 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             break
         case 'Update Status':
             activeInputs = statusInputs
+            break
+        case 'Change Password':
+            activeInputs = changePassInputs
+            break
+        case 'Reset Password':
+            activeInputs = resetPassInputs
             break
         default:
             activeInputs = taskInputs
@@ -113,7 +150,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     useEffect(()=> {
       setData(createInputObject(activeInputs))
       setErrors(createNullInputObject(activeInputs))  
-    }, [task])
+    }, [task, isOpened])
 
     useEffect(()=>{
         const modalEl = document.getElementById(id)
@@ -154,14 +191,46 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
         }
     }
 
-    const handleAltLoginSubmit = async (e) =>{
+    const handleResetPassSubmit = async (e)=> {
         e.preventDefault()
-        console.log( 'prevent Default')
         try {
             setLoading(true)
-            console.log('start send')
+            const res = await editProfile(data)
+            if (res.success){
+                setUser(localStorage.getItem('user'))
+                showToast(res.state, res.message, 'success')
+                navigate('/')
+            } else {
+                showToast(res.state, res.message)
+            }
+        } catch (err){
+            throw err
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const handleChangePassSubmit = async (e)=>{
+        e.preventDefault()
+        try{
+            setLoading(true)
+            const res = await editProfile(data)
+            if (res.success){
+                showToast(res.state, res.message, 'success')
+            } else {
+                showToast(res.state, res.message)
+            }
+        } catch (err){
+            throw err
+        } finally {
+            setLoading(false)
+        }
+    }
+    const handleAltLoginSubmit = async (e) =>{
+        e.preventDefault()
+        try {
+            setLoading(true)
             const res = await sendPin({data})
-            console.log('end send')
             if (res.success){
                 fetchingFunction(res.userId, res.email)
                 showToast(res.state, res.message, 'success')
@@ -172,7 +241,6 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             throw err
         } finally {
             setLoading(false)
-            console.log('done')
         }
     }
 
@@ -227,7 +295,8 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
         }
     }
 
-    let handleSubmit, formBody
+    let handleSubmit
+    let formBody = <FormFields inputs={activeInputs} isOpened={isOpened} title={title} data={data} setData={setData} errors={errors} setErrors={setErrors}/>
     switch (title){
         case 'Delete task': 
             handleSubmit = handleDeleteSubmit
@@ -258,24 +327,18 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             break
         case 'Update status':
             handleSubmit = handleEditSubmit
-            formBody = (
-        <FormFields
-            inputs={activeInputs}
-            title={title}
-            data={data}
-            setData={setData}
-            errors={errors}
-            setErrors={setErrors}
-        />)
             break
         case 'Alternative Log In':
             handleSubmit = handleAltLoginSubmit
-            formBody = <FormFields inputs={activeInputs} isOpened={isOpened} title={title} data={data} setData={setData} errors={errors} setErrors={setErrors}/>
             break
-
+        case 'Change Password':
+            handleSubmit = handleChangePassSubmit
+            break
+        case 'Reset Password':
+            handleSubmit = handleResetPassSubmit
+            break
         default: 
             handleSubmit = handleEditSubmit
-            formBody = <FormFields inputs={activeInputs} isOpened={isOpened} title={title} data={data} setData={setData} errors={errors} setErrors={setErrors}/>
     }
     return (
     <div className="modal fade" id={id} tabIndex="-1" aria-labelledby={id+'Label'} aria-hidden="true">

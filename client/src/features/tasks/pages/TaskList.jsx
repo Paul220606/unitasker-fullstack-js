@@ -57,7 +57,7 @@ function TaskList() {
     ]
     const noDataMessage = <>
         {
-            activeNav.data?
+            (activeNav.data && activeNav.data!== 'All Tasks')?
             <>
                 There is no {activeNav.data.toLowerCase()} tasks created.
             </>

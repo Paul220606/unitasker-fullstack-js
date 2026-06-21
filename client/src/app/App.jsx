@@ -12,9 +12,11 @@ export {AppContext}
 function App() {
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(() => (localStorage.getItem('user')|| ''))
+    
+    const [avaUrl, setAvaUrl] = useState()
     let routes = [...publicRoutes, ...(user?privateRoutes:onlyPublicRoutes)]
     return (
-        <AppContext.Provider value={{user, setUser, loading, setLoading}}>
+        <AppContext.Provider value={{user, setUser, loading, setLoading, avaUrl, setAvaUrl}}>
             <Router>
                 <Routes>
                     {routes.map((route, index)=>{

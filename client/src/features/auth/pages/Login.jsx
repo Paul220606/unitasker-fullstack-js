@@ -57,7 +57,12 @@ function Login() {
                 const modal = new bootstrap.Modal(pinModal)
                 modal.show()
             }}/>
-            <PinModal id='otpModal' {...userInfo}/>
+            <PinModal id='otpModal' {...userInfo} resFunction={()=>{
+                const resetPassModal = document.getElementById('resetPassModal')
+                const modal = new bootstrap.Modal(resetPassModal)
+                modal.show()
+            }}/>
+            <FormModal id="resetPassModal" task={[]} title="Reset Password" textMessage="Confirm"/>
         </div>
     )
 }

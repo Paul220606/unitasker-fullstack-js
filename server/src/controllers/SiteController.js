@@ -1,4 +1,5 @@
 import Task from "../models/Task.js"
+import User from "../models/User.js"
 import Counter from "../models/Counter.js"
 
 class SiteController {
@@ -8,11 +9,11 @@ class SiteController {
             let tasks = await Task.find({userId, dueDate: {$ne: null}, status: {$nin: ['Completed', 'Canceled']}}).sort({dueDate: 1}).limit(5)
             if (tasks.length <5){
                 let alreadyGot = tasks.map((task)=>task._id)
-                let extTasks = await Task.find({_id: {$nin: alreadyGot}, status: {$nin: ['Completed', 'Canceled']}}).limit(5 - tasks.length)
+                let extTasks = await Task.find({userId, _id: {$nin: alreadyGot}, status: {$nin: ['Completed', 'Canceled']}}).limit(5 - tasks.length)
                 tasks = [...tasks, ...extTasks]
                 if (tasks.length < 5) {
                     alreadyGot = tasks.map((task)=>task._id)
-                    extTasks = await Task.find({_id: {$nin: alreadyGot}}).limit(5-tasks.length)
+                    extTasks = await Task.find({userId, _id: {$nin: alreadyGot}}).limit(5-tasks.length)
                     tasks = [...tasks, ...extTasks]
                 }
             }
@@ -44,6 +45,41 @@ class SiteController {
             }
             
             return res.status(201).json({recentTasks, stats})
+        } catch (err) {
+            console.log(err)
+            return res.status(402)
+        }
+    }
+    async profileRender (req, res) {
+        const _id = req.user.id
+        try {
+            let user = await User.findOne({_id})
+            const profileData = {
+                fullName: user.fullName,
+                username: user.username,
+                email: user.email,
+                phone: user.phone,
+                imageUrl: user.imageUrl,
+                location: user.location,
+                categories: user.categories,
+                joinedDate: user.createdAt.toLocaleDateString('en-GB', {
+                    month: 'short',
+                    day: '2-digit',
+                    year: 'numeric'
+                }).replace(',', ''),
+            }
+            let counter = await Counter.findOne({userId: _id})
+            const counterData = {
+                tasks: counter.tasks,
+                completed: counter.completedTasks,
+                ratings: '5.0',
+            }
+            /* Mock data
+            const profileData = {
+                ...
+                preferredCategories: ['Housework', 'Job']
+            }*/
+            return res.status(201).json({profileData, counterData})
         } catch (err) {
             console.log(err)
             return res.status(402)

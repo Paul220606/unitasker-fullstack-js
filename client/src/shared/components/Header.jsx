@@ -5,7 +5,7 @@ import { NavDropdown } from 'react-bootstrap'
 import { AppContext } from "../../app/App"
 
 function Header() {
-    const {setUser, user} = useContext(AppContext)
+    const {setUser, user, setLoading, avaUrl} = useContext(AppContext)
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -18,7 +18,21 @@ function Header() {
                         <NavDropdown 
                             title={
                                 <>
-                                    <i className="bi bi-person-fill me-1"></i>
+                                    {avaUrl
+                                        ? <img 
+                                            src={avaUrl} 
+                                            className="me-1"
+                                            alt="avatar" 
+                                            style={{
+                                                width: '24px', 
+                                                height: '24px', 
+                                                objectFit: 'cover',
+                                                borderRadius: '50%',
+                                                verticalAlign: 'middle'
+                                            }} 
+                                        />
+                                        : <i className="bi bi-person-fill me-1"></i>
+                                    }
                                     {user.length < 12 ? user : user.substring(0, 13)}
                                 </>
                             }

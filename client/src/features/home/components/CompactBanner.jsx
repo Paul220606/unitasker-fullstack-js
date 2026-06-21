@@ -12,7 +12,7 @@ export default function CompactBanner ({tasks}) {
         setShownDueDateIndex(next?(prev=>prev+1):(prev=> prev-1))
     }
     useEffect(()=> {
-        if (!task || !task.dueDate) return
+        if (!task || !task.dueDate || task.dueDate === 'None') return
         const calTimeLeft = ()=> {
             const miliSecToSec = 1000
             const secToMinute = 60
@@ -39,7 +39,7 @@ export default function CompactBanner ({tasks}) {
         const timer = setInterval(calTimeLeft, 1000)
         return ()=> clearInterval(timer)
     }, [task])
-    if (!task) return
+    if (!task || !task.dueDate || task.dueDate==='None') return
 
     return ( isVisible?
     <div className={`position-fixed top-0 end-0 mt-5 me-3 bg-dark bg-opacity-75 text-light rounded-3 p-3 border border-${type} border-2`}
