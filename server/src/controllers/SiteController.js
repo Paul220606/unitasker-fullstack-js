@@ -74,11 +74,6 @@ class SiteController {
                 completed: counter.completedTasks,
                 ratings: '5.0',
             }
-            /* Mock data
-            const profileData = {
-                ...
-                preferredCategories: ['Housework', 'Job']
-            }*/
             return res.status(201).json({profileData, counterData})
         } catch (err) {
             console.log(err)

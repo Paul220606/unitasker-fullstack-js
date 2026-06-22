@@ -168,7 +168,7 @@ class AuthController {
         const _id = req.user.id
         try {
             const user = await User.findOne({_id})
-            if (data.oldPassword && user.password !== data.oldPassword){
+            if (data.oldPassword && !await user.comparePassword(data.oldPassword)){
                 return res.status(202).json({
                     success:false,
                     state: 'Profile can not be edited',
