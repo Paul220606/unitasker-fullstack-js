@@ -19,7 +19,7 @@ class TaskController {
                 }
             )
             status = status? 'In Progress' : 'Pending'
-            data =  {...data, userId, taskNumber: counter.allTasks, status}
+            data =  {...data, userId, taskNumber: counter?.allTasks||0, status}
             const task = new Task(data)
             await task.save()
             return res.status(201).json({
