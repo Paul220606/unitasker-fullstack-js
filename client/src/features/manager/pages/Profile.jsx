@@ -158,7 +158,12 @@ export default function Profile() {
             const res = await editProfile({...isEditingProfile? data: {categories: convertMultilines(data.categories)}})
             if (res.success){
                 loadData()
-                isEditingProfile ? setIsEditingProfile(false) : setIsEditingCategories(false)
+                if (isEditingProfile){
+                    localStorage.setItem('categories', convertMultilines(data.categories))
+                    setIsEditingProfile(false)
+                } else {
+                    setIsEditingCategories(false)
+                }
                 showToast(res.state, res.message, 'success')
             } else {
                 showToast(res.state, res.message)

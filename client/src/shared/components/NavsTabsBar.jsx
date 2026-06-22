@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
+import { AppContext } from "../../app/App"
 function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle}) {
-    const categories = localStorage.getItem('categories')
+    const {categories} = useContext(AppContext)
     const [searchText, setSearchText] = useState('')
     const [isStatusView, setIsStatusView] = useState(true)
     const statusItems = ['All Tasks', 'Pending', 'In Progress', 'Completed', 'Canceled'] 

@@ -14,7 +14,7 @@ import { createInputObject, createNullInputObject } from "../../utils/createInit
 
 
 function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
-    const {setUser} = useContext(AppContext)
+    const {setUser, categories, setCategories} = useContext(AppContext)
     const [data, setData] = useState(()=> (createNullInputObject(inputs)))
     const [errors, setErrors] = useState(()=> (createNullInputObject(inputs)))
     const navigate = useNavigate()
@@ -46,6 +46,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
                     localStorage.setItem('token', res.token)
                     localStorage.setItem('user', res.username)
                     localStorage.setItem('categories', res.categories)
+                    setCategories(res.categories)
                     setUser(res.username)
                 }
                 const currentUndefinedRoutes = onlyPublicRoutes.map((route)=>route.path)
