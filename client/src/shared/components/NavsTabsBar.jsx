@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { AppContext } from "../../app/App"
 function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle}) {
     const {categories} = useContext(AppContext)
