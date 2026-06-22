@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://unitasker-fullstack-js.vercel.app",
+    "https://unitasker-fullstack-mv71ipj48-unitasker.vercel.app/",
   ],
 }))
 
