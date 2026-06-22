@@ -4,6 +4,8 @@ A full-stack task management web app built with the MERN stack. Users can create
 
 > Built to explore full-stack development end-to-end — from JWT auth and MongoDB data modeling to reusable React components and feature-based architecture.
 
+🔗 **Live Demo:** [unitasker-fullstack-js.vercel.app](https://unitasker-fullstack-js.vercel.app)
+
 ---
 
 ## Features
