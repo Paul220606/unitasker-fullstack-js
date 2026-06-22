@@ -70,8 +70,8 @@ class SiteController {
             }
             let counter = await Counter.findOne({userId: _id})
             const counterData = {
-                tasks: counter.tasks || 0,
-                completed: counter.completedTasks || 0,
+                tasks: counter?.tasks || 0,
+                completed: counter?.completedTasks || 0,
                 ratings: '5.0',
             }
             return res.status(201).json({profileData, counterData})
