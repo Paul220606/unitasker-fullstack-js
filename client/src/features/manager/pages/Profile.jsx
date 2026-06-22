@@ -11,7 +11,7 @@ import FormModal from '../../../shared/components/Form/FormModal'
 import { showToast } from '../../../shared/utils/toast'
 
 export default function Profile() {
-    const {user, loading, setLoading, avaUrl, setAvaUrl, categories, setCategories} = useContext(AppContext)
+    const {user, loading, setLoading, avaUrl, setAvaUrl, categoriesList, setCategoriesList} = useContext(AppContext)
     const [isEditingProfile, setIsEditingProfile] = useState(false)
     const [isEditingCategories, setIsEditingCategories] = useState(false)
     const [profileData, setProfileData] = useState({})
@@ -163,7 +163,7 @@ export default function Profile() {
                 } else {
                     const newCategories = convertMultilines(data.categories)
                     localStorage.setItem('categories', newCategories)
-                    setCategories(newCategories)
+                    setCategoriesList(newCategories)
                     setIsEditingCategories(false)
                 }
                 showToast(res.state, res.message, 'success')

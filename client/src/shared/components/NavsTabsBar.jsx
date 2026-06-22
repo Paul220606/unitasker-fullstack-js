@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from "react"
 import { AppContext } from "../../app/App"
 function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle}) {
-    const {categories} = useContext(AppContext)
+    const {categoriesList} = useContext(AppContext)
     const [searchText, setSearchText] = useState('')
     const [isStatusView, setIsStatusView] = useState(true)
     const statusItems = ['All Tasks', 'Pending', 'In Progress', 'Completed', 'Canceled'] 
-    const categoryItems = ['All Tasks', ...categories? categories.split(', '): []]
+    const categoryItems = ['All Tasks', ...categoriesList? categoriesList.split(', '): []]
     const navItems = isStatusView? statusItems: categoryItems
     const field = isStatusView? 'status': 'category'
     return (

@@ -12,12 +12,12 @@ export {AppContext}
 function App() {
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(() => (localStorage.getItem('user')|| ''))
-    const [categories, setCategories] = useState(()=> localStorage.getItem('categories') || 'Housework, Schoolwork, Job, Other')
+    const [categoriesList, setCategoriesList] = useState(()=> localStorage.getItem('categories') || 'Housework, Schoolwork, Job, Other')
     
     const [avaUrl, setAvaUrl] = useState()
     let routes = [...publicRoutes, ...(user?privateRoutes:onlyPublicRoutes)]
     return (
-        <AppContext.Provider value={{user, setUser, loading, setLoading, avaUrl, setAvaUrl, categories, setCategories}}>
+        <AppContext.Provider value={{user, setUser, loading, setLoading, avaUrl, setAvaUrl, categoriesList, setCategoriesList}}>
             <Router>
                 <Routes>
                     {routes.map((route, index)=>{
