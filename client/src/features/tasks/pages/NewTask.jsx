@@ -68,17 +68,22 @@ function NewTask() {
   ]
 
   const handleSuggest = async (data) => {
-    const res = await suggestTask({
-      title: data.title,
-      description: data.description,
-      categories: categoriesList
-    })
-    if (res.success) {
-      setAiData(res.suggestion)
-      showToast('AI Suggest', 'Category and priority have been suggested!', 'success')
-    } else {
-      showToast('AI Suggest Failed', 'Could not generate suggestion, please try again.', 'danger')
+    try {
+      const res = await suggestTask({
+        title: data.title,
+        description: data.description,
+        categories: categoriesList
+      })
+      if (res.success) {
+        setAiData(res.suggestion)
+        showToast('AI Suggest', 'Category and priority have been suggested!', 'success')
+      } else {
+        showToast('AI Suggest Failed', 'Could not generate suggestion, please try again.', 'danger')
+      }
+    } catch (err){
+      showToast('AI Suggest Failed', 'Could not connect to AI, please try again.', 'danger')
     }
+    
   }
   
   return (
@@ -90,7 +95,8 @@ function NewTask() {
               submitText={<div><i className="bi bi-plus-circle me-1"></i>Post Task</div>}
               description='Describe your task and get help fast'
               apiFunction={createTask}
-              onSuggest={handleSuggest}/>
+              onSuggest={handleSuggest}
+              externalData={aiData}/>
               
           </div>
       </div>

@@ -1,7 +1,7 @@
 
 
 import {useNavigate} from "react-router-dom"
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect} from "react"
 
 import '../../../styles/form.scss'
 import FormFields from "./FormFields.jsx"
@@ -13,12 +13,18 @@ import { validateAllInputs} from "../../utils/validateInput.js"
 import { createInputObject, createNullInputObject } from "../../utils/createInitialState.js"
 
 
-function FormBuilder({ title, description, inputs, submitText, apiFunction, onSuggest}) {
+function FormBuilder({ title, description, inputs, submitText, apiFunction, onSuggest, externalData}) {
     const {setUser, setCategoriesList} = useContext(AppContext)
     const [data, setData] = useState(()=> (createNullInputObject(inputs)))
     const [errors, setErrors] = useState(()=> (createNullInputObject(inputs)))
     const navigate = useNavigate()
     const previousPath  = usePreviousPath()
+
+    useEffect(()=> {
+        if (externaldata && Object.keys(externalData).length > 0) {
+            setData(prev => ({...prev, ...externalData}))
+        }
+    }, [externalData])
     const handleSubmit = async (e) => {
         e.preventDefault()
         let newErrors
@@ -89,7 +95,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
                 </button>
                 {onSuggest && (
                     <button type="button" className="btn btn-outline-warning" onClick={handleSuggest}>
-                        <i classname="bi bi-stars me-1"></i>
+                        <i className="bi bi-stars me-1"></i>
                         Suggest
                     </button>
                 )}
