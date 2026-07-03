@@ -68,6 +68,10 @@ function NewTask() {
   ]
 
   const handleSuggest = async (data) => {
+    if (!data.title) {
+        showToast('AI Suggest', 'Please enter a task title first!', 'warning')
+        return
+    }
     try {
       const res = await suggestTask({
         title: data.title,
