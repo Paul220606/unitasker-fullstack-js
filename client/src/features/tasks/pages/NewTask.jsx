@@ -47,7 +47,7 @@ function NewTask() {
     component: 'select',
     required: false,
     options: ['Low', 'Medium', 'High'],
-    col:6,
+    col:12,
     value: aiData.priority
   },
   {
@@ -85,8 +85,9 @@ function NewTask() {
               inputs={newTaskInputs} 
               submitText={<div><i className="bi bi-plus-circle me-1"></i>Post Task</div>}
               description='Describe your task and get help fast'
-              apiFunction={createTask}/>
-              onSuggest={handleSuggest}
+              apiFunction={createTask}
+              onSuggest={handleSuggest}/>
+              
           </div>
       </div>
   )
