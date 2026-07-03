@@ -74,6 +74,15 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     options: categories? categories.split(', '): [],
     col: 12
   }, 
+  {
+    purpose: 'priority',
+    textMessage: 'Priority',
+    component: 'select',
+    value: task.priority || 'Low',
+    required: false,
+    options: ['Low', 'Medium', 'High'],
+    col: 12
+  }
   ]
     const statusInputs = [{
     purpose: 'status',

@@ -13,7 +13,7 @@ import { validateAllInputs} from "../../utils/validateInput.js"
 import { createInputObject, createNullInputObject } from "../../utils/createInitialState.js"
 
 
-function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
+function FormBuilder({ title, description, inputs, submitText, apiFunction, onSuggest}) {
     const {setUser, setCategoriesList} = useContext(AppContext)
     const [data, setData] = useState(()=> (createNullInputObject(inputs)))
     const [errors, setErrors] = useState(()=> (createNullInputObject(inputs)))
@@ -65,6 +65,11 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
             throw err
         }
     }
+
+    const handleSuggest = async () => {
+        if (onSuggest) await onSuggest(data)
+    }
+
     return (
         <form onSubmit={handleSubmit} className="auth-form fade-in-up">
             <div className="bg-dark text-white text-center py-3 rounded-top">
@@ -82,6 +87,12 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction}) {
                 >
                     Cancel
                 </button>
+                {onSuggest && (
+                    <button type="button" className="btn btn-outline-warning" onClick={handleSuggest}>
+                        <i classname="bi bi-stars me-1"></i>
+                        Suggest
+                    </button>
+                )}
                 <button type="submit" className="btn btn-dark px-4">
                     {submitText}
                 </button>

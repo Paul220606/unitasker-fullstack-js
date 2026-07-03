@@ -1,7 +1,12 @@
+import {useState, useContext} from "react"
+
 import FormBuilder from "../../../shared/components/Form/FormBuilder"
+import { AppContext } from "../../../app/App"
 import { createTask } from "../task.api"
 function NewTask() {
-  const categories = localStorage.getItem('categories')
+  const {categoriesList} = useContext(AppContext)
+  const [aiData, setAiData] = useState({})
+
   const newTaskInputs = [
   {
     purpose: 'title',
@@ -32,8 +37,18 @@ function NewTask() {
     textMessage: 'Category',
     component: 'select',
     required: true,
-    options: categories?categories.split(', '): ['Nothing'],
-    col: 8
+    options: categoriesList?categoriesList.split(', '): ['Nothing'],
+    col: 8,
+    value: aiData.category 
+  },
+  {
+    purpose: 'priority',
+    textMessage: 'Priority',
+    component: 'select',
+    required: false,
+    options: ['Low', 'Medium', 'High'],
+    col:6,
+    value: aiData.priority
   },
   {
     purpose: 'dueDate',
@@ -50,6 +65,17 @@ function NewTask() {
     col: 6
   }
   ]
+
+  const handleSuggest = async (data) => {
+    const res = await suggestTask({
+      title: data.title,
+      description: data.description,
+      categories: categoriesList
+    })
+    if (res.success) {
+      setAiData(res.suggestion)
+    }
+  }
   
   return (
       <div className="d-flex justify-content-center align-items-center p-4">
@@ -60,6 +86,7 @@ function NewTask() {
               submitText={<div><i className="bi bi-plus-circle me-1"></i>Post Task</div>}
               description='Describe your task and get help fast'
               apiFunction={createTask}/>
+              onSuggest={handleSuggest}
           </div>
       </div>
   )

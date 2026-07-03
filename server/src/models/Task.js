@@ -11,6 +11,7 @@ const Task = new Schema ({
     budget: {type: Number},
     dueDate: {type: Date},
     category: {type: String},
+    priority: {type: String, default: null},
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

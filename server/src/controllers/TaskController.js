@@ -66,6 +66,7 @@ class TaskController {
                 title: task.title,
                 description: task.description,
                 status: task.status,
+                priority: task.priority || null,
                 category: task.category,
                 budget: task.budget,
                 dueDate: task.dueDate? task.dueDate.toLocaleString('en-GB'): 'None'

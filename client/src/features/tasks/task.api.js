@@ -20,5 +20,8 @@ const deleteTaskPermanent = async (data) => {
     return await requestData(data, 'task', 'delete', 'delete')
 }
 
+const suggestTask = async (data) => {
+    return await requestData(data, 'task', 'suggest', 'post')
+}
 
-export {createTask, editTask, deleteTask, deleteTaskPermanent, restoreTask}
+export {createTask, editTask, deleteTask, deleteTaskPermanent, restoreTask, suggestTask}

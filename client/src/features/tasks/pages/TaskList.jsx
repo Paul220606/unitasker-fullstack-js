@@ -36,7 +36,8 @@ function TaskList() {
         'Title', 
         'Description', 
         'Status', 
-        'Category', 
+        'Category',
+        'Priority', 
         'Budget', 
         'Due Date'
     ]
@@ -48,7 +49,7 @@ function TaskList() {
             )
     const tableTasks = tasks.map(task=>({
         allStats: task,
-        displayedStats: [task.id, task.title, task.description, task.status, task.category, task.budget||'0', task.dueDate],
+        displayedStats: [task.id, task.title, task.description, task.status, task.category, task.priority || '-', task.budget||'0', task.dueDate],
     }))
     const buttonsData = [
         {type: 'light', content: <i className="bi bi-eye"></i>, modalTitle: 'View Task', modalMessage: ''},
