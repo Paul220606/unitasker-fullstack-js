@@ -21,7 +21,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
     const previousPath  = usePreviousPath()
 
     useEffect(()=> {
-        if (externaldata && Object.keys(externalData).length > 0) {
+        if (externalData && Object.keys(externalData).length > 0) {
             setData(prev => ({...prev, ...externalData}))
         }
     }, [externalData])
