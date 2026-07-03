@@ -74,6 +74,9 @@ function NewTask() {
     })
     if (res.success) {
       setAiData(res.suggestion)
+      showToast('AI Suggest', 'Category and priority have been suggested!', 'success')
+    } else {
+      showToast('AI Suggest Failed', 'Could not generate suggestion, please try again.', 'danger')
     }
   }
   
