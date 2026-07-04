@@ -38,7 +38,7 @@ class TaskController {
     }
 
     async list(req, res){
-        const {searchTitle, status, category, sortTitle, sortOrder} = req.query
+        const {searchTitle, status, category, priority, sortTitle, sortOrder} = req.query
         const userId = req.user.id
         let sortedStat
         switch (sortTitle){
@@ -54,7 +54,8 @@ class TaskController {
         try {
             const statusObj =  (!status || status === 'All Tasks')? {}: {status}
             const categoryObj = (!category || category === 'All Tasks')? {}: {category}
-            const checkFields = {userId, ...statusObj, ...categoryObj}
+            const priorityObj = (!priority || priority === 'All Tasks')? {}: {priority}
+            const checkFields = {userId, ...statusObj, ...categoryObj, ...priorityObj}
             let taskData = await Task.find(checkFields).sort({[sortedStat]: sortOrder === 'asc'?1:-1}).limit(30)
             if (searchTitle){
                 const fuse = new Fuse(taskData, {keys: ["title"], threshold: 0.5})

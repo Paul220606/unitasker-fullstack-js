@@ -41,7 +41,7 @@ function TaskList() {
         'Budget', 
         'Due Date'
     ]
-    tableStats = tableStats.map((title)=> ['Status', 'Category'].includes(title) ? title : <FieldSortTitle 
+    tableStats = tableStats.map((title)=> ['Status', 'Category', 'Priority'].includes(title) ? title : <FieldSortTitle 
                 title={title} 
                 sortedStats={sortedStats}
                 setSortedStats={setSortedStats}

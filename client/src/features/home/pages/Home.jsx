@@ -22,14 +22,14 @@ function Home() {
     })
 
     const tableTitle = 'Recent Tasks'
-    const tableStats = ['#', 'Task', 'Status', 'Due Date']
+    const tableStats = ['#', 'Task', 'Status', 'Priority', 'Due Date']
     const tableTasks = recentTasks.map(task=>({
         allStats: task,
-        displayedStats: [task.id, task.title, task.status, task.dueDate],
+        displayedStats: [task.id, task.title, task.status, task.priority || '-', task.dueDate],
     }))
     const buttonsData = [
         {type: 'light', content: <i className="bi bi-eye"></i>, modalTitle: 'View Task', modalMessage: ''},
-        {type: 'light', content: <i className="bi bi-pencil-square"></i>, modalTitle: 'Update Status', modalMessage: 'Update'}
+        {type: 'light', content: <i className="bi bi-pencil-square"></i>, modalTitle: 'Quick Update', modalMessage: 'Update'}
     ]
     const noDataMessage = <>
         You have not created any task. Click <Link to='/tasks/new'>here</Link> to create one.

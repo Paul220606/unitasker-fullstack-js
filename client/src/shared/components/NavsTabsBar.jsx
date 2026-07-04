@@ -3,11 +3,13 @@ import { AppContext } from "../../app/App"
 function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle}) {
     const {categoriesList} = useContext(AppContext)
     const [searchText, setSearchText] = useState('')
-    const [isStatusView, setIsStatusView] = useState(true)
+    const [viewMode, setViewMode] = useState('status')
     const statusItems = ['All Tasks', 'Pending', 'In Progress', 'Completed', 'Canceled'] 
+    const priorityItems = ['All Tasks', 'High', 'Medium', 'Low']
     const categoryItems = ['All Tasks', ...categoriesList? categoriesList.split(', '): []]
-    const navItems = isStatusView? statusItems: categoryItems
-    const field = isStatusView? 'status': 'category'
+    const navItems = viewMode === 'status' ? statusItems : viewMode === 'category' ? categoryItems : priorityItems
+    const field = viewMode === 'status' ? 'status' : viewMode === 'category' ? 'category' : 'priority'
+
     return (
         <div className="card bg-dark text-light shadow-sm mb-3">
             <div className="card-header border-0">
@@ -26,20 +28,28 @@ function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle})
                 <div className="d-flex ms-auto">
                     <div className="btn-group btn-group-sm me-3" role="group">
                         <button 
-                            className={`btn ${isStatusView ? 'btn-success' : 'btn-outline-success'}`}
+                            className={`btn ${viewMode==='status' ? 'btn-success' : 'btn-outline-success'}`}
                             onClick={() => {
-                                setIsStatusView(true)
+                                setViewMode('status')
                                 setActiveNav({field: 'status', data: 'All Tasks'})
                             }}>
                             Status
                         </button>
                         <button 
-                            className={`btn ${!isStatusView ? 'btn-success' : 'btn-outline-success'}`}
+                            className={`btn ${viewMode==='category'? 'btn-success' : 'btn-outline-success'}`}
                             onClick={() => {
-                                setIsStatusView(false)
+                                setViewMode('category')
                                 setActiveNav({field: 'category', data: 'All Tasks'})
                             }}>
                             Category
+                        </button>
+                        <button 
+                            className={`btn ${viewMode==='priority'? 'btn-success' : 'btn-outline-success'}`}
+                            onClick={() => {
+                                setViewMode('priority')
+                                setActiveNav({field: 'category', data: 'All Tasks'})
+                            }}>
+                            Priority
                         </button>
                     </div>
                     <form className="d-flex" role="search" onSubmit={(e)=>{

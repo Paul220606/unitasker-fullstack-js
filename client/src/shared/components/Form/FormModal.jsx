@@ -57,7 +57,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     ],
     col: 6
   },
-  ... ((title !=='View task' || dueDateIsNull)?
+  ... ((title !=='View Task' || dueDateIsNull)?
   [{
     purpose: 'dueDate',
     textMessage: 'Due Date',
@@ -84,7 +84,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     col: 12
   }
   ]
-    const statusInputs = [{
+    const quickInputs = [{
     purpose: 'status',
     textMessage: 'Status',
     component: 'select',
@@ -97,7 +97,20 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
         'Completed'
     ],
     col: 12
-  }]
+    }, {
+        purpose: 'priority',
+        textMessage: 'Priority',
+        component: 'select',
+        value: task.priority || 'Medium',
+        required: false,
+        options: [
+            'High',
+            'Medium',
+            'Low'
+        ],
+        col: 12
+    }
+    ]
     const altLoginInputs = [{
     purpose: 'emailOrUsername',
     textMessage: 'Email or username',
@@ -141,8 +154,8 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
         case 'Alternative Log In':
             activeInputs = altLoginInputs
             break
-        case 'Update Status':
-            activeInputs = statusInputs
+        case 'Quick Update':
+            activeInputs = quickInputs
             break
         case 'Change Password':
             activeInputs = changePassInputs
@@ -334,7 +347,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
                 </div>
             )
             break
-        case 'Update status':
+        case 'Quick Update':
             handleSubmit = handleEditSubmit
             break
         case 'Alternative Log In':
@@ -362,7 +375,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
                 {formBody}
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">{title ==='View task'?'Close':'Cancel'}</button>
-                    {title ==='View task' || <button type="submit" className={title.substring(0, 6)=== 'Delete'?"btn btn-danger":"btn btn-primary"} data-bs-dismiss="modal">{textMessage}</button>}
+                    {title !=='View Task' && <button type="submit" className={title.substring(0, 6)=== 'Delete'?"btn btn-danger":"btn btn-primary"} data-bs-dismiss="modal">{textMessage}</button>}
                 </div>
             </form>
         </div>

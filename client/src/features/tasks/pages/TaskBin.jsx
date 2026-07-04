@@ -27,7 +27,7 @@ function TaskBin() {
     }), [activeNav, searchTitle, sortedStats])
     const tableTitle = 'Deleted tasks'
     let tableStats = ['#', 'Title', 'Description', 'Status', 'Category', 'Budget', 'Deleted At']
-    tableStats = tableStats.map((title)=> ['Status', 'Category'].includes(title) ? title : <FieldSortTitle 
+    tableStats = tableStats.map((title)=> ['Status', 'Category', 'Priority'].includes(title) ? title : <FieldSortTitle 
         title={title} 
         sortedStats={sortedStats}
         setSortedStats={setSortedStats}

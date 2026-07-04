@@ -23,6 +23,7 @@ class SiteController {
                 description: task.description,
                 status: task.status,
                 category: task.category,
+                priority: task.priority || null,
                 budget: task.budget,
                 dueDate: task.dueDate? task.dueDate.toLocaleString('en-GB'): 'None'
             }})

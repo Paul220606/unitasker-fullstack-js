@@ -21,8 +21,13 @@ function Table({title, stats=[], tasks=[], buttonsData=[], noDataMessage, modalF
                                     <td key={index}>
                                         {stats[index]==='Status'?
                                         <span className={`badge ${taskStat === "Completed" ? "bg-success" : taskStat === "Pending" ? "bg-warning" : taskStat === "Canceled"? "bg-danger" : "bg-primary"}`}>
-                                        {taskStat}
-                                        </span>: <div>{typeof taskStat === 'string' && taskStat.length > 25? (taskStat.substring(0, 23) + '...'): taskStat}</div>}
+                                            {taskStat}
+                                        </span>: 
+                                        stats[index] === 'Priority'?
+                                        <span className={`badge ${taskStat === "High" ? "bg-danger" : taskStat === "Medium" ? "bg-warning":"bg-success"}`}>
+                                            {taskStat}
+                                        </span>:
+                                        <div>{typeof taskStat === 'string' && taskStat.length > 25? (taskStat.substring(0, 23) + '...'): taskStat}</div>}
                                     </td>
                                 ))}
                                 <td>
