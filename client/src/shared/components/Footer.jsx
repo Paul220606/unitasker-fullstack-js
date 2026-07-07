@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom"
+import { useContext } from "react"
+
+import App, { AppContext } from "../../app/App"
 
 function Footer() {
-  return (
+    const {user} = useContext(AppContext)
+    return (
         <footer className="bg-dark text-light pt-5 pb-3 mt-auto">
             <div className="container">
                 <div className="row">
@@ -21,11 +25,22 @@ function Footer() {
                         Home
                     </Link>
                     </li>
+                    {user?
                     <li>
                     <Link to="/tasks" className="text-secondary text-decoration-none">
                         Browse Tasks
                     </Link>
-                    </li>
+                    </li> 
+                    :
+                    <>
+                        <Link to="/login" className="text-secondary text-decoration-none">
+                            Log In
+                        </Link>
+                        <Link to="/register" className="text-secondary text-decoration-none">
+                            Register
+                        </Link>
+                    </>}
+                    
                     <li>
                     <Link to="/about" className="text-secondary text-decoration-none">
                         About

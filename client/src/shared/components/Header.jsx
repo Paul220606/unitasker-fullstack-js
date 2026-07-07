@@ -1,11 +1,34 @@
 import { useContext } from "react"
 import { Link } from "react-router-dom"
 import { NavDropdown } from 'react-bootstrap'
+import { useTranslation } from "react-i18next"
 
 import { AppContext } from "../../app/App"
 
 function Header() {
     const {setUser, user, setLoading, avaUrl} = useContext(AppContext)
+    const {i18n} = useTranslation()
+
+    const changeLanguage = (lang) => {
+        i18n.changeLanguage(lang)
+        localStorage.setItem('language', lang)
+    }
+
+    const languageDropDown = (
+        <NavDropdown
+        title = {<><i className = "bi bi-globe me-1"></i>Language</>}
+        id = "language-dropdown"
+        className="nav-item"
+        menuVariant="dark">
+            <NavDropdown.Item onClick = {() => changeLanguage('en')}>
+                English
+            </NavDropdown.Item>
+            <NavDropdown.Item onClick = {() => changeLanguage('vi')}>
+                Tiếng Việt
+            </NavDropdown.Item>
+        </NavDropdown>
+    )
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -59,12 +82,7 @@ function Header() {
                                 <i className="bi bi-box-arrow-right me-1"></i>Log out
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="#">
-                                <i className="bi bi-globe me-1"></i>
-                                Language
-                            </Link>
-                        </li>
+                        {languageDropDown}
                     </ul>
                     ):(
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -81,12 +99,7 @@ function Header() {
                                     
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/register">
-                                    <i className="bi bi-globe me-1"></i>
-                                    Language
-                                </Link>
-                            </li>
+                            {languageDropDown}
                     </ul>
                     )}
                 </div>

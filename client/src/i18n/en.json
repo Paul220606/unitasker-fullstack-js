@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "signIn": "Sign In",
+    "register": "Register",
+    "language": "Language"
+  },
+  "home": {
+    "welcome": "Welcome back, {{name}}!",
+    "subtitle": "Here's a quick overview of your Unitasker activity",
+    "postTask": "Post New Task",
+    "viewProfile": "View Profile",
+    "recentTasks": "Recent Tasks",
+    "noTask": "You have not created any task."
+  },
+  "task": {
+    "title": "Task Title",
+    "description": "Task Description",
+    "status": "Status",
+    "priority": "Priority",
+    "category": "Category",
+    "dueDate": "Due Date",
+    "budget": "Budget ($)"
+  },
+  "footer": {
+    "tagline": "Get small things done, with real people."
+  }
+}

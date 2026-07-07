@@ -63,7 +63,7 @@ function Home() {
                 </div>
             </div>
             <FormModal id="formModal" {...modalTask} fetchingFunction={loadData}/>
-            <CompactBanner tasks={recentTasks}/>
+            <CompactBanner tasks={recentTasks.filter(task => task.status !== 'Completed' && task.status !== 'Canceled')}/>
         </> :
 
         /* Without Login */

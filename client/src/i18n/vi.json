@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "signIn": "Đăng nhập",
+    "register": "Đăng ký",
+    "language": "Ngôn ngữ"
+  },
+  "home": {
+    "welcome": "Chào mừng trở lại, {{name}}!",
+    "subtitle": "Tổng quan hoạt động Unitasker của bạn",
+    "postTask": "Tạo nhiệm vụ mới",
+    "viewProfile": "Xem hồ sơ",
+    "recentTasks": "Nhiệm vụ gần đây",
+    "noTask": "Bạn chưa tạo nhiệm vụ nào."
+  },
+  "task": {
+    "title": "Tên nhiệm vụ",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "priority": "Độ ưu tiên",
+    "category": "Danh mục",
+    "dueDate": "Hạn chót",
+    "budget": "Ngân sách ($)"
+  },
+  "footer": {
+    "tagline": "Hoàn thành công việc nhỏ, với người thật."
+  }
+}
