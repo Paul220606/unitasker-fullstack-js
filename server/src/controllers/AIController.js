@@ -19,6 +19,14 @@ Respond in JSON format only, no explanation, no markdown:
             const result = await model.generateContent(prompt)
             const text = result.response.text().trim()
             const suggestion = JSON.parse(text.replace(/```json|```/g, '').trim())
+            const validCategories = categories.split(', ')
+            if (!validCategories.includes(suggestion.category)) {
+                suggestion.category = validCategories[0]
+            }
+            const validPriorities = ['Low', 'Medium', 'High']
+            if (!validPriorities.includes(suggestion.priority)) {
+                suggestion.category = 'Medium'
+            }
             return res.status(200).json({success: true, suggestion})
         } catch (err) {
             console.log(err)

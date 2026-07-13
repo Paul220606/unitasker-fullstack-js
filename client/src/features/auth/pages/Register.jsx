@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 
 import FormBuilder from "../../../shared/components/Form/FormBuilder"
 import { register } from "../auth.api"
@@ -7,53 +8,54 @@ import { register } from "../auth.api"
 function Register() {
     const [showPassword1, setShowPassword1] = useState(false)
     const [showPassword2, setShowPassword2] = useState(false)
+    const {t} = useTranslation()
 
     const registerInputs = [
   {
     purpose: 'fullName',
-    textMessage: 'Full Name',
+    textMessage: t('auth.register.fullName'),
     type: 'text',
-    placeholder: 'e.g. Paul Tran',
+    placeholder: t('common.placeholders.fullName'),
     required: true,
     col: 12
   },
   {
     purpose: 'username',
-    textMessage: 'Username',
+    textMessage: t('auth.register.username'),
     type: 'text',
-    placeholder: 'e.g. paul1234',
+    placeholder: t('common.placeholders.username'),
     required: true,
     col: 12
   },
   {
     purpose: 'email',
-    textMessage: 'Email',
+    textMessage: t('auth.register.email'),
     type: 'email',
-    placeholder: 'e.g. paul@gmail.com',
+    placeholder: t('common.placeholders.email'),
     required: true,
     col: 12
   },
   {
     purpose: 'phone',
-    textMessage: 'Phone Number',
+    textMessage: t('auth.register.phone'),
     type: 'tel',
-    placeholder: '+61 123456789',
+    placeholder: t('common.placeholders.phone'),
     required: true,
     col: 12
   },
   {
     purpose: 'location',
-    textMessage: 'Location',
+    textMessage: t('auth.register.location'),
     type: 'text',
-    placeholder: 'Melbourne, Australia',
+    placeholder: t('common.placeholders.location'),
     required: false,
     col: 12
   },
   {
     purpose: 'password',
-    textMessage: 'Password',
+    textMessage: t('auth.register.password'),
     type: 'password',
-    placeholder: 'e.g. Paul123!',
+    placeholder: t('common.placeholders.password'),
     required: true,
     showPassword: showPassword1,
     setShowPassword: setShowPassword1,
@@ -61,9 +63,9 @@ function Register() {
   },
   {
     purpose: 'confirmPassword',
-    textMessage: 'Confirm password',
+    textMessage: t('auth.register.confirmPassword'),
     type: 'password',
-    placeholder: 'e.g. Paul123!',
+    placeholder: t('common.placeholders.password'),
     required: true,
     showPassword: showPassword2,
     setShowPassword: setShowPassword2,
@@ -78,11 +80,11 @@ function Register() {
                 <FormBuilder 
                 title="Register" 
                 inputs={registerInputs} 
-                submitText="Register" 
+                submitText={t('auth.register.title')}
                 description={
                     <div>
-                        Already a member?  
-                        <Link to="/login" className="fw-semibold text-decoration-none text-decoration-underline"> Log in here</Link>
+                        {t('auth.register.alreadyMember')}  
+                        <Link to="/login" className="fw-semibold text-decoration-none text-decoration-underline"> {t('auth.register.loginHere')}</Link>
                     </div>
                 }
                 apiFunction={register}/>

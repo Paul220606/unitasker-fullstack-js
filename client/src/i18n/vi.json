@@ -1,8 +1,34 @@
 {
+  "common": {
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "close": "Đóng",
+    "back": "Quay lại",
+    "save": "Lưu thay đổi",
+    "edit": "Chỉnh sửa",
+    "update": "Cập nhật",
+    "loading": "Đang tải...",
+    "here": "đây",
+    "actions": "Hành động",
+    "error": "Lỗi",
+    "placeholders": {
+      "fullName": "vd. Paul Tran",
+      "username": "vd. paul1234",
+      "email": "vd. paul@gmail.com",
+      "phone": "+61 123456789",
+      "location": "Melbourne, Australia",
+      "password": "vd. Paul123!"
+    }
+  },
   "nav": {
     "signIn": "Đăng nhập",
     "register": "Đăng ký",
-    "language": "Ngôn ngữ"
+    "toggleNavigation": "Chuyển đổi menu điều hướng",
+    "language": "Ngôn ngữ",
+    "dashboard": "Bảng điều khiển",
+    "myProfile": "Hồ sơ của tôi",
+    "myTasks": "Nhiệm vụ của tôi",
+    "logout": "Đăng xuất"
   },
   "home": {
     "welcome": "Chào mừng trở lại, {{name}}!",
@@ -10,7 +36,49 @@
     "postTask": "Tạo nhiệm vụ mới",
     "viewProfile": "Xem hồ sơ",
     "recentTasks": "Nhiệm vụ gần đây",
-    "noTask": "Bạn chưa tạo nhiệm vụ nào."
+    "noTask": "Bạn chưa tạo nhiệm vụ nào.",
+    "noTaskWithLink": "Bạn chưa tạo nhiệm vụ nào. Nhấn vào {{link}} để tạo nhiệm vụ mới.",
+    "hero": {
+      "title": "Hoàn thành công việc cùng Unitasker",
+      "subtitle": "Cách đơn giản để đăng việc vặt và nhận sự trợ giúp thật sự.",
+      "getStarted": "Bắt đầu ngay",
+      "learnMore": "Tìm hiểu thêm"
+    },
+    "why": {
+      "title": "Vì sao chọn Unitasker?",
+      "subtitle": "Đơn giản · Linh hoạt · Minh bạch",
+      "feature1Title": "⚡ Đăng việc nhanh chóng",
+      "feature1Desc": "Tạo nhiệm vụ chỉ trong vài phút với yêu cầu rõ ràng.",
+      "feature2Title": "🤝 Tìm đúng người giúp đỡ",
+      "feature2Desc": "Chọn người thực hiện dựa trên kỹ năng và ngân sách.",
+      "feature3Title": "💳 Thanh toán an toàn",
+      "feature3Desc": "Chỉ giải ngân sau khi nhiệm vụ đã hoàn thành."
+    },
+    "howItWorks": {
+      "title": "Cách hoạt động",
+      "step1Title": "Đăng nhiệm vụ",
+      "step1Desc": "Mô tả việc bạn cần được giúp đỡ",
+      "step2Title": "Nhận đề nghị",
+      "step2Desc": "Xem xét và chọn người phù hợp nhất",
+      "step3Title": "Hoàn tất & Đánh giá",
+      "step3Desc": "Thanh toán an toàn và để lại nhận xét"
+    },
+    "cta": {
+      "title": "Sẵn sàng bắt đầu chưa?",
+      "subtitle": "Tham gia Unitasker và bắt đầu đăng nhiệm vụ ngay hôm nay.",
+      "signUpFree": "Đăng ký miễn phí"
+    }
+  },
+  "footer": {
+    "tagline": "Hoàn thành công việc nhỏ, với người thật.",
+    "quickLinks": "Liên kết nhanh",
+    "home": "Trang chủ",
+    "browseTasks": "Xem nhiệm vụ",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "about": "Giới thiệu",
+    "connect": "Kết nối",
+    "copyright": "© {{year}} Unitasker. Bảo lưu mọi quyền."
   },
   "task": {
     "title": "Tên nhiệm vụ",
@@ -19,9 +87,256 @@
     "priority": "Độ ưu tiên",
     "category": "Danh mục",
     "dueDate": "Hạn chót",
-    "budget": "Ngân sách ($)"
+    "budget": "Ngân sách ($)",
+    "startNow": "Bắt đầu ngay?",
+    "postTask": "Đăng nhiệm vụ",
+    "postANewTask": "Đăng nhiệm vụ mới",
+    "postTaskSubtitle": "Mô tả nhiệm vụ để được hỗ trợ nhanh chóng",
+    "suggest": "Gợi ý",
+    "allTasks": "Tất cả nhiệm vụ",
+    "statuses": {
+      "pending": "Đang chờ",
+      "inProgress": "Đang thực hiện",
+      "completed": "Hoàn thành",
+      "canceled": "Đã hủy"
+    },
+    "priorities": {
+      "low": "Thấp",
+      "medium": "Trung bình",
+      "high": "Cao"
+    },
+    "titlePlaceholder": "vd. Nấu ăn",
+    "descriptionPlaceholder": "vd. Mua nguyên liệu và bắt đầu nấu",
+    "budgetPlaceholder": "vd. 50"
   },
-  "footer": {
-    "tagline": "Hoàn thành công việc nhỏ, với người thật."
+  "taskList": {
+    "title": "Nhiệm vụ của tôi",
+    "subtitle": "Quản lý mọi nhiệm vụ bạn đã đăng",
+    "newTask": "Nhiệm vụ mới",
+    "myBin": "Thùng rác",
+    "tableTitle": "Danh sách nhiệm vụ",
+    "columns": {
+      "index": "#",
+      "title": "Tên",
+      "description": "Mô tả",
+      "status": "Trạng thái",
+      "category": "Danh mục",
+      "priority": "Độ ưu tiên",
+      "budget": "Ngân sách",
+      "dueDate": "Hạn chót"
+    },
+    "noTaskFiltered": "Không có nhiệm vụ nào ở trạng thái {{status}}.",
+    "noTaskWithLink": "Bạn chưa tạo nhiệm vụ nào. Nhấn vào {{link}} để tạo nhiệm vụ mới."
+  },
+  "taskBin": {
+    "title": "Thùng rác",
+    "subtitle": "Nhiệm vụ đã xóa",
+    "backToTasks": "Quay lại nhiệm vụ",
+    "tableTitle": "Nhiệm vụ đã xóa",
+    "binEmpty": "Thùng rác đang trống!",
+    "columns": {
+      "index": "#",
+      "title": "Tên",
+      "description": "Mô tả",
+      "status": "Trạng thái",
+      "category": "Danh mục",
+      "budget": "Ngân sách",
+      "deletedAt": "Ngày xóa"
+    }
+  },
+  "navTabs": {
+    "status": "Trạng thái",
+    "category": "Danh mục",
+    "priority": "Độ ưu tiên",
+    "searchPlaceholder": "Tìm nhiệm vụ...",
+    "search": "Tìm"
+  },
+  "table": {
+    "actions": "Hành động",
+    "viewTask": "Xem nhiệm vụ",
+    "quickUpdate": "Cập nhật nhanh",
+    "editTask": "Chỉnh sửa nhiệm vụ",
+    "deleteTask": "Xóa nhiệm vụ",
+    "deletePermanently": "Xóa vĩnh viễn",
+    "restoreTask": "Khôi phục nhiệm vụ",
+    "confirmDelete": "Xác nhận xóa",
+    "confirm": "Xác nhận",
+    "edit": "Chỉnh sửa",
+    "restore": "Khôi phục"
+  },
+  "modals": {
+    "deleteTaskConfirm": "Bạn có chắc muốn xóa nhiệm vụ này không?",
+    "deletePermanentConfirm": "Nhấn xác nhận nghĩa là bạn sẽ không thể truy cập lại dữ liệu này nữa",
+    "restoreTaskConfirm": "Bạn có chắc muốn khôi phục nhiệm vụ này không?"
+  },
+  "form": {
+    "choosePrefix": "Chọn {{field}}"
+  },
+  "auth": {
+    "login": {
+      "title": "Đăng nhập",
+      "emailOrUsername": "Email hoặc tên đăng nhập",
+      "emailOrUsernamePlaceholder": "vd. paul1234",
+      "password": "Mật khẩu",
+      "notMember": "Chưa có tài khoản?",
+      "registerHere": "Đăng ký tại đây",
+      "altLoginPrompt": "Muốn đăng nhập bằng cách khác?",
+      "clickHere": "Nhấn vào đây",
+      "altModalTitle": "Đăng nhập thay thế"
+    },
+    "register": {
+      "title": "Đăng ký",
+      "fullName": "Họ và tên",
+      "username": "Tên đăng nhập",
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "location": "Địa điểm",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "alreadyMember": "Đã có tài khoản?",
+      "loginHere": "Đăng nhập tại đây"
+    },
+    "resetPassword": {
+      "title": "Đặt lại mật khẩu",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu"
+    },
+    "changePassword": {
+      "title": "Đổi mật khẩu",
+      "oldPassword": "Mật khẩu cũ"
+    }
+  },
+  "pin": {
+    "enterOtp": "Nhập mã OTP",
+    "back": "Quay lại",
+    "resend": "Gửi lại OTP",
+    "verifying": "Đang xác nhận...",
+    "confirm": "Xác nhận"
+  },
+  "profile": {
+    "title": "Hồ sơ của tôi",
+    "subtitle": "Quản lý cài đặt và tùy chọn tài khoản",
+    "activeMember": "Thành viên hoạt động",
+    "quickActions": "Thao tác nhanh",
+    "changePassword": "Đổi mật khẩu",
+    "exportData": "Xuất dữ liệu của tôi",
+    "twoFactorAuth": "Xác thực 2 lớp",
+    "deleteAccount": "Xóa tài khoản",
+    "personalInformation": "Thông tin cá nhân",
+    "cancel": "Hủy",
+    "edit": "Chỉnh sửa",
+    "saveChanges": "Lưu thay đổi",
+    "fullName": "Họ và tên",
+    "username": "Tên đăng nhập",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "location": "Địa điểm",
+    "joinedDate": "Ngày tham gia",
+    "taskPreference": "Sở thích nhiệm vụ",
+    "categories": "Danh mục",
+    "categoriesPlaceholder": "Nhập các danh mục thường dùng, cách nhau bằng dấu enter.",
+    "editCategories": "Chỉnh sửa danh mục",
+    "importCategories": "Nhập danh mục",
+    "exportCategories": "Xuất danh mục",
+    "update": "Cập nhật",
+    "notifications": {
+      "title": "Thông báo",
+      "emailTitle": "Thông báo qua Email",
+      "emailDesc": "Nhận cập nhật về nhiệm vụ của bạn qua email",
+      "reminderTitle": "Nhắc nhở nhiệm vụ",
+      "reminderDesc": "Nhận thông báo 24 giờ trước hạn chót",
+      "weeklyTitle": "Tổng kết hàng tuần",
+      "weeklyDesc": "Nhận tổng kết nhiệm vụ hàng tuần vào thứ Hai"
+    },
+    "privacy": {
+      "title": "Quyền riêng tư & Bảo mật",
+      "publicProfileTitle": "Hồ sơ công khai",
+      "publicProfileDesc": "Cho phép người khác xem hồ sơ của bạn",
+      "twoFactorTitle": "Xác thực hai yếu tố",
+      "twoFactorDesc": "Tăng cường bảo mật cho tài khoản của bạn"
+    },
+    "stats": {
+      "tasks": "Nhiệm vụ",
+      "completed": "Hoàn thành",
+      "ratings": "Đánh giá"
+    },
+    "unsupportedFileTitle": "Loại tệp không phù hợp",
+    "unsupportedFileMessage": "Loại tệp này không được website hỗ trợ để chuyển đổi văn bản."
+  },
+  "compactBanner": {
+    "nextDeadline": "Hạn chót tiếp theo",
+    "close": "Đóng",
+    "previousTask": "Nhiệm vụ trước",
+    "nextTask": "Nhiệm vụ sau",
+    "showDeadline": "Hiện hạn chót"
+  },
+  "validation": {
+    "required": "{{field}} là bắt buộc.",
+    "minLength": "{{field}} phải dài hơn 8 ký tự.",
+    "phone": "{{field}} phải là số điện thoại hợp lệ (tối đa 12 chữ số).",
+    "email": "{{field}} phải đúng định dạng email.",
+    "password": "{{field}} phải có ít nhất 8 ký tự, bao gồm ít nhất một chữ hoa, một chữ thường và một chữ số.",
+    "confirmPassword": "{{field}} phải trùng khớp với mật khẩu ở trên."
+  },
+  "toast": {
+    "invalidFields": "Trường không hợp lệ",
+    "aiSuggestTitle": "Gợi ý AI",
+    "aiSuggestNoTitle": "Vui lòng nhập tên nhiệm vụ trước!",
+    "aiSuggestSuccess": "Danh mục và độ ưu tiên đã được gợi ý!",
+    "aiSuggestFailedTitle": "Gợi ý AI thất bại",
+    "aiSuggestFailedGenerate": "Không thể tạo gợi ý, vui lòng thử lại.",
+    "aiSuggestFailedConnect": "Không thể kết nối với AI, vui lòng thử lại."
+  },
+  "statsDisplay": {
+    "inProgress": "Nhiệm vụ đang làm",
+    "deleted": "Nhiệm vụ đã xóa",
+    "earning": "Thu nhập",
+    "current": "Nhiệm vụ gần đây",
+    "pending": "Nhiệm vụ đang chờ",
+    "completed": "Nhiệm vụ hoàn thành",
+    "canceled": "Nhiệm vụ đã hủy"
+  },
+  "server": {
+    "state": {
+      "otpSent": "Mã OTP đã được gửi",
+      "sendPinFailed": "Gửi mã thất bại",
+      "checkPinSuccess": "Kiểm tra mã thành công",
+      "checkPinFailed": "Kiểm tra mã thất bại",
+      "registerFailed": "Đăng ký thất bại",
+      "registerSuccess": "Đăng ký thành công",
+      "loginSuccess": "Đăng nhập thành công",
+      "loginFailed": "Đăng nhập thất bại",
+      "profileNotEdited": "Không thể chỉnh sửa hồ sơ",
+      "profileEdited": "Hồ sơ đã được chỉnh sửa",
+      "profileNotEdited2": "Hồ sơ chưa được chỉnh sửa",
+      "taskCreated": "Nhiệm vụ đã được tạo",
+      "taskNotCreated": "Nhiệm vụ chưa được tạo",
+      "taskNotEdited": "Nhiệm vụ chưa được chỉnh sửa",
+      "taskEdited": "Nhiệm vụ đã được chỉnh sửa",
+      "taskRestored": "Nhiệm vụ đã được khôi phục",
+      "taskNotRestored": "Nhiệm vụ chưa được khôi phục",
+      "taskDeleted": "Nhiệm vụ đã được xóa",
+      "taskNotDeleted": "Nhiệm vụ chưa được xóa",
+      "taskDeletedPermanently": "Nhiệm vụ đã được xóa vĩnh viễn"
+    },
+    "message": {
+      "noMatchedAccount": "Không tìm thấy tên đăng nhập hoặc email phù hợp.",
+      "pleaseResetPassword": "Vui lòng đặt lại mật khẩu.",
+      "pinNotMatched": "Mã Pin không khớp.",
+      "pinExpired": "Mã Pin đã hết hạn, vui lòng nhấn \"Gửi lại OTP\".",
+      "loggedIn": "Bạn đã đăng nhập thành công.",
+      "wrongCredentials": "Email, tên đăng nhập hoặc mật khẩu không chính xác.",
+      "oldPasswordWrong": "Mật khẩu cũ không khớp.",
+      "passwordUpdated": "Mật khẩu đã được cập nhật thành công.",
+      "viewInProfile": "Bạn có thể xem trong trang hồ sơ.",
+      "viewInHomeOrList": "Bạn có thể xem trong trang chủ hoặc danh sách nhiệm vụ.",
+      "taskNotFound": "Không có nhiệm vụ nào với id đó.",
+      "dataReloaded": "Dữ liệu đã được tải lại.",
+      "taskGone": "Bạn không thể xem nhiệm vụ này nữa.",
+      "aiSuggestionFailed": "Gợi ý AI thất bại",
+      "noToken": "Không có token",
+      "invalidToken": "Token không hợp lệ",
+      "alreadyRegistered": "{{field}} này đã được đăng ký"
+    }
   }
 }

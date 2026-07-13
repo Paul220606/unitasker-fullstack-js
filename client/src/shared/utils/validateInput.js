@@ -1,30 +1,32 @@
+import i18n from "../../i18n"
+
 const defaultRules = {
     required: {
         validator: value=> Boolean(value),
-        messageRender: type=>type + ' is required.',    
+        messageRender: type=>i18n.t('validation.required', {field: type}),    
     },
     text: {
         validator: val => val.trim().length >= 8,
-        messageRender: type => type + ' must be longer then 8 characters.'
+        messageRender: type => i18n.t('validation.minLength', {field: type}),
     },
     tel: {
         validator: val => /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,4}$/im.test(val.trim()),
-        messageRender: type => type + ' must be a valid phone number (max 12 digits).'
+        messageRender: type => i18n.t('validation.phone', {field: type}),
     },
     email: {
         validator: val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim()),
-        messageRender: type => type + ' must be in an email format.'
+        messageRender: type => i18n.t('validation.email', {field: type}),
     },
     password: {
         validator: val => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(val.trim()),
-        messageRender: type => type + ' must be at least 8 characters long, including at least one uppercase letter, one lowercase letter, and one number.'
+        messageRender: type => i18n.t('validation.password', {field: type}),
     }
 }
 
 function confirmPasswordRule(password) {
     return {
         validator: val => val.trim() === (password ?? '').trim(),
-        messageRender: msg => msg + ' must match the password above.'
+        messageRender: msg => i18n.t('validation.confirmPassword', {field: msg}),
     }
 }
 

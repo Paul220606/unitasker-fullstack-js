@@ -7,7 +7,7 @@ import { AppContext } from "../../app/App"
 
 function Header() {
     const {setUser, user, setLoading, avaUrl} = useContext(AppContext)
-    const {i18n} = useTranslation()
+    const {i18n, t} = useTranslation()
 
     const changeLanguage = (lang) => {
         i18n.changeLanguage(lang)
@@ -16,7 +16,7 @@ function Header() {
 
     const languageDropDown = (
         <NavDropdown
-        title = {<><i className = "bi bi-globe me-1"></i>Language</>}
+        title = {<><i className = "bi bi-globe me-1"></i>{t('nav.language')}</>}
         id = "language-dropdown"
         className="nav-item"
         menuVariant="dark">
@@ -33,7 +33,7 @@ function Header() {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/">Unitasker</Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"/>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label={t('nav.toggleNavigation')}/>
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     { user?(
@@ -64,13 +64,16 @@ function Header() {
                             menuVariant="dark"
                         >
                             <NavDropdown.Item as={Link} to="/">
-                                <i className="bi bi-clipboard2-data me-1"></i>Dashboard
+                                <i className="bi bi-clipboard2-data me-1"></i>
+                                {t('nav.dashboard')}
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/profile">
-                                <i className="bi bi-person-circle me-1"></i>My profile
+                                <i className="bi bi-person-circle me-1"></i>
+                                {t('nav.myProfile')}
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/tasks">
-                                <i className="bi bi-list-task me-1"></i>My tasks
+                                <i className="bi bi-list-task me-1"></i>
+                                {t('nav.myTasks')}
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={()=> {
@@ -79,7 +82,8 @@ function Header() {
                                     setUser('')
                                     window.location.href = '/'
                                 }}>
-                                <i className="bi bi-box-arrow-right me-1"></i>Log out
+                                <i className="bi bi-box-arrow-right me-1"></i>
+                                {t('nav.logout')}
                             </NavDropdown.Item>
                         </NavDropdown>
                         {languageDropDown}
@@ -89,14 +93,13 @@ function Header() {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/login">
                                     <i className="bi bi-box-arrow-in-right me-1"></i>
-                                    Sign in 
+                                    {t('nav.signIn')}
                                 </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/register">
                                     <i className="bi bi-file-plus me-1"></i>
-                                    Register
-                                    
+                                    {t('nav.register')}
                                 </Link>
                             </li>
                             {languageDropDown}

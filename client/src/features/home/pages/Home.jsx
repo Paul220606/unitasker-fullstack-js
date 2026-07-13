@@ -1,5 +1,6 @@
 import { useContext, useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Trans, useTranslation } from 'react-i18next'
 
 import '../../../styles/home.scss'
 import CompactBanner from '../components/CompactBanner.jsx'
@@ -13,7 +14,8 @@ function Home() {
     const {user, loading, setLoading} = useContext(AppContext)
     const [recentTasks, setRecentTasks] = useState([])
     const [stats, setStats] = useState([])
-    
+    const {t} = useTranslation()
+
     const navigate = useNavigate()
     const [modalTask, setModalState] = useState({
         task: [],
@@ -21,19 +23,18 @@ function Home() {
         textMessage: ''
     })
 
-    const tableTitle = 'Recent Tasks'
-    const tableStats = ['#', 'Task', 'Status', 'Priority', 'Due Date']
+    const tableTitle = t('home.recentTasks')
+    const tableStats = ['#', t('task.title'), t('task.status'), t('task.priority'), t('task.dueDate')]
+    const tableFieldKeys = ['#', 'title', 'status', 'priority', 'dueDate']
     const tableTasks = recentTasks.map(task=>({
         allStats: task,
         displayedStats: [task.id, task.title, task.status, task.priority || '-', task.dueDate],
     }))
     const buttonsData = [
         {type: 'light', content: <i className="bi bi-eye"></i>, modalTitle: 'View Task', modalMessage: ''},
-        {type: 'light', content: <i className="bi bi-pencil-square"></i>, modalTitle: 'Quick Update', modalMessage: 'Update'}
+        {type: 'light', content: <i className="bi bi-pencil-square"></i>, modalTitle: 'Quick Update', modalMessage: t('common.update')}
     ]
-    const noDataMessage = <>
-        You have not created any task. Click <Link to='/tasks/new'>here</Link> to create one.
-    </>
+    const noDataMessage = <Trans i18nKey="home.noTaskWithLink" components={{ link: <Link to='/tasks/new' /> }} />
 
     
     const loadData = useFetchingData(user, 'home', 'render', setLoading, [setRecentTasks, setStats], {})
@@ -44,22 +45,23 @@ function Home() {
         <>
             <div className="container-fluid p-4">
                 <div className="text-dark mb-4">
-                    <h2>Welcome back, {user}!</h2>
-                    <p className="text-secondary">Here's a quick overview of your Unitasker activity</p>
+                    <h2>{t('home.welcome', {name: user})}</h2>
+                    <p className="text-secondary">{t('home.subtitle')}</p>
                 </div>
 
                 <StatsDisplay stats={stats}/>
                 
                 <Table title={tableTitle} 
                 stats={tableStats} 
+                fieldKeys={tableFieldKeys}
                 tasks={tableTasks}
                 buttonsData={buttonsData}
                 noDataMessage={noDataMessage}
                 modalFunc={setModalState}/>
 
                 <div className="d-flex gap-3 mb-5">
-                    <button className="btn btn-dark btn-lg" onClick={()=>{navigate('/tasks/new')}}>Post New Task</button>
-                    <button className="btn btn-dark btn-lg" onClick={()=> {navigate('/profile')}}>View Profile</button>
+                    <button className="btn btn-dark btn-lg" onClick={()=>{navigate('/tasks/new')}}>{t('home.postTask')}</button>
+                    <button className="btn btn-dark btn-lg" onClick={()=> {navigate('/profile')}}>{t('home.viewProfile')}</button>
                 </div>
             </div>
             <FormModal id="formModal" {...modalTask} fetchingFunction={loadData}/>
@@ -71,17 +73,17 @@ function Home() {
         <section className="bg-dark bg-opacity-75 text-light py-5 text-center">
             <div className="container">
             <h1 className="fw-bold display-5 mb-3 fade-in">
-                Get Things Done with Unitasker
+                {t('home.hero.title')}
             </h1>
             <p className="lead text-light mb-4 fade-in delay-1" onClick={()=>{navigate('/info')}}>
-                A simple way to post small tasks and get real help.
+                {t('home.hero.subtitle')}
             </p>
             <div className="d-flex justify-content-center gap-3 fade-in delay-2">
                 <button className="btn btn-primary btn-lg" onClick={()=>{navigate('/register')}}>
-                Get Started
+                {t('home.hero.getStarted')}
                 </button>
                 <button className="btn btn-outline-light btn-lg" onClick={()=>{navigate('/about')}}>
-                Learn More
+                {t('home.hero.learnMore')}
                 </button>
             </div>
             </div>
@@ -90,36 +92,36 @@ function Home() {
         <section className="py-5 bg-light">
             <div className="container">
             <div className="text-center mb-5">
-                <h2 className="fw-bold">Why Unitasker?</h2>
+                <h2 className="fw-bold">{t('home.why.title')}</h2>
                 <p className="text-muted">
-                Simple · Flexible · Transparent
+                {t('home.why.subtitle')}
                 </p>
             </div>
 
             <div className="row g-4">
                 <div className="col-md-4">
                 <div className="card h-100 p-4 feature-card">
-                    <h5 className="fw-semibold">⚡ Post Tasks Fast</h5>
+                    <h5 className="fw-semibold">{t('home.why.feature1Title')}</h5>
                     <p className="text-muted">
-                    Create a task in minutes with clear requirements.
+                    {t('home.why.feature1Desc')}
                     </p>
                 </div>
                 </div>
 
                 <div className="col-md-4">
                 <div className="card h-100 p-4 feature-card">
-                    <h5 className="fw-semibold">🤝 Find the Right Help</h5>
+                    <h5 className="fw-semibold">{t('home.why.feature2Title')}</h5>
                     <p className="text-muted">
-                    Choose workers based on skills and budget.
+                    {t('home.why.feature2Desc')}
                     </p>
                 </div>
                 </div>
 
                 <div className="col-md-4">
                 <div className="card h-100 p-4 feature-card">
-                    <h5 className="fw-semibold">💳 Pay Securely</h5>
+                    <h5 className="fw-semibold">{t('home.why.feature3Title')}</h5>
                     <p className="text-muted">
-                    Release payment only after the task is completed.
+                    {t('home.why.feature3Desc')}
                     </p>
                 </div>
                 </div>
@@ -130,31 +132,31 @@ function Home() {
         <section className="py-5 bg-body-secondary">
             <div className="container">
             <div className="text-center mb-5">
-                <h2 className="fw-bold">How It Works</h2>
+                <h2 className="fw-bold">{t('home.howItWorks.title')}</h2>
             </div>
 
             <div className="row g-4 text-center">
                 <div className="col-md-4">
                 <div className="step-number">1</div>
-                <h6 className="fw-semibold">Post a Task</h6>
+                <h6 className="fw-semibold">{t('home.howItWorks.step1Title')}</h6>
                 <p className="text-muted">
-                    Describe what you need done
+                    {t('home.howItWorks.step1Desc')}
                 </p>
                 </div>
 
                 <div className="col-md-4">
                 <div className="step-number">2</div>
-                <h6 className="fw-semibold">Receive Offers</h6>
+                <h6 className="fw-semibold">{t('home.howItWorks.step2Title')}</h6>
                 <p className="text-muted">
-                    Review and select the best match
+                    {t('home.howItWorks.step2Desc')}
                 </p>
                 </div>
 
                 <div className="col-md-4">
                 <div className="step-number">3</div>
-                <h6 className="fw-semibold">Complete & Review</h6>
+                <h6 className="fw-semibold">{t('home.howItWorks.step3Title')}</h6>
                 <p className="text-muted">
-                    Pay securely and leave feedback
+                    {t('home.howItWorks.step3Desc')}
                 </p>
                 </div>
             </div>
@@ -164,13 +166,13 @@ function Home() {
         <section className="py-5 bg-dark bg-opacity-75 text-light text-center">
             <div className="container">
             <h2 className="fw-bold mb-3">
-                Ready to get started?
+                {t('home.cta.title')}
             </h2>
             <p className="mb-4">
-                Join Unitasker and start posting tasks today.
+                {t('home.cta.subtitle')}
             </p>
             <button className="btn btn-success btn-lg" onClick={()=>{window.location.href='/register'}}>
-                Sign Up for Free
+                {t('home.cta.signUpFree')}
             </button>
             </div>
         </section>

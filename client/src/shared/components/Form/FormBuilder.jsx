@@ -1,10 +1,10 @@
-
-
 import {useNavigate} from "react-router-dom"
 import { useState, useContext, useEffect} from "react"
+import { useTranslation } from "react-i18next"
 
 import '../../../styles/form.scss'
 import FormFields from "./FormFields.jsx"
+import translateItem from "../../utils/translateItem.js"
 import { usePreviousPath } from "../../hooks/usePreviousPath.js"
 import { onlyPublicRoutes } from "../../../app/router.jsx"
 import { AppContext } from "../../../app/App.jsx"
@@ -19,6 +19,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
     const [errors, setErrors] = useState(()=> (createNullInputObject(inputs)))
     const navigate = useNavigate()
     const previousPath  = usePreviousPath()
+    const {t} = useTranslation()
 
     useEffect(()=> {
         if (externalData && Object.keys(externalData).length > 0) {
@@ -38,7 +39,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
         Object.entries(newErrors).forEach((arr)=>{
             const err = arr[1]
             if (err){
-                showToast('Invalid field(s)', err, 'warning')
+                showToast(t('toast.invalidFields'), err, 'warning')
                 skip = true
             }
         })
@@ -63,7 +64,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
                 }
                 showToast(res.state, res.message, 'success')
             } else {
-                if (title === 'Log in') setErrors(createInputObject(inputs, res.message))
+                if (title === 'Log in') setErrors(createInputObject(inputs, translateItem(res.message, 'message', t)))
                 showToast(res.state, res.message)
             }
         }
@@ -79,7 +80,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
     return (
         <form onSubmit={handleSubmit} className="auth-form fade-in-up">
             <div className="bg-dark text-white text-center py-3 rounded-top">
-              <h3 className="m-0 fw-bold">{title}</h3>
+              <h3 className="m-0 fw-bold">{translateItem(title, 'title', t)}</h3>
               <small className="text-secondary">
                 {description}
               </small>
@@ -91,12 +92,12 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
                     className="btn btn-outline-secondary"
                     onClick={() => { navigate(-1)}}
                 >
-                    Cancel
+                    {t('common.cancel')}
                 </button>
                 {onSuggest && (
                     <button type="button" className="btn btn-outline-warning" onClick={handleSuggest}>
                         <i className="bi bi-stars me-1"></i>
-                        Suggest
+                        {t('task.suggest')}
                     </button>
                 )}
                 <button type="submit" className="btn btn-dark px-4">

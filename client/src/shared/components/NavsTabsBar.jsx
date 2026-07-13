@@ -1,9 +1,15 @@
 import { useState, useEffect, useContext } from "react"
+import { useTranslation } from "react-i18next"
+
 import { AppContext } from "../../app/App"
+import translateItem from "../utils/translateItem"
+
 function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle}) {
     const {categoriesList} = useContext(AppContext)
     const [searchText, setSearchText] = useState('')
     const [viewMode, setViewMode] = useState('status')
+    const {t} = useTranslation()
+
     const statusItems = ['All Tasks', 'Pending', 'In Progress', 'Completed', 'Canceled'] 
     const priorityItems = ['All Tasks', 'High', 'Medium', 'Low']
     const categoryItems = ['All Tasks', ...categoriesList? categoriesList.split(', '): []]
@@ -19,7 +25,7 @@ function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle})
                         return <li key={index} className="nav-item">
                             <button className={"nav-link "+ (navItems[index]===activeNav.data?'active':'text-light')}
                             onClick={()=>{setActiveNav({field, data:navItems[index]})}}>
-                                {item}
+                                {translateItem(item, viewMode, t)}
                             </button>
                         </li>
                     })}
@@ -33,7 +39,7 @@ function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle})
                                 setViewMode('status')
                                 setActiveNav({field: 'status', data: 'All Tasks'})
                             }}>
-                            Status
+                            {t('navTabs.status')}
                         </button>
                         <button 
                             className={`btn ${viewMode==='category'? 'btn-success' : 'btn-outline-success'}`}
@@ -41,7 +47,7 @@ function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle})
                                 setViewMode('category')
                                 setActiveNav({field: 'category', data: 'All Tasks'})
                             }}>
-                            Category
+                            {t('navTabs.category')}
                         </button>
                         <button 
                             className={`btn ${viewMode==='priority'? 'btn-success' : 'btn-outline-success'}`}
@@ -49,7 +55,7 @@ function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle})
                                 setViewMode('priority')
                                 setActiveNav({field: 'category', data: 'All Tasks'})
                             }}>
-                            Priority
+                            {t('navTabs.priority')}
                         </button>
                     </div>
                     <form className="d-flex" role="search" onSubmit={(e)=>{
@@ -65,7 +71,7 @@ function NavTabsBar({activeNav, setActiveNav, fetchingFunction, setSearchTitle})
                                 fetchingFunction()
                             }
                         }}/>
-                        <button className="btn btn-sm btn-light" type="submit">Search</button>
+                        <button className="btn btn-sm btn-light" type="submit">{t('navTabs.search')}</button>
                     </form>
                 </div>
             </div>

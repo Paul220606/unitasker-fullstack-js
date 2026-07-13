@@ -1,7 +1,10 @@
 import { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
-import { AppContext } from "../../../app/App"
+import { useTranslation } from "react-i18next"
+
 import FormFields from "./FormFields"
+import translateItem from "../../utils/translateItem"
+import { AppContext } from "../../../app/App"
 import {convertDateTimeInput} from "../../utils/convertDateTimeInput"
 import { createInputObject, createNullInputObject } from "../../utils/createInitialState"
 import { validateAllInputs } from "../../utils/validateInput"
@@ -14,6 +17,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     const dueDateIsNull = (task.dueDate && task.dueDate !== 'None')
     const categories = localStorage.getItem('categories')
     const {loading, setLoading, setUser} = useContext(AppContext)
+    const {t} = useTranslation()
     const [showPassword1, setShowPassword1] = useState(false)
     const [showPassword2, setShowPassword2] = useState(false)
     const [showPassword3, setShowPassword3] = useState(false)
@@ -21,7 +25,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     const taskInputs = [
   {
     purpose: 'title',
-    textMessage: 'Task Title',
+    textMessage: t('task.title'),
     type: 'text',
     value: task.title || '',
     required: true,
@@ -29,7 +33,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
   },
   {
     purpose: 'description',
-    textMessage: 'Task Description',
+    textMessage: t('task.description'),
     component: 'textarea',
     value: task.description || '',
     required: false,
@@ -37,7 +41,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
   },
   {
     purpose: 'budget',
-    textMessage: 'Budget ($)',
+    textMessage: t('task.budget'),
     type: 'number',
     value: task.budget || '0',
     required: false,
@@ -45,7 +49,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
   },
   {
     purpose: 'status',
-    textMessage: 'Status',
+    textMessage: t('task.status'),
     component: 'select',
     value: task.status || 'Pending',
     required: true,
@@ -60,14 +64,14 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
   ... ((title !=='View Task' || dueDateIsNull)?
   [{
     purpose: 'dueDate',
-    textMessage: 'Due Date',
+    textMessage: t('task.dueDate'),
     type: 'datetime-local',
     value: dueDateIsNull?convertDateTimeInput(task.dueDate) :'',
     col: 12
   }]:[]),
   {
     purpose: 'category',
-    textMessage: 'Category',
+    textMessage: t('task.category'),
     component: 'select',
     value: task.category || 'Other',
     required: true,
@@ -76,7 +80,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
   }, 
   {
     purpose: 'priority',
-    textMessage: 'Priority',
+    textMessage: t('task.priority'),
     component: 'select',
     value: task.priority || 'Low',
     required: false,
@@ -86,7 +90,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
   ]
     const quickInputs = [{
     purpose: 'status',
-    textMessage: 'Status',
+    textMessage: t('task.status'),
     component: 'select',
     value: task.status || 'Pending',
     required: true,
@@ -99,7 +103,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     col: 12
     }, {
         purpose: 'priority',
-        textMessage: 'Priority',
+        textMessage: t('task.priority'),
         component: 'select',
         value: task.priority || 'Medium',
         required: false,
@@ -112,18 +116,18 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     }
     ]
     const altLoginInputs = [{
-    purpose: 'emailOrUsername',
-    textMessage: 'Email or username',
-    type: 'text',
-    placeholder: 'e.g. paul1234',
-    required: true,
-    col: 12
-  }]
+        purpose: 'emailOrUsername',
+        textMessage: t('auth.login.emailOrUsername'),
+        type: 'text',
+        placeholder: t('common.placeholders.username'),
+        required: true,
+        col: 12
+    }]
     const resetPassInputs = [{
         purpose: 'password',
-        textMessage: 'New Password',
+        textMessage: t('auth.resetPassword.newPassword'),
         type: 'password',
-        placeholder: 'e.g. paul1234',
+        placeholder: t('common.placeholders.password'),
         showPassword: showPassword2,
         setShowPassword: setShowPassword2,
         required: true,
@@ -131,9 +135,9 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     },
     {
         purpose: 'confirmPassword',
-        textMessage: 'Confirm Password',
+        textMessage: t('auth.resetPassword.confirmPassword'),
         type: 'password',
-        placeholder: 'e.g. paul1234',
+        placeholder: t('common.placeholders.password'),
         showPassword: showPassword3,
         setShowPassword: setShowPassword3,
         required: true,
@@ -141,9 +145,9 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     }]
     const changePassInputs = [{
         purpose: 'oldPassword',
-        textMessage: 'Old Password',
+        textMessage: t('auth.changePassword.oldPassword'),
         type: 'password',
-        placeholder: 'e.g. paul1234',
+        placeholder: t('common.placeholders.password'),
         showPassword: showPassword1,
         setShowPassword: setShowPassword1,
         required: true,
@@ -195,7 +199,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
         Object.entries(newErrors).forEach((arr)=>{
             const err = arr[1]
             if (err) {
-                showToast('Invalid field(s)', err, 'warning')
+                showToast(t('toast.invalidFields'), err, 'warning')
                 skip = true
             }
         })
@@ -324,7 +328,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             handleSubmit = handleDeleteSubmit
             formBody = (
                 <div>
-                    <h6> Are you sure you want to delete this task? </h6>
+                    <h6> {t('modals.deleteTaskConfirm')} </h6>
                     <br /><br />
                 </div>
             )
@@ -333,7 +337,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             handleSubmit = handlePermanentDeleteSubmit
             formBody = (
                 <div>
-                    <h6> Clicking confirm means that you can not access this data again anymore </h6>
+                    <h6> {t('modals.deletePermanentConfirm')} </h6>
                     <br/><br/>
                 </div>
             )
@@ -342,7 +346,7 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             handleSubmit = handleRestoreSubmit
             formBody = (
                 <div>
-                    <h6> Are you sure you want to restore this task? </h6>
+                    <h6> {t('modals.restoreTaskConfirm')} </h6>
                     <br/><br/>
                 </div>
             )
@@ -367,14 +371,14 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
         <div className="modal-dialog">
         <div className="modal-content bg-dark text-light">
         <div className="modal-header">
-            <h1 className="modal-title fs-5" id={id+'Label'}>{title}</h1>
+            <h1 className="modal-title fs-5" id={id+'Label'}>{translateItem(title, 'title', t)}</h1>
             <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div className="modal-body">
             <form onSubmit={handleSubmit}>
                 {formBody}
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">{title ==='View task'?'Close':'Cancel'}</button>
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">{title ==='View Task'?t('common.close'):t('common.cancel')}</button>
                     {title !=='View Task' && <button type="submit" className={title.substring(0, 6)=== 'Delete'?"btn btn-danger":"btn btn-primary"} data-bs-dismiss="modal">{textMessage}</button>}
                 </div>
             </form>

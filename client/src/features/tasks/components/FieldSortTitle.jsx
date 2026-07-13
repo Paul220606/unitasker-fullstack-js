@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 
-export default function FieldSortTitle ({title, firstOrder, sortedStats, setSortedStats}) {
+export default function FieldSortTitle ({sortKey, label, firstOrder, sortedStats, setSortedStats}) {
     const [order, setOrder] = useState(firstOrder)
     useEffect(()=>{
-        if (sortedStats.title !== title) {
+        if (sortedStats.title !== sortKey) {
             setOrder('')
         }
     }, [sortedStats])
@@ -21,10 +21,10 @@ export default function FieldSortTitle ({title, firstOrder, sortedStats, setSort
         } else {
             nextOrder = 'desc'
         }
-        setSortedStats({title, order: nextOrder})
+        setSortedStats({title: sortKey, order: nextOrder})
         setOrder(nextOrder)
     }
     return (
-        <div>{title} <Link onClick={switchOrder}><i className={order? orderIconClass[order]: orderIconClass['none']}/></Link></div>
+        <div>{label} <Link onClick={switchOrder}><i className={order? orderIconClass[order]: orderIconClass['none']}/></Link></div>
     )
 }

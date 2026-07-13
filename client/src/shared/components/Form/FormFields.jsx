@@ -1,12 +1,14 @@
 import { useEffect, useRef } from "react"
+import { useTranslation } from "react-i18next"
 import { confirmPasswordRule, validateInput} from "../../utils/validateInput.js"
 
 function FormFields({inputs, errors, setErrors, data, setData, title, isOpened = false, extra=<div></div>}) {
+    const {t} = useTranslation()
     const inputRefs = useRef([])
     const firstInputRef = useRef(null)
     useEffect(() => {
         const timer = setTimeout(()=> {
-            if (firstInputRef && title!=='View task'){
+            if (firstInputRef && title!=='View Task'){
                 firstInputRef.current.focus()
             }
         }, 0)
@@ -53,16 +55,16 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
                                     id={input.purpose}
                                     value= {data[input.purpose]}
                                     ref={isFirstInput ? firstInputRef : null}
-                                    {...title ==='View task'?{className: "form-select", disabled: true}:{className: ("form-select " + (errors[input.purpose] ? 'is-invalid' : '')), onChange: (e) => handleChange(e, input.type, input.textMesage, input.required)}}
+                                    {...title ==='View Task'?{className: "form-select", disabled: true}:{className: ("form-select " + (errors[input.purpose] ? 'is-invalid' : '')), onChange: (e) => handleChange(e, input.type, input.textMesage, input.required)}}
                                 >
-                                    {title ==='View task'?
+                                    {title ==='View Task'?
                                     input.options.map((option, i) =>
                                         <option key={i} value={option}>{option}</option>
                                     )
                                     : 
                                     <>
                                     <option value="" disabled defaultChecked>
-                                        {'Choose a ' + input.textMessage.toLowerCase()}
+                                        {t('form.choosePrefix', {field: input.textMessage.toLowerCase()})}
                                     </option>
                                     {input.options.map((option, i) =>
                                         <option key={i} value={option}>{option}</option>
@@ -79,7 +81,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
                                     {... input.type === 'checkbox' || input.type === 'radio'
                                             ? { checked: data[input.purpose] || false }
                                             : { value: data[input.purpose] || "" }}
-                                    {...title ==='View task'?
+                                    {...title ==='View Task'?
                                         {
                                             className: ((input.type === "checkbox" || input.type === "radio" ? "form-check-input" : "form-control ")+ " rounded"),
                                             disabled: true
@@ -104,7 +106,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
                             {isPassword && <button type="button" className="btn btn-dark" onClick={()=>{input.setShowPassword(prev=>!prev)}}> <i className={input.showPassword?"bi bi-eye-fill":"bi bi-eye-slash-fill"}></i> </button>}
                         </div>
                         
-                        {title ==='View task' || (errors[input.purpose] && (
+                        {title ==='View Task' || (errors[input.purpose] && (
                             <div className="text-danger mt-1">{errors[input.purpose]}</div>
                         ))}
                     </div>

@@ -1,4 +1,9 @@
-function Table({title, stats=[], tasks=[], buttonsData=[], noDataMessage, modalFunc}) {
+import { useTranslation } from "react-i18next"
+
+import translateItem from "../utils/translateItem"
+
+function Table({title, stats=[], fieldKeys=[], tasks=[], buttonsData=[], noDataMessage, modalFunc}) {
+    const {t} = useTranslation()
     return (
         <div className="card bg-dark text-light shadow-sm mb-3">
             <div className="card-header">
@@ -9,7 +14,7 @@ function Table({title, stats=[], tasks=[], buttonsData=[], noDataMessage, modalF
                     <thead>
                         <tr>
                             {stats.map((title, index)=><th key={index}>{title}</th>)}
-                            <th>Actions</th>
+                            <th>{t('table.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -19,13 +24,13 @@ function Table({title, stats=[], tasks=[], buttonsData=[], noDataMessage, modalF
                             <tr key={task.displayedStats[0]}>
                                 {task.displayedStats.map((taskStat, index)=>(
                                     <td key={index}>
-                                        {stats[index]==='Status'?
+                                        {fieldKeys[index]==='status'?
                                         <span className={`badge ${taskStat === "Completed" ? "bg-success" : taskStat === "Pending" ? "bg-warning" : taskStat === "Canceled"? "bg-danger" : "bg-primary"}`}>
-                                            {taskStat}
+                                            {translateItem(taskStat, "status", t)}
                                         </span>: 
-                                        stats[index] === 'Priority'?
+                                        fieldKeys[index] === 'priority'?
                                         <span className={`badge ${taskStat === "High" ? "bg-danger" : taskStat === "Medium" ? "bg-warning":"bg-success"}`}>
-                                            {taskStat}
+                                            {translateItem(taskStat, "priority", t)}
                                         </span>:
                                         <div>{typeof taskStat === 'string' && taskStat.length > 25? (taskStat.substring(0, 23) + '...'): taskStat}</div>}
                                     </td>

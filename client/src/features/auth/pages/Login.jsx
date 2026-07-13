@@ -1,6 +1,7 @@
 import * as bootstrap from 'bootstrap'
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useTranslation } from 'react-i18next'
 
 import FormModal from "../../../shared/components/Form/FormModal"
 import PinModal from "../components/PinModal"
@@ -10,20 +11,21 @@ import { login } from "../auth.api"
 function Login() {
     const [showPassword, setShowPassword] = useState(false)
     const [userInfo, setUserInfo] = useState({})
+    const {t} = useTranslation()
     const loginInputs = [
   {
     purpose: 'emailOrUsername',
-    textMessage: 'Email or username',
+    textMessage: t('auth.login.emailOrUsername'),
     type: 'text',
-    placeholder: 'e.g. paul1234',
+    placeholder: t('auth.login.emailOrUsernamePlaceholder'),
     required: true,
     col: 12
   },
   {
     purpose: 'password',
-    textMessage: 'Password',
+    textMessage: t('auth.login.password'),
     type: 'password',
-    placeholder: 'e.g. Paul123!',
+    placeholder: t('common.placeholders.password'),
     showPassword,
     setShowPassword,
     required: true,
@@ -37,21 +39,21 @@ function Login() {
                 <FormBuilder 
                 title="Log in" 
                 inputs={loginInputs} 
-                submitText="Log in" 
+                submitText={t('auth.login.title')}
                 description={
                     <div>
-                        Not a member?  
-                        <Link to="/register" className="fw-semibold text-decoration-none text-decoration-underline"> Register here</Link>
+                        {t('auth.login.notMember')}
+                        <Link to="/register" className="fw-semibold text-decoration-none text-decoration-underline"> {t('auth.login.registerHere')}</Link>
                     </div>
                 } 
                 apiFunction={login}/>
                 <small className="text-center pb-3">
-                    Another way to log in? <Link 
+                    {t('auth.login.altLoginPrompt')} <Link 
                     data-bs-toggle="modal"
-                    data-bs-target="#formModal" >Click here</Link>
+                    data-bs-target="#formModal" >{t('auth.login.clickHere')}</Link>
                 </small>
             </div>
-            <FormModal id="formModal" task={[]} title="Alternative Log In" textMessage="Confirm" fetchingFunction={(user, email)=>{
+            <FormModal id="formModal" task={[]} title="Alternative Log In" textMessage={t('common.confirm')} fetchingFunction={(user, email)=>{
                 setUserInfo({userId: user, email})
                 const pinModal = document.getElementById('otpModal')
                 const modal = new bootstrap.Modal(pinModal)
@@ -62,7 +64,7 @@ function Login() {
                 const modal = new bootstrap.Modal(resetPassModal)
                 modal.show()
             }}/>
-            <FormModal id="resetPassModal" task={[]} title="Reset Password" textMessage="Confirm"/>
+            <FormModal id="resetPassModal" task={[]} title="Reset Password" textMessage={t('common.confirm')}/>
         </div>
     )
 }

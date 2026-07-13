@@ -1,4 +1,5 @@
 import {useState, useContext} from "react"
+import { useTranslation } from "react-i18next"
 
 import FormBuilder from "../../../shared/components/Form/FormBuilder"
 import { AppContext } from "../../../app/App"
@@ -7,35 +8,36 @@ import { showToast } from "../../../shared/utils/toast"
 function NewTask() {
   const {categoriesList} = useContext(AppContext)
   const [aiData, setAiData] = useState({})
+  const {t} = useTranslation()
 
   const newTaskInputs = [
   {
     purpose: 'title',
-    textMessage: 'Task Title',
+    textMessage: t('task.title'),
     type: 'text',
-    placeholder: 'e.g. Cooking',
+    placeholder: t('task.titlePlaceholder'),
     required: true,
     col: 12
   },
   {
     purpose: 'description',
-    textMessage: 'Task Description',
+    textMessage: t('task.description'),
     component: 'textarea',
-    placeholder: 'e.g. Buy ingredients and start to cook',
+    placeholder: t('task.descriptionPlaceholder'),
     required: false,
     col: 12
   },
   {
     purpose: 'budget',
-    textMessage: 'Budget ($)',
+    textMessage: t('task.budget'),
     type: 'number',
-    placeholder: 'e.g. 50',
+    placeholder: t('task.budgetPlaceholder'),
     required: false,
     col: 4
   },
   {
     purpose: 'category',
-    textMessage: 'Category',
+    textMessage: t('task.category'),
     component: 'select',
     required: true,
     options: categoriesList?categoriesList.split(', '): ['Nothing'],
@@ -44,7 +46,7 @@ function NewTask() {
   },
   {
     purpose: 'priority',
-    textMessage: 'Priority',
+    textMessage: t('task.priority'),
     component: 'select',
     required: false,
     options: ['Low', 'Medium', 'High'],
@@ -53,14 +55,14 @@ function NewTask() {
   },
   {
     purpose: 'dueDate',
-    textMessage: 'Due Date',
+    textMessage: t('task.dueDate'),
     type: 'datetime-local',
     required:false,
     col: 12
   },
   {
     purpose: 'status',
-    textMessage: 'Start now?',
+    textMessage: t('task.startNow'),
     type: 'checkbox',
     required: false,
     col: 6
@@ -69,7 +71,7 @@ function NewTask() {
 
   const handleSuggest = async (data) => {
     if (!data.title) {
-        showToast('AI Suggest', 'Please enter a task title first!', 'warning')
+        showToast(t('toast.aiSuggestTitle'), t('toast.aiSuggestNoTitle'), 'warning')
         return
     }
     try {
@@ -80,12 +82,12 @@ function NewTask() {
       })
       if (res.success) {
         setAiData(res.suggestion)
-        showToast('AI Suggest', 'Category and priority have been suggested!', 'success')
+        showToast(t('toast.aiSuggestTitle'), t('toast.aiSuggestSuccess'), 'success')
       } else {
-        showToast('AI Suggest Failed', 'Could not generate suggestion, please try again.', 'danger')
+        showToast(t('toast.aiSuggestFailedTitle'), t('toast.aiSuggestFailedGenerate'), 'danger')
       }
     } catch (err){
-      showToast('AI Suggest Failed', 'Could not connect to AI, please try again.', 'danger')
+      showToast(t('toast.aiSuggestFailedTitle'), t('toast.aiSuggestFailedConnect'), 'danger')
     }
     
   }
@@ -96,8 +98,8 @@ function NewTask() {
               <FormBuilder 
               title="Post a New Task" 
               inputs={newTaskInputs} 
-              submitText={<div><i className="bi bi-plus-circle me-1"></i>Post Task</div>}
-              description='Describe your task and get help fast'
+              submitText={<div><i className="bi bi-plus-circle me-1"></i>{t('task.postTask')}</div>}
+              description={t('task.postTaskSubtitle')}
               apiFunction={createTask}
               onSuggest={handleSuggest}
               externalData={aiData}/>

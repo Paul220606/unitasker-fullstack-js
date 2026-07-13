@@ -1,8 +1,34 @@
 {
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "back": "Back",
+    "save": "Save Changes",
+    "edit": "Edit",
+    "update": "Update",
+    "loading": "Loading...",
+    "here": "here",
+    "actions": "Actions",
+    "error": "Error",
+    "placeholders": {
+      "fullName": "e.g. Paul Tran",
+      "username": "e.g. paul1234",
+      "email": "e.g. paul@gmail.com",
+      "phone": "+61 123456789",
+      "location": "Melbourne, Australia",
+      "password": "e.g. Paul123!"
+    }
+  },
   "nav": {
     "signIn": "Sign In",
     "register": "Register",
-    "language": "Language"
+    "toggleNavigation": "Toggle navigation",
+    "language": "Language",
+    "dashboard": "Dashboard",
+    "myProfile": "My profile",
+    "myTasks": "My tasks",
+    "logout": "Log out"
   },
   "home": {
     "welcome": "Welcome back, {{name}}!",
@@ -10,7 +36,49 @@
     "postTask": "Post New Task",
     "viewProfile": "View Profile",
     "recentTasks": "Recent Tasks",
-    "noTask": "You have not created any task."
+    "noTask": "You have not created any task.",
+    "noTaskWithLink": "You have not created any task. Click {{link}} to create one.",
+    "hero": {
+      "title": "Get Things Done with Unitasker",
+      "subtitle": "A simple way to post small tasks and get real help.",
+      "getStarted": "Get Started",
+      "learnMore": "Learn More"
+    },
+    "why": {
+      "title": "Why Unitasker?",
+      "subtitle": "Simple · Flexible · Transparent",
+      "feature1Title": "⚡ Post Tasks Fast",
+      "feature1Desc": "Create a task in minutes with clear requirements.",
+      "feature2Title": "🤝 Find the Right Help",
+      "feature2Desc": "Choose workers based on skills and budget.",
+      "feature3Title": "💳 Pay Securely",
+      "feature3Desc": "Release payment only after the task is completed."
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1Title": "Post a Task",
+      "step1Desc": "Describe what you need done",
+      "step2Title": "Receive Offers",
+      "step2Desc": "Review and select the best match",
+      "step3Title": "Complete & Review",
+      "step3Desc": "Pay securely and leave feedback"
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "subtitle": "Join Unitasker and start posting tasks today.",
+      "signUpFree": "Sign Up for Free"
+    }
+  },
+  "footer": {
+    "tagline": "Get small things done, with real people.",
+    "quickLinks": "Quick Links",
+    "home": "Home",
+    "browseTasks": "Browse Tasks",
+    "login": "Log In",
+    "register": "Register",
+    "about": "About",
+    "connect": "Connect",
+    "copyright": "© {{year}} Unitasker. All rights reserved."
   },
   "task": {
     "title": "Task Title",
@@ -19,9 +87,256 @@
     "priority": "Priority",
     "category": "Category",
     "dueDate": "Due Date",
-    "budget": "Budget ($)"
+    "budget": "Budget ($)",
+    "startNow": "Start now?",
+    "postTask": "Post Task",
+    "postANewTask": "Post a New Task",
+    "postTaskSubtitle": "Describe your task and get help fast",
+    "suggest": "Suggest",
+    "allTasks": "All Tasks",
+    "statuses": {
+      "pending": "Pending",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "priorities": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "titlePlaceholder": "e.g. Cooking",
+    "descriptionPlaceholder": "e.g. Buy ingredients and start to cook",
+    "budgetPlaceholder": "e.g. 50"
   },
-  "footer": {
-    "tagline": "Get small things done, with real people."
+  "taskList": {
+    "title": "My Tasks",
+    "subtitle": "Manage all your posted tasks",
+    "newTask": "New Task",
+    "myBin": "My Bin",
+    "tableTitle": "Task List",
+    "columns": {
+      "index": "#",
+      "title": "Title",
+      "description": "Description",
+      "status": "Status",
+      "category": "Category",
+      "priority": "Priority",
+      "budget": "Budget",
+      "dueDate": "Due Date"
+    },
+    "noTaskFiltered": "There is no {{status}} tasks created.",
+    "noTaskWithLink": "You have not created any task. Click {{link}} to create one."
+  },
+  "taskBin": {
+    "title": "My Bin",
+    "subtitle": "Deleted tasks",
+    "backToTasks": "Back to tasks",
+    "tableTitle": "Deleted tasks",
+    "binEmpty": "Task bin is empty!",
+    "columns": {
+      "index": "#",
+      "title": "Title",
+      "description": "Description",
+      "status": "Status",
+      "category": "Category",
+      "budget": "Budget",
+      "deletedAt": "Deleted At"
+    }
+  },
+  "navTabs": {
+    "status": "Status",
+    "category": "Category",
+    "priority": "Priority",
+    "searchPlaceholder": "Search tasks...",
+    "search": "Search"
+  },
+  "table": {
+    "actions": "Actions",
+    "viewTask": "View Task",
+    "quickUpdate": "Quick Update",
+    "editTask": "Edit task",
+    "deleteTask": "Delete task",
+    "deletePermanently": "Delete permanently",
+    "restoreTask": "Restore task",
+    "confirmDelete": "Confirm Delete",
+    "confirm": "Confirm",
+    "edit": "Edit",
+    "restore": "Restore"
+  },
+  "modals": {
+    "deleteTaskConfirm": "Are you sure you want to delete this task?",
+    "deletePermanentConfirm": "Clicking confirm means that you can not access this data again anymore",
+    "restoreTaskConfirm": "Are you sure you want to restore this task?"
+  },
+  "form": {
+    "choosePrefix": "Choose a {{field}}"
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "emailOrUsername": "Email or username",
+      "emailOrUsernamePlaceholder": "e.g. paul1234",
+      "password": "Password",
+      "notMember": "Not a member?",
+      "registerHere": "Register here",
+      "altLoginPrompt": "Another way to log in?",
+      "clickHere": "Click here",
+      "altModalTitle": "Alternative Log In"
+    },
+    "register": {
+      "title": "Register",
+      "fullName": "Full Name",
+      "username": "Username",
+      "email": "Email",
+      "phone": "Phone Number",
+      "location": "Location",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "alreadyMember": "Already a member?",
+      "loginHere": "Log in here"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "oldPassword": "Old Password"
+    }
+  },
+  "pin": {
+    "enterOtp": "Enter OTP Code",
+    "back": "Back",
+    "resend": "Resend OTP",
+    "verifying": "Verifying...",
+    "confirm": "Confirm"
+  },
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "Manage your account settings and preferences",
+    "activeMember": "Active Member",
+    "quickActions": "Quick Actions",
+    "changePassword": "Change Password",
+    "exportData": "Export My Data",
+    "twoFactorAuth": "Two-Factor Auth",
+    "deleteAccount": "Delete Account",
+    "personalInformation": "Personal Information",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "saveChanges": "Save Changes",
+    "fullName": "Full Name",
+    "username": "Username",
+    "email": "Email",
+    "phone": "Phone Number",
+    "location": "Location",
+    "joinedDate": "Joined Date",
+    "taskPreference": "Task Preference",
+    "categories": "Categories",
+    "categoriesPlaceholder": "Type your usual categories, seperated by enter.",
+    "editCategories": "Edit Categories",
+    "importCategories": "Import Categories",
+    "exportCategories": "Export Categories",
+    "update": "Update",
+    "notifications": {
+      "title": "Notifications",
+      "emailTitle": "Email Notifications",
+      "emailDesc": "Receive updates about your tasks via email",
+      "reminderTitle": "Task Reminders",
+      "reminderDesc": "Get notified 24 hours before deadline",
+      "weeklyTitle": "Weekly Summary",
+      "weeklyDesc": "Receive weekly task summary every Monday"
+    },
+    "privacy": {
+      "title": "Privacy & Security",
+      "publicProfileTitle": "Public Profile",
+      "publicProfileDesc": "Make your profile visible to others",
+      "twoFactorTitle": "Two-Factor Authentication",
+      "twoFactorDesc": "Add extra security to your account"
+    },
+    "stats": {
+      "tasks": "Tasks",
+      "completed": "Completed",
+      "ratings": "Ratings"
+    },
+    "unsupportedFileTitle": "Unappropriate type",
+    "unsupportedFileMessage": "This type is not supported by our website to convert text."
+  },
+  "compactBanner": {
+    "nextDeadline": "Next Deadline",
+    "close": "Close",
+    "previousTask": "Previous task",
+    "nextTask": "Next task",
+    "showDeadline": "Show deadline"
+  },
+  "validation": {
+    "required": "{{field}} is required.",
+    "minLength": "{{field}} must be longer then 8 characters.",
+    "phone": "{{field}} must be a valid phone number (max 12 digits).",
+    "email": "{{field}} must be in an email format.",
+    "password": "{{field}} must be at least 8 characters long, including at least one uppercase letter, one lowercase letter, and one number.",
+    "confirmPassword": "{{field}} must match the password above."
+  },
+  "toast": {
+    "invalidFields": "Invalid field(s)",
+    "aiSuggestTitle": "AI Suggest",
+    "aiSuggestNoTitle": "Please enter a task title first!",
+    "aiSuggestSuccess": "Category and priority have been suggested!",
+    "aiSuggestFailedTitle": "AI Suggest Failed",
+    "aiSuggestFailedGenerate": "Could not generate suggestion, please try again.",
+    "aiSuggestFailedConnect": "Could not connect to AI, please try again."
+  },
+  "statsDisplay": {
+    "inProgress": "In Progress Tasks",
+    "deleted": "Deleted Tasks",
+    "earning": "Earning",
+    "current": "Current Tasks",
+    "pending": "Pending Tasks",
+    "completed": "Completed Tasks",
+    "canceled": "Canceled Tasks"
+  },
+  "server": {
+    "state": {
+      "otpSent": "OTP has been sent",
+      "sendPinFailed": "Send pin failed",
+      "checkPinSuccess": "Check pin success",
+      "checkPinFailed": "Check pin failed",
+      "registerFailed": "Register failed",
+      "registerSuccess": "Register success",
+      "loginSuccess": "Login success",
+      "loginFailed": "Login failed",
+      "profileNotEdited": "Profile can not be edited",
+      "profileEdited": "Profile is edited",
+      "profileNotEdited2": "Profile is not editted",
+      "taskCreated": "Task is created",
+      "taskNotCreated": "Task is not created",
+      "taskNotEdited": "Task is not editted",
+      "taskEdited": "Task is edited",
+      "taskRestored": "Task has been restored",
+      "taskNotRestored": "Task has not been restored",
+      "taskDeleted": "Task has been deleted",
+      "taskNotDeleted": "Task has not been deleted",
+      "taskDeletedPermanently": "Task has been deleted permanently"
+    },
+    "message": {
+      "noMatchedAccount": "There is no matched username or email.",
+      "pleaseResetPassword": "Please reset your password.",
+      "pinNotMatched": "The Pin is not matched.",
+      "pinExpired": "The Pin has been expired, please click \"Resend OTP\".",
+      "loggedIn": "You have now logged in.",
+      "wrongCredentials": "Email, username or password is incorrect.",
+      "oldPasswordWrong": "Old password is not matched.",
+      "passwordUpdated": "Password is updated successfully.",
+      "viewInProfile": "You now can view in the profile page.",
+      "viewInHomeOrList": "You can now view it in your home page or task list.",
+      "taskNotFound": "There is no task with that id.",
+      "dataReloaded": "The data has been reloaded.",
+      "taskGone": "You now can not view this task anymore.",
+      "aiSuggestionFailed": "AI suggestion failed",
+      "noToken": "No token",
+      "invalidToken": "Invalid token",
+      "alreadyRegistered": "This {{field}} has already registered"
+    }
   }
 }

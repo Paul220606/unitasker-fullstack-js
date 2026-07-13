@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useTranslation } from 'react-i18next'
 
 import { convertDateTimeInput } from "../../../shared/utils/convertDateTimeInput"
 
@@ -7,6 +8,8 @@ export default function CompactBanner ({tasks}) {
     const [shownDueDateIndex, setShownDueDateIndex] = useState(0)
     const [isVisible, setIsVisible] = useState(true)
     const [type, setType] = useState('warning')
+    const {t} = useTranslation()
+
     const task = tasks[shownDueDateIndex]
     const handleSwitchTask = (next) => {
         setShownDueDateIndex(next?(prev=>prev+1):(prev=> prev-1))
@@ -51,13 +54,13 @@ export default function CompactBanner ({tasks}) {
         <button
             className={`btn btn-sm text-${type} position-absolute top-0 end-0 m-2 p-1`}
             onClick={() => setIsVisible(false)}
-            title="Close"
+            title={t('compactBanner.close')}
             >
             <i className="bi bi-chevron-double-right fs-5"></i>
         </button>
         <div className="d-flex align-items-center gap-2 mb-2">
             <i className={`bi bi-clock-history text-${type}`}></i>
-            <small className="text-light opacity-75 fw-semibold">Next Deadline</small>
+            <small className="text-light opacity-75 fw-semibold">{t('compactBanner.nextDeadline')}</small>
         </div>
         <div className="fw-bold text-light mb-1">{task.title}</div>
         <div className="d-flex justify-content-between align-items-center">
@@ -71,14 +74,14 @@ export default function CompactBanner ({tasks}) {
                 <button 
                     className={`btn btn-sm btn-outline-${type}`}
                     onClick={() => handleSwitchTask(false)}
-                    title="Previous task"
+                    title={t('compactBanner.previousTask')}
                     {...(!tasks[shownDueDateIndex-1] || !tasks[shownDueDateIndex-1].dueDate)?{disabled: true}: {}}>
                     <i className="bi bi-chevron-left"></i>
                 </button>
                 <button 
                     className={`btn btn-sm btn-outline-${type}`}
                     onClick={() => handleSwitchTask(true)}
-                    title="Next task"
+                    title={t('compactBanner.nextTask')}
                     {...(!tasks[shownDueDateIndex+1] || !tasks[shownDueDateIndex+1].dueDate)?{disabled: true}: {}}>
                     <i className="bi bi-chevron-right"></i>
                 </button>
@@ -92,6 +95,6 @@ export default function CompactBanner ({tasks}) {
              cursor: 'pointer'
          }}
          onClick={() => setIsVisible(true)}
-         title="Show deadline">
+         title={t('compactBanner.showDeadline')}>
         <i className={`bi bi-chevron-double-left fs-5`}></i>
     </div>)}

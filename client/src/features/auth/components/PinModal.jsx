@@ -1,4 +1,5 @@
 import { useRef, useState, useContext, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 import { AppContext } from "../../../app/App"
 import { checkPin, sendPin } from "../auth.api"
@@ -6,6 +7,7 @@ import { showToast } from "../../../shared/utils/toast"
 function PinModal({id, userId, email, resFunction=()=>{}}) {
     const {loading, setLoading} = useContext(AppContext)
     const [otp, setOtp] = useState(["", "", "", "", "", ""])
+    const {t} = useTranslation()
     const inputsRef = useRef([])
     useEffect(() => {
         const modalEl = document.getElementById(id)
@@ -101,7 +103,7 @@ function PinModal({id, userId, email, resFunction=()=>{}}) {
         <div className="modal-content bg-dark text-light">
 
           <div className="modal-header border-secondary">
-            <h5>Enter OTP Code</h5>
+            <h5>{t('pin.enterOtp')}</h5>
             <button
               className="btn-close btn-close-white"
               data-bs-dismiss="modal"
@@ -139,7 +141,7 @@ function PinModal({id, userId, email, resFunction=()=>{}}) {
                 data-bs-target="#formModal"
                 >
                 <i className="bi bi-arrow-left me-1"></i>
-                Back
+                {t('pin.back')}
                 </button>
 
                 <button
@@ -148,7 +150,7 @@ function PinModal({id, userId, email, resFunction=()=>{}}) {
                 disabled={loading}
                 >
                 <i className="bi bi-arrow-clockwise me-1"></i>
-                Resend OTP
+                {t('pin.resend')}
                 </button>
 
                 <button
@@ -157,7 +159,7 @@ function PinModal({id, userId, email, resFunction=()=>{}}) {
                 data-bs-dismiss="modal"
                 disabled={loading}
                 >
-                {loading ? 'Verifying...' : 'Confirm'}
+                {loading ? t('pin.verifying') : t('pin.confirm')}
                 </button>
             </div>
 
