@@ -46,11 +46,11 @@ export default function CompactBanner ({tasks}) {
 
     return ( isVisible?
     <div className={`position-fixed top-0 end-0 mt-5 me-3 bg-dark bg-opacity-75 text-light rounded-3 p-3 border border-${type} border-2`}
-     style={{
-         zIndex: 999, 
-         minWidth: '320px',
-         boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
-     }}>
+    style={{
+        zIndex: 999, 
+        width: 'min(320px, calc(100vw - 2rem))',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+    }}>
         <button
             className={`btn btn-sm text-${type} position-absolute top-0 end-0 m-2 p-1`}
             onClick={() => setIsVisible(false)}

@@ -35,7 +35,7 @@ function Login() {
 
     return (
         <div className="d-flex justify-content-center align-items-center p-4">
-            <div className="card border-0 shadow-lg" style={{ width: "400px" }}>
+            <div className="card border-0 shadow-lg" style={{ width: "100%", maxWidth: "400px" }}>
                 <FormBuilder 
                 title="Log in" 
                 inputs={loginInputs} 

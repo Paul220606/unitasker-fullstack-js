@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { confirmPasswordRule, validateInput} from "../../utils/validateInput.js"
+import translateItem from "../../utils/translateItem.js"
 
 function FormFields({inputs, errors, setErrors, data, setData, title, isOpened = false, extra=<div></div>}) {
     const {t} = useTranslation()
@@ -59,7 +60,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
                                 >
                                     {title ==='View Task'?
                                     input.options.map((option, i) =>
-                                        <option key={i} value={option}>{option}</option>
+                                        <option key={i} value={option}>{translateItem(option, input.purpose, t)}</option>
                                     )
                                     : 
                                     <>
@@ -67,7 +68,7 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
                                         {t('form.choosePrefix', {field: input.textMessage.toLowerCase()})}
                                     </option>
                                     {input.options.map((option, i) =>
-                                        <option key={i} value={option}>{option}</option>
+                                        <option key={i} value={option}>{translateItem(option, input.purpose, t)}</option>
                                     )}
                                     </>}
                                     

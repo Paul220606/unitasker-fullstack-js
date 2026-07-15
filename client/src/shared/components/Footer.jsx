@@ -38,7 +38,7 @@ function Footer() {
                     <>
                         <Link to="/login" className="text-secondary text-decoration-none">
                             {t('footer.login')}
-                        </Link>
+                        </Link>/
                         <Link to="/register" className="text-secondary text-decoration-none">
                             {t('footer.register')}
                         </Link>
