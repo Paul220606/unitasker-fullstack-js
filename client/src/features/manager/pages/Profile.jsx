@@ -217,7 +217,7 @@ export default function Profile() {
             const result = await mammoth.extractRawText({arrayBuffer})
             text = result.value
         } else {
-            showToast(t('profile.unsupportedFileTitle'), t('profile.unsupportedFileMessage'), 'danger')
+            showToast(t('profile.unsupportedFileTitle'), t('profile.unsupportedFileMessage'), 'error')
             return
         }
         const normalized = text.replace(/\n\n+/g, '\n').trim()
@@ -245,7 +245,7 @@ export default function Profile() {
                 requestData(sortParams, 'task', 'fullBin', 'get')
             ])
             const exportPayLoad = {
-                exportedAt: newDate().toISOString(),
+                exportedAt: new Date().toISOString(),
                 profile: profileData,
                 stats: counterData,
                 categories: loadedCategories,
@@ -255,7 +255,7 @@ export default function Profile() {
             downloadFile(JSON.stringify(exportPayLoad, null, 2), `unitasker-data-${profileData.username || 'export'}.json`, 'application/json')
             showToast(t('profile.exportDataSuccessTitle'), t('profile.exportDataSuccessMessage'), 'success')
         } catch (err){
-            showToast(t('profile.exportDataFailedTitle'), t('profile.exportDataFailedMessage'), 'danger')
+            showToast(t('profile.exportDataFailedTitle'), t('profile.exportDataFailedMessage'), 'error')
         } finally {
             setLoading(false)
         }
