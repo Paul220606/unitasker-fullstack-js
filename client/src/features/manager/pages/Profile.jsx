@@ -226,14 +226,18 @@ export default function Profile() {
         isEditingCategories || setIsEditingCategories(true)
     }
 
-    const handleExportCategories = () => {
-        const list = convertMultilines(loadedCategories)?.split('\n').filter(Boolean) || []
-        if (list.length === 0) {
-            showToast(t('profile.exportDataFailedTitle'), t('profile.exportCategoriesFailedMessage'), 'warning')
-            return
+    const handleExportCategories = async () => {
+        try {
+            const list = convertMultilines(loadedCategories)?.split('\n').filter(Boolean) || []
+            if (list.length === 0) {
+                showToast(t('profile.exportDataFailedTitle'), t('profile.exportCategoriesFailedMessage'), 'error')
+            }
+            downloadFile(list.join('\n'), 'unitasker-categories.txt', 'text/plain')
+            showToast(t('profile.exportDataSuccessTitle'), t('profile.exportCategoriesSuccessMessage'), 'success')
+        } catch (err) {
+            showToast(t('profile.exportDataFailedTitle'), t('profile.exportCategoriesFailedMessage'), 'error')
         }
-        downloadFile(list.join('\n'), 'unitasker-categories.txt', 'text/plain')
-        showToast(t('profile.exportDataSuccessTitle'), t('profile.exportCategoriesSuccessMessage'), 'success')
+        
     }
 
     const handleExportData = async () => {
