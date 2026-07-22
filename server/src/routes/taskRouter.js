@@ -7,7 +7,9 @@ import aiController from '../controllers/AIController.js'
 const taskRouter = express.Router()
 
 taskRouter.get('/list', authMiddleware, taskController.list)
+taskRouter.get('/fullList', authMiddleware, taskController.fullList)
 taskRouter.get('/bin', authMiddleware, taskController.listDeleted)
+taskRouter.get('/fullBin', authMiddleware, taskController.fullListDeleted)
 taskRouter.post('/create', authMiddleware, taskController.create)
 taskRouter.post('/suggest', authMiddleware, aiController.suggest)
 taskRouter.patch('/edit', authMiddleware, taskController.edit)

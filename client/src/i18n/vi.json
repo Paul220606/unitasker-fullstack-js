@@ -239,6 +239,12 @@
     "importCategories": "Nhập danh mục",
     "exportCategories": "Xuất danh mục",
     "update": "Cập nhật",
+    "exportDataFailedTitle": "Xuất dữ liệu không thành công",
+    "exportCategoriesFailedMessage": "Danh mục hiện tại đang trống, không có khả năng tải về.",
+    "exportDataFailedMessage": "Dữ liệu bị lỗi, không thể tải về",
+    "exportDataSuccessTitle": "Xuất dữ liệu thành công",
+    "exportCategoriesSuccessMessage": "Danh mục đã được tải, kiểm tra phần tải về trên máy.",
+    "exportDataSuccessMessage": "Dữ liệu đã được tải, kiểm tra phần tải về trên máy.",
     "notifications": {
       "title": "Thông báo",
       "emailTitle": "Thông báo qua Email",

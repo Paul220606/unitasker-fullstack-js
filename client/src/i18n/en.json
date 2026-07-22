@@ -239,6 +239,12 @@
     "importCategories": "Import Categories",
     "exportCategories": "Export Categories",
     "update": "Update",
+    "exportDataFailedTitle": "Export Data Failed",
+    "exportCategoriesFailedMessage": "Categories are empty, can not be exported.",
+    "exportDataFailedMessage": "Data returned has catched error(s) and can not be exported",
+    "exportDataSuccessTitle": "Export Data Successfully",
+    "exportCategoriesSuccessMessage": "Categories has already exported, check your downloads.",
+    "exportDataSuccessMessage": "Data has already exported, check your downloads.",
     "notifications": {
       "title": "Notifications",
       "emailTitle": "Email Notifications",

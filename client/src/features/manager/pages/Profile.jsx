@@ -9,6 +9,8 @@ import { createNullInputObject, createInputObject } from '../../../shared/utils/
 import FormFields from '../../../shared/components/Form/FormFields'
 import useFetchingData from '../../../shared/hooks/useFetchingData'
 import FormModal from '../../../shared/components/Form/FormModal'
+import downloadFile from '../../../shared/utils/downloadFile'
+import { requestData } from '../../../shared/utils/requestData'
 import { showToast } from '../../../shared/utils/toast'
 
 export default function Profile() {
@@ -224,6 +226,41 @@ export default function Profile() {
         isEditingCategories || setIsEditingCategories(true)
     }
 
+    const handleExportCategories = () => {
+        const list = convertMultilines(loadedCategories)?.split('\n').filter(Boolean) || []
+        if (list.length === 0) {
+            showToast(t('profile.exportDataFailedTitle'), t('profile.exportCategoriesFailedMessage'), 'warning')
+            return
+        }
+        downloadFile(list.join('\n'), 'unitasker-categories.txt', 'text/plain')
+        showToast(t('profile.exportDataSuccessTitle'), t('profile.exportCategoriesSuccessMessage'), 'success')
+    }
+
+    const handleExportData = async () => {
+        try{
+            setLoading(true)
+            const sortParams = {sortTitle: '#', sortOrder: 'asc'}
+            const [listRes, binRes] = await Promise.all([
+                requestData(sortParams, 'task', 'fullList', 'get'),
+                requestData(sortParams, 'task', 'fullBin', 'get')
+            ])
+            const exportPayLoad = {
+                exportedAt: newDate().toISOString(),
+                profile: profileData,
+                stats: counterData,
+                categories: loadedCategories,
+                tasks: listRes.tasks,
+                deletedTasks: binRes.tasks
+            }
+            downloadFile(JSON.stringify(exportPayLoad, null, 2), `unitasker-data-${profileData.username || 'export'}.json`, 'application/json')
+            showToast(t('profile.exportDataSuccessTitle'), t('profile.exportDataSuccessMessage'), 'success')
+        } catch (err){
+            showToast(t('profile.exportDataFailedTitle'), t('profile.exportDataFailedMessage'), 'danger')
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <div className="container-fluid p-4">
 
@@ -288,7 +325,7 @@ export default function Profile() {
                                     data-bs-target="#formModal">
                                     <i className="bi bi-key me-2"></i>{t('profile.changePassword')}
                                 </button>
-                                <button className="btn btn-outline-light btn-sm text-start">
+                                <button className="btn btn-outline-light btn-sm text-start" onClick={handleExportData}>
                                     <i className="bi bi-download me-2"></i>{t('profile.exportData')}
                                 </button>
                                 <button className="btn btn-outline-light btn-sm text-start">
@@ -389,10 +426,8 @@ export default function Profile() {
                                         <button className="btn btn-outline-light btn-sm w-100" onClick={()=>fileInputRef.current.click()}>
                                             <i className="bi bi-download me-2"></i>{t('profile.importCategories')}
                                         </button>
-                                        <button className="btn btn-outline-light btn-sm w-100">
-                                            <i className="bi bi-box-arrow-up me-2" onClick={(e)=>{
-                                                
-                                            }}></i>{t('profile.exportCategories')}
+                                        <button className="btn btn-outline-light btn-sm w-100" onClick={handleExportCategories}>
+                                            <i className="bi bi-box-arrow-up me-2"></i>{t('profile.exportCategories')}
                                         </button>
                                     </div>
                                     

@@ -37,7 +37,7 @@ class TaskController {
         }
     }
 
-    async list(req, res){
+    async list(req, res, full=false){
         const {searchTitle, status, category, priority, sortTitle, sortOrder} = req.query
         const userId = req.user.id
         let sortedStat
@@ -56,7 +56,8 @@ class TaskController {
             const categoryObj = (!category || category === 'All Tasks')? {}: {category}
             const priorityObj = (!priority || priority === 'All Tasks')? {}: {priority}
             const checkFields = {userId, ...statusObj, ...categoryObj, ...priorityObj}
-            let taskData = await Task.find(checkFields).sort({[sortedStat]: sortOrder === 'asc'?1:-1}).limit(30)
+            let taskData = full ? await Task.find(checkFields).sort({[sortedStat]: sortOrder === 'asc'?1:-1}): await Task.find(checkFields).sort({[sortedStat]: sortOrder === 'asc'?1:-1}).limit(30)
+    
             if (searchTitle){
                 const fuse = new Fuse(taskData, {keys: ["title"], threshold: 0.5})
                 taskData = fuse.search(searchTitle).map(r => r.item)
@@ -95,7 +96,11 @@ class TaskController {
         }
     }
 
-    async listDeleted(req, res){
+    async fullList(req, res){
+        return taskController.list(req, res, true)
+    }
+
+    async listDeleted(req, res, full=false){
         const {searchTitle, status, category, sortTitle, sortOrder} = req.query
         const userId = req.user.id
         let sortedStat
@@ -113,7 +118,7 @@ class TaskController {
             const statusObj =  (!status || status === 'All Tasks')? {}: {status}
             const categoryObj = (!category || category === 'All Tasks')? {}: {category}
             const checkFields = {userId, ...statusObj, ...categoryObj}            
-            let taskData = await Task.findDeleted(checkFields).sort({[sortedStat]: sortOrder === 'asc'?1:-1}).limit(30)
+            let taskData = full? await Task.findDeleted(checkFields).sort({[sortedStat]: sortOrder === 'asc'?1:-1}) : Task.findDeleted(checkFields).sort({[sortedStat]: sortOrder === 'asc'?1:-1}).limit(30)
             if (searchTitle){
                 const fuse = new Fuse(taskData, {keys: ["title"], threshold: 0.5})
                 taskData = fuse.search(searchTitle).map(r => r.item)
@@ -136,6 +141,9 @@ class TaskController {
         }
     }
 
+    async fullListDeleted(req, res) {{
+        return taskController.listDeleted(req, res, true)
+    }}
     async edit (req, res) {
         const {taskNumber, ...data} = checkDataNull({...req.body})
         const userId = req.user.id
