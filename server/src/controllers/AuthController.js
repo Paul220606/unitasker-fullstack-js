@@ -36,7 +36,7 @@ class AuthController {
         try {
             const existedData = await User.findOne({[field]: emailOrUsername})
             if (existedData){
-                await this.generateAndSendOTP(existedData)
+                await authController.generateAndSendOTP(existedData)
                 return res.status(201).json({
                     success: true,
                     state: 'OTP has been sent',
@@ -142,7 +142,7 @@ class AuthController {
             const existedData = await User.findOne({[field]: data['emailOrUsername']})
             if (existedData && await existedData.comparePassword(data['password'])){
                 if (existedData.twoFactorEnabled) {
-                    await this.generateAndSendOTP(existedData)
+                    await authController.generateAndSendOTP(existedData)
                     return res.status(201).json({
                         success: true,
                         state: 'OTP has been sent',
