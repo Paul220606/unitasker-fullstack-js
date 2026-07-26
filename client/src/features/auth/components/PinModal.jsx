@@ -1,11 +1,13 @@
 import { useRef, useState, useContext, useEffect } from "react"
 import { useTranslation } from "react-i18next"
+import {useNavigate} from "react-router-dom"
 
 import { AppContext } from "../../../app/App"
 import { checkPin, sendPin } from "../auth.api"
 import { showToast } from "../../../shared/utils/toast"
-function PinModal({id, userId, email, resFunction=()=>{}}) {
-    const {loading, setLoading} = useContext(AppContext)
+function PinModal({id, userId, email, purpose="resetPassword", resFunction=()=>{}}) {
+    const {loading, setLoading, setUser, setCategoriesList} = useContext(AppContext)
+    const navigate = useNavigate()
     const [otp, setOtp] = useState(["", "", "", "", "", ""])
     const {t} = useTranslation()
     const inputsRef = useRef([])
@@ -72,7 +74,18 @@ function PinModal({id, userId, email, resFunction=()=>{}}) {
                 localStorage.setItem('token', res.token)
                 localStorage.setItem('user', res.username)
             }
-            resFunction()
+            if (purpose === "twoFactor") {
+                if (res.categories){
+                    localStorage.setItem('categories', res.categories)
+                    setCategoriesList(res.categories)
+                }
+                setUser(res.username)
+                showToast(t('server.state.loginSuccess'), t('server.message.loggedIn'), 'success')
+                navigate('/')
+            } else {
+                showToast(res.state, res.message)
+                resFunction()
+            }
         } else {
             showToast(res.state, res.message)
         }
@@ -107,6 +120,7 @@ function PinModal({id, userId, email, resFunction=()=>{}}) {
             <button
               className="btn-close btn-close-white"
               data-bs-dismiss="modal"
+              aria-label={t('common.close')}
             ></button>
           </div>
 

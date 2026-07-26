@@ -9,6 +9,26 @@ import { transporter } from "../configs/mail.js"
 import { createAuthJWT } from "../helpers/createJWT.js"
 
 class AuthController {
+    async generateAndSendOTP(user) {
+        const {otp, expiredAt, expiredDuration} = createOTP()
+        await UserOTPVerification.findOneAndUpdate(
+            {userId: user._id},
+            {otp, expiredAt},
+            {
+                new: true,
+                upsert: true,
+                runValidators: true
+            }
+        )
+        const info = await transporter.sendMail({
+            from: '"Unitasker" <no-reply@unitasker.com>',
+            to: user.email,
+            subject: 'OTP Code',
+            text: `Your OTP is ${otp}. You have only ${expiredDuration} minutes before this password become invalid.`
+        })
+        console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
+    }
+
     async sendPin (req, res) {
         const {emailOrUsername} = req.body.data
         const isEmail = (val)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim())
@@ -16,23 +36,7 @@ class AuthController {
         try {
             const existedData = await User.findOne({[field]: emailOrUsername})
             if (existedData){
-                const {otp, expiredAt, expiredDuration} = createOTP()
-                await UserOTPVerification.findOneAndUpdate(
-                    {userId: existedData._id},
-                    {otp, expiredAt},
-                    {
-                        new: true,
-                        upsert: true,
-                        runValidators: true
-                    }
-                )
-                const info = await transporter.sendMail({
-                    from: '"Unitasker" <no-reply@unitasker.com>',
-                    to: existedData.email,
-                    subject: 'OTP Code',
-                    text: `Your OTP is ${otp}. You have only ${expiredDuration} minutes before this password become invalid.`
-                })
-                console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
+                await this.generateAndSendOTP(existedData)
                 return res.status(201).json({
                     success: true,
                     state: 'OTP has been sent',
@@ -137,15 +141,27 @@ class AuthController {
         try {
             const existedData = await User.findOne({[field]: data['emailOrUsername']})
             if (existedData && await existedData.comparePassword(data['password'])){
-                const token = createAuthJWT(existedData._id)
-                return res.status(201).json({
-                    success: true,
-                    state: 'Login success',
-                    message: 'You have now logged in.',
-                    username: existedData.username,
-                    categories: existedData.categories,
-                    token
-                })
+                if (existedData.twoFactorEnabled) {
+                    await this.generateAndSendOTP(existedData)
+                    return res.status(201).json({
+                        success: true,
+                        state: 'OTP has been sent',
+                        userId: existedData._id,
+                        email: existedData.email,
+                        requiresTwoFactor: true,
+                    })
+                } 
+                else {
+                    const token = createAuthJWT(existedData._id)
+                    return res.status(201).json({
+                        success: true,
+                        state: 'Login success',
+                        message: 'You have now logged in.',
+                        username: existedData.username,
+                        categories: existedData.categories,
+                        token
+                    })
+                }
             } else {
                 return res.status(201).json({
                     success: false,

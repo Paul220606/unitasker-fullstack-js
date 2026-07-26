@@ -32,6 +32,12 @@ function Login() {
     col: 12
   }
 ]
+    const showPinModal = (user, email, purpose = "resetPassword")=>{
+        setUserInfo({userId: user, email, purpose})
+        const pinModal = document.getElementById('otpModal')
+        const modal = new bootstrap.Modal(pinModal)
+        modal.show()
+    }
 
     return (
         <div className="d-flex justify-content-center align-items-center p-4">
@@ -46,19 +52,16 @@ function Login() {
                         <Link to="/register" className="fw-semibold text-decoration-none text-decoration-underline"> {t('auth.login.registerHere')}</Link>
                     </div>
                 } 
-                apiFunction={login}/>
+                apiFunction={login}
+                externalFunction={showPinModal}/>
+
                 <small className="text-center pb-3">
                     {t('auth.login.altLoginPrompt')} <Link 
                     data-bs-toggle="modal"
                     data-bs-target="#formModal" >{t('auth.login.clickHere')}</Link>
                 </small>
             </div>
-            <FormModal id="formModal" task={[]} title="Alternative Log In" textMessage={t('common.confirm')} fetchingFunction={(user, email)=>{
-                setUserInfo({userId: user, email})
-                const pinModal = document.getElementById('otpModal')
-                const modal = new bootstrap.Modal(pinModal)
-                modal.show()
-            }}/>
+            <FormModal id="formModal" task={[]} title="Alternative Log In" textMessage={t('common.confirm')} fetchingFunction={showPinModal}/>
             <PinModal id='otpModal' {...userInfo} resFunction={()=>{
                 const resetPassModal = document.getElementById('resetPassModal')
                 const modal = new bootstrap.Modal(resetPassModal)

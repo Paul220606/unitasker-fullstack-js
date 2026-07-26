@@ -11,7 +11,8 @@ const User = new Schema({
     phone: {type: String},
     location: {type: String},
     imageUrl: {type: String},
-    categories: {type: String, required: true, default: 'Housework, Schoolwork, Job, Other'}
+    categories: {type: String, required: true, default: 'Housework, Schoolwork, Job, Other'},
+    twoFactorEnabled: {type: Boolean, default: false}
 }, {
     timestamps: true
 })

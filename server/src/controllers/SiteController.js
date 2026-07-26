@@ -68,6 +68,7 @@ class SiteController {
                     day: '2-digit',
                     year: 'numeric'
                 }).replace(',', ''),
+                twoFactorEnabled: user.twoFactorEnabled,
             }
             let counter = await Counter.findOne({userId: _id})
             const counterData = {

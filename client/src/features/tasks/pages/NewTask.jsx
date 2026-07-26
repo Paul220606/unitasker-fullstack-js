@@ -101,7 +101,7 @@ function NewTask() {
               submitText={<div><i className="bi bi-plus-circle me-1"></i>{t('task.postTask')}</div>}
               description={t('task.postTaskSubtitle')}
               apiFunction={createTask}
-              onSuggest={handleSuggest}
+              externalFunction={handleSuggest}
               externalData={aiData}/>
               
           </div>

@@ -182,7 +182,8 @@
       "registerHere": "Đăng ký tại đây",
       "altLoginPrompt": "Muốn đăng nhập bằng cách khác?",
       "clickHere": "Nhấn vào đây",
-      "altModalTitle": "Đăng nhập thay thế"
+      "altModalTitle": "Đăng nhập thay thế",
+      "twoFactorPrompt": "Nhập mã xác thực đã gửi tới email của bạn."
     },
     "register": {
       "title": "Đăng ký",
@@ -220,7 +221,6 @@
     "quickActions": "Thao tác nhanh",
     "changePassword": "Đổi mật khẩu",
     "exportData": "Xuất dữ liệu của tôi",
-    "twoFactorAuth": "Xác thực 2 lớp",
     "deleteAccount": "Xóa tài khoản",
     "personalInformation": "Thông tin cá nhân",
     "cancel": "Hủy",

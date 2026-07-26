@@ -182,7 +182,8 @@
       "registerHere": "Register here",
       "altLoginPrompt": "Another way to log in?",
       "clickHere": "Click here",
-      "altModalTitle": "Alternative Log In"
+      "altModalTitle": "Alternative Log In",
+      "twoFactorPrompt": "Enter the verification code sent to your email."
     },
     "register": {
       "title": "Register",
@@ -220,7 +221,6 @@
     "quickActions": "Quick Actions",
     "changePassword": "Change Password",
     "exportData": "Export My Data",
-    "twoFactorAuth": "Two-Factor Auth",
     "deleteAccount": "Delete Account",
     "personalInformation": "Personal Information",
     "cancel": "Cancel",

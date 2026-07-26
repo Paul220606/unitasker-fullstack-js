@@ -260,6 +260,25 @@ export default function Profile() {
         }
     }
 
+    const handleToggleTwoFactor = async () => {
+        try {
+            setLoading(true)
+            const res = await editProfile({twoFactorEnabled: !profileData.twoFactorEnabled})
+            if (res.success){
+                loadData()
+                showToast(res.state, res.message, 'success')
+            }
+            else {
+                showToast(res.state, res.message)
+            }
+        }
+        catch (err) {                                       
+            throw err
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <div className="container-fluid p-4">
 
@@ -326,9 +345,6 @@ export default function Profile() {
                                 </button>
                                 <button className="btn btn-outline-light btn-sm text-start" onClick={handleExportData}>
                                     <i className="bi bi-download me-2"></i>{t('profile.exportData')}
-                                </button>
-                                <button className="btn btn-outline-light btn-sm text-start">
-                                    <i className="bi bi-shield-check me-2"></i>{t('profile.twoFactorAuth')}
                                 </button>
                                 <button className="btn btn-outline-danger btn-sm text-start">
                                     <i className="bi bi-trash me-2"></i>{t('profile.deleteAccount')}
@@ -481,7 +497,7 @@ export default function Profile() {
                             </div>
 
                             <div className="form-check form-switch">
-                                <input className="form-check-input" type="checkbox" id="twoFactor" />
+                                <input className="form-check-input" type="checkbox" id="twoFactor" checked={!!profileData.twoFactorEnabled} onChange={handleToggleTwoFactor}/>
                                 <label className="form-check-label" htmlFor="twoFactor">
                                     <div className="fw-semibold">{t('profile.privacy.twoFactorTitle')}</div>
                                     <small className="text-light opacity-75">{t('profile.privacy.twoFactorDesc')}</small>

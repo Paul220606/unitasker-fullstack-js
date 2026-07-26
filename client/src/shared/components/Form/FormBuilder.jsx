@@ -13,7 +13,7 @@ import { validateAllInputs} from "../../utils/validateInput.js"
 import { createInputObject, createNullInputObject } from "../../utils/createInitialState.js"
 
 
-function FormBuilder({ title, description, inputs, submitText, apiFunction, onSuggest, externalData}) {
+function FormBuilder({ title, description, inputs, submitText, apiFunction, externalFunction, externalData}) {
     const {setUser, setCategoriesList} = useContext(AppContext)
     const [data, setData] = useState(()=> (createNullInputObject(inputs)))
     const [errors, setErrors] = useState(()=> (createNullInputObject(inputs)))
@@ -49,6 +49,11 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
         try {
             const res = await apiFunction(data)
             if (res.success){
+                if (res.requiresTwoFactor){
+                    externalFunction(res.userId, res.email, 'twoFactor')
+                    showToast(t('server.state.otpSent'), t('auth.login.twoFactorPrompt'), 'success')
+                    return
+                }
                 if (res.token){
                     localStorage.setItem('token', res.token)
                     localStorage.setItem('user', res.username)
@@ -74,7 +79,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
     }
 
     const handleSuggest = async () => {
-        if (onSuggest) await onSuggest(data)
+        if (externalFunction) await externalFunction(data)
     }
 
     return (
@@ -94,7 +99,7 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, onSu
                 >
                     {t('common.cancel')}
                 </button>
-                {onSuggest && (
+                {title === "Post a New Task" && (
                     <button type="button" className="btn btn-outline-warning" onClick={handleSuggest}>
                         <i className="bi bi-stars me-1"></i>
                         {t('task.suggest')}

@@ -97,7 +97,7 @@ class TaskController {
     }
 
     async fullList(req, res){
-        return taskController.list(req, res, true)
+        return this.list(req, res, true)
     }
 
     async listDeleted(req, res, full=false){
@@ -142,7 +142,7 @@ class TaskController {
     }
 
     async fullListDeleted(req, res) {{
-        return taskController.listDeleted(req, res, true)
+        return this.listDeleted(req, res, true)
     }}
     async edit (req, res) {
         const {taskNumber, ...data} = checkDataNull({...req.body})
