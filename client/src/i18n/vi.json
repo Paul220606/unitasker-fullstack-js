@@ -183,7 +183,8 @@
       "altLoginPrompt": "Muốn đăng nhập bằng cách khác?",
       "clickHere": "Nhấn vào đây",
       "altModalTitle": "Đăng nhập thay thế",
-      "twoFactorPrompt": "Nhập mã xác thực đã gửi tới email của bạn."
+      "twoFactorPrompt": "Nhập mã xác thực đã gửi tới email của bạn.",
+      "tryAsGuest": "Dùng thử không cần đăng ký"
     },
     "register": {
       "title": "Đăng ký",

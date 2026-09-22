@@ -8,6 +8,7 @@ authRouter.post('/checkPin', authController.checkPin)
 authRouter.post('/sendPin', authController.sendPin)
 authRouter.post('/register', authController.register)
 authRouter.post('/login', authController.login)
+authRouter.post('/guest', authController.guestLogin)
 authRouter.post('/edit', authMiddleware, authController.edit)
 
 export default authRouter

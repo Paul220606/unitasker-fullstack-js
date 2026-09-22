@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import FormModal from "../../../shared/components/Form/FormModal"
 import PinModal from "../components/PinModal"
 import FormBuilder from "../../../shared/components/Form/FormBuilder"
-import { login } from "../auth.api"
+import { login, guestLogin } from "../auth.api"
 
 function Login() {
     const [showPassword, setShowPassword] = useState(false)
@@ -55,6 +55,14 @@ function Login() {
                 apiFunction={login}
                 externalFunction={showPinModal}/>
 
+                <div>
+                    <button
+                        className= "btn btn-outline-secondarry w-100"
+                        onClick= {() => guestLogin()}>
+                            <i className='bi bi-eye me-2'></i>
+                            {t('auth.login.tryAsGuest')}
+                    </button>
+                </div>
                 <small className="text-center pb-3">
                     {t('auth.login.altLoginPrompt')} <Link 
                     data-bs-toggle="modal"

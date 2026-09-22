@@ -179,6 +179,27 @@ class AuthController {
         }
     }
 
+    async guestLogin(req, res) {
+        try {
+            const guest = await User.findOne({username: 'demo'})
+            if (!guest) {
+                return res.status(404).json({success: false, message: 'Demo account not found'})
+            }
+            const token = createAuthJWT(guest._id)
+            return res.status(200).json({
+                success: true,
+                state: 'Guest login success',
+                message: 'You are now viewing as a guest.',
+                username: guest.username,
+                categories: guest.categories,
+                token
+            })
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json({success: false})
+        }
+    }
+
     async edit (req, res) {
         const data = checkDataNull({...req.body})
         const _id = req.user.id

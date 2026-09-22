@@ -12,8 +12,12 @@ const login = async (data) => {
     return await requestData(data, 'auth', 'login', 'post')
 }
 
+const guestLogin = async () => {
+    return await requestData({}, 'auth', 'guest', 'post')
+}
+
 const register = async (data) => {
     return await requestData(data, 'auth', 'register', 'post')
 }
 
-export {login, register, sendPin, checkPin}
+export {login, register, sendPin, checkPin, guestLogin}

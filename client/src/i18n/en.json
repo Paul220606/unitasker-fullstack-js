@@ -22,7 +22,7 @@
   },
   "nav": {
     "signIn": "Sign In",
-    "register": "Register",
+    "register": "Sign Up",
     "toggleNavigation": "Toggle navigation",
     "language": "Language",
     "dashboard": "Dashboard",
@@ -75,7 +75,7 @@
     "home": "Home",
     "browseTasks": "Browse Tasks",
     "login": "Log In",
-    "register": "Register",
+    "register": "Sign Up",
     "about": "About",
     "connect": "Connect",
     "copyright": "© {{year}} Unitasker. All rights reserved."
@@ -179,14 +179,15 @@
       "emailOrUsernamePlaceholder": "e.g. paul1234",
       "password": "Password",
       "notMember": "Not a member?",
-      "registerHere": "Register here",
+      "registerHere": "Sign up here",
       "altLoginPrompt": "Another way to log in?",
       "clickHere": "Click here",
       "altModalTitle": "Alternative Log In",
-      "twoFactorPrompt": "Enter the verification code sent to your email."
+      "twoFactorPrompt": "Enter the verification code sent to your email.",
+      "tryAsGuest": "Try as Guest"
     },
     "register": {
-      "title": "Register",
+      "title": "Sign Up",
       "fullName": "Full Name",
       "username": "Username",
       "email": "Email",
@@ -308,8 +309,8 @@
       "sendPinFailed": "Send pin failed",
       "checkPinSuccess": "Check pin success",
       "checkPinFailed": "Check pin failed",
-      "registerFailed": "Register failed",
-      "registerSuccess": "Register success",
+      "registerFailed": "Sign up failed",
+      "registerSuccess": "Sign up success",
       "loginSuccess": "Login success",
       "loginFailed": "Login failed",
       "profileNotEdited": "Profile can not be edited",
