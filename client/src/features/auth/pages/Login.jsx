@@ -1,37 +1,40 @@
 import * as bootstrap from 'bootstrap'
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useContext } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
 
 import FormModal from "../../../shared/components/Form/FormModal"
 import PinModal from "../components/PinModal"
 import FormBuilder from "../../../shared/components/Form/FormBuilder"
 import { login, guestLogin } from "../auth.api"
+import { AppContext } from '../../../app/App'
 
 function Login() {
+    const { setUser, setCategoriesList } = useContext(AppContext)
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [userInfo, setUserInfo] = useState({})
     const {t} = useTranslation()
     const loginInputs = [
-  {
-    purpose: 'emailOrUsername',
-    textMessage: t('auth.login.emailOrUsername'),
-    type: 'text',
-    placeholder: t('auth.login.emailOrUsernamePlaceholder'),
-    required: true,
-    col: 12
-  },
-  {
-    purpose: 'password',
-    textMessage: t('auth.login.password'),
-    type: 'password',
-    placeholder: t('common.placeholders.password'),
-    showPassword,
-    setShowPassword,
-    required: true,
-    col: 12
-  }
-]
+    {
+        purpose: 'emailOrUsername',
+        textMessage: t('auth.login.emailOrUsername'),
+        type: 'text',
+        placeholder: t('auth.login.emailOrUsernamePlaceholder'),
+        required: true,
+        col: 12
+    },
+    {
+        purpose: 'password',
+        textMessage: t('auth.login.password'),
+        type: 'password',
+        placeholder: t('common.placeholders.password'),
+        showPassword,
+        setShowPassword,
+        required: true,
+        col: 12
+    }
+    ]
     const showPinModal = (user, email, purpose = "resetPassword")=>{
         setUserInfo({userId: user, email, purpose})
         const pinModal = document.getElementById('otpModal')
@@ -57,8 +60,22 @@ function Login() {
 
                 <div>
                     <button
-                        className= "btn btn-outline-secondarry w-100"
-                        onClick= {() => guestLogin()}>
+                        className= "btn btn-outline-secondary w-100"
+                        onClick={async () => {
+                            try {
+                                const res = await guestLogin()
+                                if (res.success) {
+                                    localStorage.setItem('token', res.token)
+                                    localStorage.setItem('user', res.username)
+                                    localStorage.setItem('categories', res.categories)
+                                    setUser(res.username)
+                                    setCategoriesList(res.categories)
+                                    navigate('/')
+                                }
+                            } catch (err) {
+                                console.log(err)
+                            }
+                        }}>
                             <i className='bi bi-eye me-2'></i>
                             {t('auth.login.tryAsGuest')}
                     </button>
