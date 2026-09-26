@@ -37,7 +37,7 @@
     "viewProfile": "View Profile",
     "recentTasks": "Recent Tasks",
     "noTask": "You have not created any task.",
-    "noTaskWithLink": "You have not created any task. Click {{link}} to create one.",
+    "noTaskWithLink": "You have not created any task. Click <link>here</link> to create one.",
     "hero": {
       "title": "Get Things Done with Unitasker",
       "subtitle": "A simple way to post small tasks and get real help.",

@@ -37,7 +37,7 @@
     "viewProfile": "Xem hồ sơ",
     "recentTasks": "Nhiệm vụ gần đây",
     "noTask": "Bạn chưa tạo nhiệm vụ nào.",
-    "noTaskWithLink": "Bạn chưa tạo nhiệm vụ nào. Nhấn vào {{link}} để tạo nhiệm vụ mới.",
+    "noTaskWithLink": "Bạn chưa tạo nhiệm vụ nào. Nhấn vào <link>đây</link> để tạo nhiệm vụ mới.",
     "hero": {
       "title": "Hoàn thành công việc cùng Unitasker",
       "subtitle": "Cách đơn giản để đăng việc vặt và nhận sự trợ giúp thật sự.",
