@@ -343,7 +343,8 @@
       "aiSuggestionFailed": "Gợi ý AI thất bại",
       "noToken": "Không có token",
       "invalidToken": "Token không hợp lệ",
-      "alreadyRegistered": "{{field}} này đã được đăng ký"
+      "alreadyRegistered": "{{field}} này đã được đăng ký",
+      "guestLoginUnavailable": "Đăng nhập thử tạm thời không khả dụng. Vui lòng thử lại sau."
     }
   }
 }

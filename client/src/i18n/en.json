@@ -343,7 +343,8 @@
       "aiSuggestionFailed": "AI suggestion failed",
       "noToken": "No token",
       "invalidToken": "Invalid token",
-      "alreadyRegistered": "This {{field}} has already registered"
+      "alreadyRegistered": "This {{field}} has already registered",
+      "guestLoginUnavailable": "Guest login is currently unavailable. Please try again later."
     }
   }
 }

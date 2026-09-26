@@ -61,7 +61,7 @@ function Login() {
                 showToast(translateItem(res.state, 'message', t), translateItem(res.message, 'message', t))
             }
         } catch (err) {
-            showToast(t('server.state.loginFailed'), t('server.message.wrongCredentials'))
+            showToast(t('server.state.loginFailed'), t('server.message.guestLoginUnavailable'))
             console.log(err)
         }
     }

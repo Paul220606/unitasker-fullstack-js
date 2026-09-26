@@ -37,6 +37,7 @@ const titleKeyMap = {
 }
 
 const messageKeyMap = {
+    'Demo account not found': 'server.message.guestLoginUnavailable',
     'OTP has been sent': 'server.state.otpSent',
     'Send pin failed': 'server.state.sendPinFailed',
     'Check pin success': 'server.state.checkPinSuccess',
