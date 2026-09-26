@@ -183,7 +183,7 @@ class AuthController {
         try {
             const guest = await User.findOne({username: 'demo'})
             if (!guest) {
-                return res.status(404).json({success: false, message: 'Demo account not found'})
+                return res.status(404).json({success: false, state: 'Login failed', message: 'Demo account not found'})
             }
             const token = createAuthJWT(guest._id)
             return res.status(200).json({
