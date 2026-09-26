@@ -34,8 +34,7 @@ function Home() {
         {type: 'light', content: <i className="bi bi-eye"></i>, modalTitle: 'View Task', modalMessage: ''},
         {type: 'light', content: <i className="bi bi-pencil-square"></i>, modalTitle: 'Quick Update', modalMessage: t('common.update')}
     ]
-    const noDataMessage = <Trans i18nKey="home.noTaskWithLink" components={{ link: <Link to='/tasks/new' className="text-primary" /> }} />
-    
+    const noDataMessage = <span>{t('home.noTaskClick')} <Link to='/tasks/new' className="text-primary">{t('common.here')}</Link> {t('home.toCreate')}</span>    
     const loadData = useFetchingData(user, 'home', 'render', setLoading, [setRecentTasks, setStats], {})
 
     return (
