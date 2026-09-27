@@ -1,4 +1,3 @@
-import mammoth from 'mammoth'
 import { useState, useContext, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -214,6 +213,7 @@ export default function Profile() {
             text = await file.text()
         } else if (file.name.endsWith(".docx")){
             const arrayBuffer = await file.arrayBuffer()
+            const { default: mammoth } = await import('mammoth')
             const result = await mammoth.extractRawText({arrayBuffer})
             text = result.value
         } else {

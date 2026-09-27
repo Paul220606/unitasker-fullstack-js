@@ -1,10 +1,12 @@
-import Home from "../features/home/pages/Home"
-import Login from "../features/auth/pages/Login"
-import Register from "../features/auth/pages/Register"
-import NewTask from "../features/tasks/pages/NewTask"
-import TaskList from "../features/tasks/pages/TaskList"
-import TaskBin from "../features/tasks/pages/TaskBin"
-import Profile from "../features/manager/pages/Profile"
+import { lazy } from 'react'
+
+const Home = lazy(() => import("../features/home/pages/Home"))
+const Login = lazy(() => import("../features/auth/pages/Login"))
+const Register = lazy(() => import("../features/auth/pages/Register"))
+const NewTask = lazy(() => import("../features/tasks/pages/NewTask"))
+const TaskList = lazy(() => import("../features/tasks/pages/TaskList"))
+const TaskBin = lazy(() => import("../features/tasks/pages/TaskBin"))
+const Profile = lazy(() => import("../features/manager/pages/Profile"))
 
 const onlyPublicRoutes = [
     {path: '/login', component: Login,},

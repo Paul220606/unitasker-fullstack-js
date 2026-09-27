@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { createContext, useState } from 'react'
+import { createContext, useState, Suspense } from 'react'
 import { ToastContainer } from 'react-toastify'
-
 
 import { publicRoutes, privateRoutes, onlyPublicRoutes } from './router'
 import DefaultLayout from '../shared/layouts/DefaultLayout'
+import PageLoader from '../shared/components/PageLoader'
 
 const AppContext = createContext()
 export {AppContext}
@@ -25,7 +25,9 @@ function App() {
                     const Page = route.component
                     return <Route key={index} path={route.path} element={
                         <Layout>
-                            <Page/>
+                            <Suspense fallback={<PageLoader/>}>
+                                <Page/>
+                            </Suspense>
                         </Layout>
                     }/>
                     })}
