@@ -214,7 +214,9 @@
     "back": "Back",
     "resend": "Resend OTP",
     "verifying": "Verifying...",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "digitLabel": "Digit {{index}} of {{total}}",
+    "unexpectedError": "Something went wrong. Please try again."
   },
   "profile": {
     "title": "My Profile",

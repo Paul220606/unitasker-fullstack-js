@@ -20,6 +20,9 @@ axiosClient.interceptors.response.use(
             localStorage.removeItem("user")
             window.location.href = "/login"
         }
+        if (err.response?.status === 429 && err.response.data) {
+            return Promise.resolve(err.response)
+        }
         return Promise.reject(err)
     }
 )
