@@ -9,7 +9,7 @@ const AppContext = createContext()
 export {AppContext}
 
 function App() {
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [user, setUser] = useState(() => (localStorage.getItem('user')|| ''))
     const [categoriesList, setCategoriesList] = useState(()=> localStorage.getItem('categories') || 'Housework, Schoolwork, Job, Other')
     

@@ -18,8 +18,8 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
     const handleChange = (e, type, textMessage, required) => {
         const {id, value, checked} = e.target
         const inputValue = (type === 'checkbox' || type === 'radio') ? checked : value
+        setData(prev => ({...prev, [id]: inputValue}))
         const nextData = {...data, [id]: inputValue}
-        setData(nextData)
         if (!required) return
         let err
         if (['Register', 'Reset Password', 'Change Password'].includes(title)){

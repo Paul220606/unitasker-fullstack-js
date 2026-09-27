@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "test:e2e": "playwright test --project=chromium --project=firefox --project=mobile-chrome && playwright test --project=webkit --project=mobile-safari --workers=1",
+    "test:e2e:ui": "playwright test --ui",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.63.0",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
