@@ -328,6 +328,11 @@
       "taskDeletedPermanently": "Task has been deleted permanently"
     },
     "message": {
+      "pinNotMatchedWithAttempts": "The Pin is not matched. {{count}} attempt(s) left.",
+      "tooManyOtpAttempts": "Too many attempts. Please click \"Resend OTP\".",
+      "tooManyRequests": "Too many requests, try again later.",
+      "tooManyLoginAttempts": "Too many attempts, try again later.",
+      "tooManyAccounts": "Too many accounts created, try again later.",
       "noMatchedAccount": "There is no matched username or email.",
       "pleaseResetPassword": "Please reset your password.",
       "pinNotMatched": "The Pin is not matched.",

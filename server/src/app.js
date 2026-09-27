@@ -6,6 +6,8 @@ import route from "./routes/index.js"
 
 const app = express()
 
+app.set('trust proxy', 1)
+
 app.use(bodyParser.json())
 app.use(cors({
     origin: [

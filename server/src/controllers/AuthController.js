@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer"
-
+import bcrypt from "bcrypt"
 import User from "../models/User.js"
 import UserOTPVerification from "../models/UserOTPVerification.js"
 import { checkDataNull } from "../helpers/checkNull.js"
@@ -11,9 +11,10 @@ import { createAuthJWT } from "../helpers/createJWT.js"
 class AuthController {
     async generateAndSendOTP(user) {
         const {otp, expiredAt, expiredDuration} = createOTP()
+        const otpHash = await bcrypt.hash(otp, 10)
         await UserOTPVerification.findOneAndUpdate(
             {userId: user._id},
-            {otp, expiredAt},
+            {otp: otpHash, expiredAt, attempts: 0},
             {
                 new: true,
                 upsert: true,
@@ -62,33 +63,49 @@ class AuthController {
 
     async checkPin (req, res) {
         const {otp, userId} = req.body
+        const MAX_ATTEMPTS = 5
         try {
-            const otpVerification = await UserOTPVerification.findOne({userId})
-            const user = await User.findOne({_id: userId})
-            if (otp === otpVerification.otp && Date.now() < otpVerification.expiredAt){
-                const token = createAuthJWT(user._id)
-                return res.status(201).json({
-                    success: true,
-                    state: 'Check pin success',
-                    message: 'Please reset your password.',
-                    username: user.username,
-                    categories: user.categories,
-                    token
-                })
-            } else {
-                if (otp !== otpVerification.otp){
-                    return res.status(201).json({
+            const otpVerification = await UserOTPVerification.findOneAndUpdate(
+                { userId, attempts: { $lt: MAX_ATTEMPTS } },
+                { $inc: { attempts: 1 } },
+                { new: true }
+            )
+            if (!otpVerification) {
+                return res.status(429).json({
                     success: false,
                     state: 'Check pin failed',
-                    message: 'The Pin is not matched.'
+                    message: 'Too many attempts. Please click "Resend OTP".'
                 })
-                } else {
-                    return res.status(201).json({
+            }
+
+            if (Date.now() >= otpVerification.expiredAt) {
+                return res.status(201).json({
                     success: false,
                     state: 'Check pin failed',
                     message: 'The Pin has been expired, please click "Resend OTP".'
                 })
-            }}
+            }
+            
+            const isMatch = await bcrypt.compare(String(otp), otpVerification.otp)
+            if (!isMatch) {
+                return res.status(201).json({
+                    success: false,
+                    state: 'Check pin failed',
+                    message: `The Pin is not matched. ${MAX_ATTEMPTS - otpVerification.attempts} attempt(s) left.`
+                })
+            }
+
+            await UserOTPVerification.deleteOne({userId})
+            const user = await User.findById(userId)
+            const token = createAuthJWT(user._id)
+            return res.status(201).json({
+                success: true,
+                state: 'Check pin success',
+                message: 'Please reset your password.',
+                username: user.username,
+                categories: user.categories,
+                token
+            })
         } catch (err){
             console.log(err)
             return res.status(500).json({

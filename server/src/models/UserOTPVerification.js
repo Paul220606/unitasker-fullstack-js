@@ -9,7 +9,8 @@ const UserOTPVerification = new Schema({
         required: true
     },
     otp: {type: String, required: true},
-    expiredAt: {type: Date, required: true}
+    expiredAt: {type: Date, required: true},
+    attempts: {type: Number, default: 0},
 }, {
     timestamps: true
 })

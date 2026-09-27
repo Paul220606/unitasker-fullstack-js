@@ -73,10 +73,15 @@ const messageKeyMap = {
     'You now can not view this task anymore.': 'server.message.taskGone',
     'AI suggestion failed': 'server.message.aiSuggestionFailed',
     'No token': 'server.message.noToken',
-    'Invalid token': 'server.message.invalidToken'
+    'Invalid token': 'server.message.invalidToken',
+    'Too many attempts. Please click "Resend OTP".': 'server.message.tooManyOtpAttempts',
+    'Too many requests, try again later.': 'server.message.tooManyRequests',
+    'Too many attempts, try again later.': 'server.message.tooManyLoginAttempts',
+    'Too many accounts created, try again later.': 'server.message.tooManyAccounts',
 }
 
 const alreadyRegisteredRegex = /^This (\w+) has already registered$/
+const pinAttemptsLeftRegex = /^The Pin is not matched\. (\d+) attempt\(s\) left\.$/
 
 function translateItem(item, viewMode, t) {
     if (!item) return item
@@ -85,6 +90,10 @@ function translateItem(item, viewMode, t) {
     if (viewMode === 'title') return titleKeyMap[item] ? t(titleKeyMap[item]) : item
     if (viewMode === 'message') {
         if (messageKeyMap[item]) return t(messageKeyMap[item])
+        const attemptsMatch = item.match(pinAttemptsLeftRegex)
+        if (attemptsMatch) {
+            return t('server.message.pinNotMatchedWithAttempts', {count: attemptsMatch[1]})
+        }
         const match = item.match(alreadyRegisteredRegex)
         if (match) {
             const field = match[1]

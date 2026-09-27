@@ -5,6 +5,7 @@ export default defineConfig({
         globals: true,
         environment: 'node',
         hookTimeout: 60000,
+        fileParallelism: false,
         env: {
             MONGOMS_SKIP_MD5_CHECK: 'true',
             MONGOMS_DOWNLOAD_DIR: 'E:\\.cache\\mongodb-binaries'

@@ -328,6 +328,11 @@
       "taskDeletedPermanently": "Nhiệm vụ đã được xóa vĩnh viễn"
     },
     "message": {
+      "pinNotMatchedWithAttempts": "Mã Pin không khớp. Còn {{count}} lần thử.",
+      "tooManyOtpAttempts": "Quá nhiều lần thử. Vui lòng nhấn \"Gửi lại OTP\".",
+      "tooManyRequests": "Quá nhiều yêu cầu, vui lòng thử lại sau.",
+      "tooManyLoginAttempts": "Quá nhiều lần thử, vui lòng thử lại sau.",
+      "tooManyAccounts": "Đã tạo quá nhiều tài khoản, vui lòng thử lại sau.",
       "noMatchedAccount": "Không tìm thấy tên đăng nhập hoặc email phù hợp.",
       "pleaseResetPassword": "Vui lòng đặt lại mật khẩu.",
       "pinNotMatched": "Mã Pin không khớp.",
