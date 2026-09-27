@@ -85,8 +85,8 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, exte
     return (
         <form onSubmit={handleSubmit} className="auth-form fade-in-up">
             <div className="bg-dark text-white text-center py-3 rounded-top">
-              <h3 className="m-0 fw-bold">{translateItem(title, 'title', t)}</h3>
-              <small className="text-secondary">
+              <h1 className="m-0 fw-bold">{translateItem(title, 'title', t)}</h1>
+              <small className="text-muted-on-dark">
                 {description}
               </small>
             </div>

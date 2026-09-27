@@ -43,7 +43,7 @@ function Home() {
         <>
             <div className="container-fluid p-4">
                 <div className="text-dark mb-4">
-                    <h2>{t('home.welcome', {name: user})}</h2>
+                    <h1>{t('home.welcome', {name: user})}</h1>
                     <p className="text-secondary">{t('home.subtitle')}</p>
                 </div>
 
@@ -99,7 +99,7 @@ function Home() {
             <div className="row g-4">
                 <div className="col-md-4">
                 <div className="card h-100 p-4 feature-card">
-                    <h5 className="fw-semibold">{t('home.why.feature1Title')}</h5>
+                    <h3 className="fw-semibold">{t('home.why.feature1Title')}</h3>
                     <p className="text-muted">
                     {t('home.why.feature1Desc')}
                     </p>
@@ -108,7 +108,7 @@ function Home() {
 
                 <div className="col-md-4">
                 <div className="card h-100 p-4 feature-card">
-                    <h5 className="fw-semibold">{t('home.why.feature2Title')}</h5>
+                    <h3 className="fw-semibold">{t('home.why.feature2Title')}</h3>
                     <p className="text-muted">
                     {t('home.why.feature2Desc')}
                     </p>
@@ -117,7 +117,7 @@ function Home() {
 
                 <div className="col-md-4">
                 <div className="card h-100 p-4 feature-card">
-                    <h5 className="fw-semibold">{t('home.why.feature3Title')}</h5>
+                    <h3 className="fw-semibold">{t('home.why.feature3Title')}</h3>
                     <p className="text-muted">
                     {t('home.why.feature3Desc')}
                     </p>
@@ -136,7 +136,7 @@ function Home() {
             <div className="row g-4 text-center">
                 <div className="col-md-4">
                 <div className="step-number">1</div>
-                <h6 className="fw-semibold">{t('home.howItWorks.step1Title')}</h6>
+                <h3 className="fw-semibold">{t('home.howItWorks.step1Title')}</h3>
                 <p className="text-muted">
                     {t('home.howItWorks.step1Desc')}
                 </p>
@@ -144,7 +144,7 @@ function Home() {
 
                 <div className="col-md-4">
                 <div className="step-number">2</div>
-                <h6 className="fw-semibold">{t('home.howItWorks.step2Title')}</h6>
+                <h3 className="fw-semibold">{t('home.howItWorks.step2Title')}</h3>
                 <p className="text-muted">
                     {t('home.howItWorks.step2Desc')}
                 </p>
@@ -152,7 +152,7 @@ function Home() {
 
                 <div className="col-md-4">
                 <div className="step-number">3</div>
-                <h6 className="fw-semibold">{t('home.howItWorks.step3Title')}</h6>
+                <h3 className="fw-semibold">{t('home.howItWorks.step3Title')}</h3>
                 <p className="text-muted">
                     {t('home.howItWorks.step3Desc')}
                 </p>

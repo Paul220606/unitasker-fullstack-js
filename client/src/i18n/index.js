@@ -12,8 +12,12 @@ i18n.use(LanguageDetector)
             en: {translation: en},
             vi: {translation: vi}
         },
-        fallbacking: 'en',
+        fallbackLng: 'en',
         interpolation: {escapeValue: false}
     })
+
+const syncHtmlLang = (lng) => { document.documentElement.lang = (lng || 'en').split('-')[0] }
+syncHtmlLang(i18n.resolvedLanguage)
+i18n.on('languageChanged', syncHtmlLang)
 
 export default i18n

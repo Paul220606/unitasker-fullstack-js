@@ -104,7 +104,17 @@ function FormFields({inputs, errors, setErrors, data, setData, title, isOpened =
                                 />
                             )}
                             {(input.type === 'checkbox' || input.type === 'radio') && <label htmlFor={input.purpose} className="form-label ms-1">{input.textMessage}</label>}
-                            {isPassword && <button type="button" className="btn btn-dark" onClick={()=>{input.setShowPassword(prev=>!prev)}}> <i className={input.showPassword?"bi bi-eye-fill":"bi bi-eye-slash-fill"}></i> </button>}
+                                                        {isPassword && (
+                                <button
+                                    type="button"
+                                    className="btn btn-dark"
+                                    onClick={()=>{input.setShowPassword(prev=>!prev)}}
+                                    aria-label={input.showPassword ? t('common.hidePassword') : t('common.showPassword')}
+                                    aria-pressed={input.showPassword}
+                                >
+                                    <i className={input.showPassword?"bi bi-eye-fill":"bi bi-eye-slash-fill"} aria-hidden="true"></i>
+                                </button>
+                            )}
                         </div>
                         
                         {title ==='View Task' || (errors[input.purpose] && (

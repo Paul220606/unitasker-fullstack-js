@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { useContext } from "react"
 import { useTranslation } from "react-i18next"
 
-import App, { AppContext } from "../../app/App"
+import { AppContext } from "../../app/App"
 
 function Footer() {
     const {user} = useContext(AppContext)
@@ -14,38 +14,39 @@ function Footer() {
                 <div className="row">
 
                     <div className="col-md-4 mb-4">
-                    <h5 className="fw-bold">Unitasker</h5>
-                    <p className="text-secondary small">
+                    <h2 className="h5 fw-bold">Unitasker</h2>
+                    <p className="text-muted-on-dark small">
                     {t('footer.tagline')}
                     </p>
                     </div>
 
                     <div className="col-md-4 mb-4">
-                    <h6 className="fw-semibold">{t('footer.quickLinks')}</h6>
+                    <h2 className="h6 fw-semibold">{t('footer.quickLinks')}</h2>
                     <ul className="list-unstyled small">
                     <li>
-                    <Link to="/" className="text-secondary text-decoration-none">
+                    <Link to="/" className="text-muted-on-dark text-decoration-none d-inline-block py-1">
                         {t('footer.home')}
                     </Link>
                     </li>
                     {user?
                     <li>
-                    <Link to="/tasks" className="text-secondary text-decoration-none">
+                    <Link to="/tasks" className="text-muted-on-dark text-decoration-none d-inline-block py-1">
                         {t('footer.browseTasks')}
                     </Link>
                     </li> 
                     :
-                    <>
-                        <Link to="/login" className="text-secondary text-decoration-none">
+                    <li>
+                        <Link to="/login" className="text-muted-on-dark text-decoration-none d-inline-block py-1">
                             {t('footer.login')}
-                        </Link>/
-                        <Link to="/register" className="text-secondary text-decoration-none">
+                        </Link>
+                        <span className="text-muted-on-dark mx-1" aria-hidden="true">/</span>
+                        <Link to="/register" className="text-muted-on-dark text-decoration-none d-inline-block py-1">
                             {t('footer.register')}
                         </Link>
-                    </>}
+                    </li>}
                     
                     <li>
-                    <Link to="/about" className="text-secondary text-decoration-none">
+                    <Link to="/about" className="text-muted-on-dark text-decoration-none d-inline-block py-1">
                         {t('footer.about')}
                     </Link>
                     </li>
@@ -53,11 +54,11 @@ function Footer() {
                     </div>
 
                     <div className="col-md-4 mb-4">
-                    <h6 className="fw-semibold">{t('footer.connect')}</h6>
-                    <p className="text-secondary small mb-2">
+                    <h2 className="h6 fw-semibold">{t('footer.connect')}</h2>
+                    <p className="text-muted-on-dark small mb-2">
                     support@unitasker.com
                     </p>
-                    <div className="d-flex gap-3">
+                    <div className="d-flex gap-3" aria-hidden="true">
                     <i className="bi bi-facebook fs-5"></i>
                     <i className="bi bi-twitter fs-5"></i>
                     <i className="bi bi-github fs-5"></i>
@@ -68,7 +69,7 @@ function Footer() {
 
                 <hr className="border-secondary" />
 
-                <div className="text-center text-secondary small">
+                <div className="text-center text-muted-on-dark small">
                     {t('footer.copyright', {year: new Date().getFullYear()})}
                 </div>
             </div>

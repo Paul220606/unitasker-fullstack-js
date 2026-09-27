@@ -76,7 +76,7 @@ function Login() {
                     description={
                         <div>
                             {t('auth.login.notMember')}
-                            <Link to="/register" className="fw-semibold text-decoration-none text-decoration-underline"> {t('auth.login.registerHere')}</Link>
+                            <Link to="/register" className="fw-semibold link-on-dark text-decoration-underline"> {t('auth.login.registerHere')}</Link>
                         </div>
                     }
                     apiFunction={login}
@@ -92,9 +92,12 @@ function Login() {
                 </div>
 
                 <small className="text-center pb-3">
-                    {t('auth.login.altLoginPrompt')} <Link
+                    {t('auth.login.altLoginPrompt')}{' '}
+                    <button
+                        type="button"
+                        className="btn btn-link p-0 align-baseline small"
                         data-bs-toggle="modal"
-                        data-bs-target="#formModal">{t('auth.login.clickHere')}</Link>
+                        data-bs-target="#formModal">{t('auth.login.clickHere')}</button>
                 </small>
             </div>
 
