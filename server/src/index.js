@@ -1,7 +1,7 @@
 import app from "./app.js"
 import connectDB from "./configs/db.js"
 
-import {PORT} from "./configs/db.js"
+import {PORT} from "./configs/env.js"
 import {initMail} from "./configs/mail.js"
 
 initMail()
