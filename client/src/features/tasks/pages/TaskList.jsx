@@ -13,7 +13,7 @@ import useFetchingData from '../../../shared/hooks/useFetchingData'
 import translateItem from '../../../shared/utils/translateItem'
 
 function TaskList() {
-    const {user, loading, setLoading} = useContext(AppContext)
+    const {user, setLoading} = useContext(AppContext)
     const [tasks, setTasks] = useState([])
     const [stats, setStats] = useState([])
     const {t, i18n} = useTranslation()
@@ -51,8 +51,7 @@ function TaskList() {
                 sortKey={sortKey}
                 label={label}
                 sortedStats={sortedStats}
-                setSortedStats={setSortedStats}
-                {...sortKey === '#'? {firstOrder : 'asc'}:{}}/>
+                setSortedStats={setSortedStats}/>
             )
     const tableTasks = tasks.map(task=>({
         allStats: task,

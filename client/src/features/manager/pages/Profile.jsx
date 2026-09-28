@@ -13,7 +13,7 @@ import { requestData } from '../../../shared/utils/requestData'
 import { showToast } from '../../../shared/utils/toast'
 
 export default function Profile() {
-    const {user, loading, setLoading, avaUrl, setAvaUrl, categoriesList, setCategoriesList} = useContext(AppContext)
+    const {user, setLoading, avaUrl, setAvaUrl, setCategoriesList} = useContext(AppContext)
     const {t} = useTranslation()
     const [isEditingProfile, setIsEditingProfile] = useState(false)
     const [isEditingCategories, setIsEditingCategories] = useState(false)
@@ -124,16 +124,14 @@ export default function Profile() {
     
     const [data, setData] = useState(()=> (createInputObject(profileDataList)))
     const [errors, setErrors] = useState(()=> (createNullInputObject(profileDataList)))
-    let dataLst = []
+    const dataLst = isEditingProfile ? profileDataList : isEditingCategories ? [categories] : [] 
     useEffect(() => {
         if (profileData.imageUrl) setAvaUrl(profileData.imageUrl)
-            if (profileData.categories) setLoadedCategories(profileData.categories)
+        if (profileData.categories) setLoadedCategories(profileData.categories)
             if (isEditingProfile){
-            dataLst = profileDataList
             setData(createInputObject(dataLst))
             setErrors(createNullInputObject(dataLst))
         } else if (isEditingCategories){
-            dataLst = [categories]
             if (skipResetRef.current){
                 skipResetRef.current = false
             } else {
@@ -141,7 +139,7 @@ export default function Profile() {
             }
             setErrors(createNullInputObject(dataLst))
         } 
-        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profileData, isEditingProfile, isEditingCategories])
 
     const handleEditSubmit = async (e) => {
@@ -173,8 +171,6 @@ export default function Profile() {
             } else {
                 showToast(res.state, res.message)
             }
-        } catch (err) {
-            throw err
         } finally {
             setLoading(false)
         }
@@ -196,8 +192,6 @@ export default function Profile() {
                 } else {
                     showToast(res.state, res.message)
                 }
-            } catch (err){
-                throw err
             } finally {
                 setLoading(false)
             }
@@ -253,7 +247,7 @@ export default function Profile() {
             }
             downloadFile(JSON.stringify(exportPayLoad, null, 2), `unitasker-data-${profileData.username || 'export'}.json`, 'application/json')
             showToast(t('profile.exportDataSuccessTitle'), t('profile.exportDataSuccessMessage'), 'success')
-        } catch (err){
+        } catch {
             showToast(t('profile.exportDataFailedTitle'), t('profile.exportDataFailedMessage'), 'error')
         } finally {
             setLoading(false)
@@ -271,9 +265,6 @@ export default function Profile() {
             else {
                 showToast(res.state, res.message)
             }
-        }
-        catch (err) {                                       
-            throw err
         } finally {
             setLoading(false)
         }

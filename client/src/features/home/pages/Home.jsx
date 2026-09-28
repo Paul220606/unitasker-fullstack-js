@@ -1,6 +1,6 @@
 import { useContext, useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import '../../../styles/home.scss'
 import CompactBanner from '../components/CompactBanner.jsx'
@@ -11,7 +11,7 @@ import useFetchingData from '../../../shared/hooks/useFetchingData'
 import { AppContext } from '../../../app/App'
 
 function Home() {
-    const {user, loading, setLoading} = useContext(AppContext)
+    const {user, setLoading} = useContext(AppContext)
     const [recentTasks, setRecentTasks] = useState([])
     const [stats, setStats] = useState([])
     const {t} = useTranslation()

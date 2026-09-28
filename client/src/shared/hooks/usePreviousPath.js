@@ -9,5 +9,5 @@ export function usePreviousPath() {
         prevPath.current = location.pathname
     }, [location])
 
-    return prevPath.current
+    return prevPath
 }

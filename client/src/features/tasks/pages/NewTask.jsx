@@ -86,7 +86,7 @@ function NewTask() {
       } else {
         showToast(t('toast.aiSuggestFailedTitle'), t('toast.aiSuggestFailedGenerate'), 'danger')
       }
-    } catch (err){
+    } catch {
       showToast(t('toast.aiSuggestFailedTitle'), t('toast.aiSuggestFailedConnect'), 'danger')
     }
     
