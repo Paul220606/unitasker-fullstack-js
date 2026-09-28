@@ -8,7 +8,9 @@ export default defineConfig({
         fileParallelism: false,
         env: {
             MONGOMS_SKIP_MD5_CHECK: 'true',
-            MONGOMS_DOWNLOAD_DIR: 'E:\\.cache\\mongodb-binaries'
+            ...(process.platform === 'win32'
+            ? { MONGOMS_DOWNLOAD_DIR: 'E:\\.cache\\mongodb-binaries' }
+            : {}),
         }
     }
 })

@@ -29,6 +29,11 @@ jobs:
         env:
           NODE_ENV: test
           JWT_SECRET: ci-test-secret
+          # Dummy values: tests use in-memory MongoDB and a mocked mailer
+          MONGO_URL: mongodb://127.0.0.1:27017/unused
+          GMAIL_USER: ci@example.com
+          GMAIL_APP_PASSWORD: ci-dummy
+          GEMINI_API_KEY: ci-dummy
 
   frontend-build:
     name: Frontend lint + build
