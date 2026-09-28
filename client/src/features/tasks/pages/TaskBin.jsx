@@ -10,7 +10,7 @@ import FormModal from '../../../shared/components/Form/FormModal'
 import useFetchingData from '../../../shared/hooks/useFetchingData'
 
 function TaskBin() {
-    const {user, loading, setLoading} = useContext(AppContext)
+    const {user, setLoading} = useContext(AppContext)
     const [tasks, setTasks] = useState([])
     const {t} = useTranslation()
     const [sortedStats, setSortedStats] = useState({title: '#', order : 'asc'})
@@ -44,8 +44,7 @@ function TaskBin() {
         sortKey={sortKey}
         label={label}
         sortedStats={sortedStats}
-        setSortedStats={setSortedStats}
-        {...sortKey === '#'? {firstOrder : 'asc'}:{}}/>
+        setSortedStats={setSortedStats}/>
     )
     const tableTasks = tasks.map(task=>({
         allStats: task,

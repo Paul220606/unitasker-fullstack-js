@@ -71,6 +71,7 @@ describe('POST /api/auth/login', () => {
                 emailOrUsername: validUser.username,
                 password: 'wrongpassword'
             })
+        expect(res.status).toBe(401)
         expect(res.body.success).toBe(false)
     })
 

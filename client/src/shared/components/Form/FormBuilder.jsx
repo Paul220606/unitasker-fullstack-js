@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom"
-import { useState, useContext, useEffect} from "react"
+import { useState, useContext} from "react"
 import { useTranslation } from "react-i18next"
 
 import '../../../styles/form.scss'
@@ -18,14 +18,16 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, exte
     const [data, setData] = useState(()=> (createNullInputObject(inputs)))
     const [errors, setErrors] = useState(()=> (createNullInputObject(inputs)))
     const navigate = useNavigate()
-    const previousPath  = usePreviousPath()
+    const previousPathRef  = usePreviousPath()
     const {t} = useTranslation()
+    const [prevExternalData, setPrevExternalData] = useState(externalData)
 
-    useEffect(()=> {
+    if (externalData !== prevExternalData) {
+        setPrevExternalData(externalData)
         if (externalData && Object.keys(externalData).length > 0) {
             setData(prev => ({...prev, ...externalData}))
         }
-    }, [externalData])
+    }
     const handleSubmit = async (e) => {
         e.preventDefault()
         let newErrors
@@ -46,36 +48,31 @@ function FormBuilder({ title, description, inputs, submitText, apiFunction, exte
         if (skip) {
             return
         }
-        try {
-            const res = await apiFunction(data)
-            if (res.success){
-                if (res.requiresTwoFactor){
-                    externalFunction(res.userId, res.email, 'twoFactor')
-                    showToast(t('server.state.otpSent'), t('auth.login.twoFactorPrompt'), 'success')
-                    return
-                }
-                if (res.token){
-                    localStorage.setItem('token', res.token)
-                    localStorage.setItem('user', res.username)
-                    localStorage.setItem('categories', res.categories)
-                    setCategoriesList(res.categories)
-                    setUser(res.username)
-                }
-                const currentUndefinedRoutes = onlyPublicRoutes.map((route)=>route.path)
-                if (currentUndefinedRoutes.includes(previousPath)){
-                    navigate('/')
-                } else {
-                    navigate(-1)
-                }
-                showToast(res.state, res.message, 'success')
-            } else {
-                if (title === 'Log in') setErrors(createInputObject(inputs, translateItem(res.message, 'message', t)))
-                showToast(res.state, res.message)
+        const res = await apiFunction(data)
+        if (res.success){
+            if (res.requiresTwoFactor){
+                externalFunction(res.userId, res.email, 'twoFactor')
+                showToast(t('server.state.otpSent'), t('auth.login.twoFactorPrompt'), 'success')
+                return
             }
-        }
-        catch (err){
-            throw err
-        }
+            if (res.token){
+                localStorage.setItem('token', res.token)
+                localStorage.setItem('user', res.username)
+                localStorage.setItem('categories', res.categories)
+                setCategoriesList(res.categories)
+                setUser(res.username)
+            }
+            const currentUndefinedRoutes = onlyPublicRoutes.map((route)=>route.path)
+            if (currentUndefinedRoutes.includes(previousPathRef.current)){
+                navigate('/')
+            } else {
+                navigate(-1)
+            }
+            showToast(res.state, res.message, 'success')
+        } else {
+            if (title === 'Log in') setErrors(createInputObject(inputs, translateItem(res.message, 'message', t)))
+            showToast(res.state, res.message)
+        } 
     }
 
     const handleSuggest = async () => {

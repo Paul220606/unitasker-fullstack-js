@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next"
 import { AppContext } from "../../app/App"
 
 function Header() {
-    const {setUser, user, setLoading, avaUrl} = useContext(AppContext)
+    const {setUser, user, avaUrl} = useContext(AppContext)
     const {i18n, t} = useTranslation()
 
     const changeLanguage = (lang) => {

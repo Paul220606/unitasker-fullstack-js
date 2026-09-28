@@ -48,7 +48,7 @@ export const twoFactorLogin = () => json(201, {
     requiresTwoFactor: true,
 })
 
-export const wrongCredentials = () => json(201, {
+export const wrongCredentials = () => json(401, {
     success: false,
     state: 'Login failed',
     message: 'Email, username or password is incorrect.',

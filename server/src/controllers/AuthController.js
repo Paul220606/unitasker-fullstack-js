@@ -180,7 +180,7 @@ class AuthController {
                     })
                 }
             } else {
-                return res.status(201).json({
+                return res.status(401).json({
                     success: false,
                     state: 'Login failed',
                     message: 'Email, username or password is incorrect.'

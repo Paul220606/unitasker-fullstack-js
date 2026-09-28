@@ -16,7 +16,7 @@ import { editProfile } from "../../../features/manager/manager.api"
 function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     const dueDateIsNull = (task.dueDate && task.dueDate !== 'None')
     const categories = localStorage.getItem('categories')
-    const {loading, setLoading, setUser} = useContext(AppContext)
+    const {setLoading, setUser} = useContext(AppContext)
     const {t} = useTranslation()
     const [showPassword1, setShowPassword1] = useState(false)
     const [showPassword2, setShowPassword2] = useState(false)
@@ -174,8 +174,9 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
     const [data, setData] = useState(()=> (createInputObject(activeInputs)))
     const [errors, setErrors] = useState(()=> (createNullInputObject(activeInputs)))
     useEffect(()=> {
-      setData(createInputObject(activeInputs))
-      setErrors(createNullInputObject(activeInputs))  
+        setData(createInputObject(activeInputs))
+        setErrors(createNullInputObject(activeInputs)) 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [task, isOpened])
 
     useEffect(()=>{
@@ -183,12 +184,12 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
         if (!modalEl) return
         const modalShown = ()=> {setIsOpened(true)}
         const modalHidden = ()=> {setIsOpened(false)}
-        const listenModal = ()=> {
-            modalEl.addEventListener('shown.bs.modal', modalShown)
-            modalEl.addEventListener('hidden.bs.modal', modalHidden)
+        modalEl.addEventListener('shown.bs.modal', modalShown)
+        modalEl.addEventListener('hidden.bs.modal', modalHidden)
+        return () => {
+            modalEl.removeEventListener('shown.bs.modal', modalShown)
+            modalEl.removeEventListener('hidden.bs.modal', modalHidden)
         }
-        listenModal()
-        return listenModal
         
     }, [id])
 
@@ -204,16 +205,12 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             }
         })
         if (skip) return
-        try {
-            const res = await editTask({taskNumber: task.id, ...data})
-            if (res.success){
-                fetchingFunction()
-                showToast(res.state, res.message, 'success')
-            } else {
-                showToast(res.state, res.message)
-            }
-        } catch (err) {
-            throw err
+        const res = await editTask({taskNumber: task.id, ...data})
+        if (res.success){
+            fetchingFunction()
+            showToast(res.state, res.message, 'success')
+        } else {
+            showToast(res.state, res.message)
         }
     }
 
@@ -229,8 +226,6 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             } else {
                 showToast(res.state, res.message)
             }
-        } catch (err){
-            throw err
         } finally {
             setLoading(false)
         }
@@ -246,8 +241,6 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             } else {
                 showToast(res.state, res.message)
             }
-        } catch (err){
-            throw err
         } finally {
             setLoading(false)
         }
@@ -263,8 +256,6 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             } else {
                 showToast(res.state, res.message)
             }
-        } catch (err) {
-            throw err
         } finally {
             setLoading(false)
         }
@@ -281,8 +272,6 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             } else {
                 showToast(res.state, res.message)
             }
-        } catch (err) {
-            throw err
         } finally {
             setLoading(false)
         }
@@ -299,8 +288,6 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
             } else {
                 showToast(res.state, res.message)
             }
-        } catch (err) {
-            throw err
         } finally {
             setLoading(false)
         }
@@ -308,16 +295,12 @@ function FormModal({textMessage, id, title, task, fetchingFunction=()=>{}}){
 
     const handlePermanentDeleteSubmit = async (e) => {
         e.preventDefault()
-        try {
-            const res = await deleteTaskPermanent({taskNumber: task.id, status: task.status})
-            if (res.success){
-                fetchingFunction()
-                showToast(res.state, res.message, 'success')
-            } else {
-                showToast(res.state, res.message)
-            }
-        } catch (err) {
-            throw err
+        const res = await deleteTaskPermanent({taskNumber: task.id, status: task.status})
+        if (res.success){
+            fetchingFunction()
+            showToast(res.state, res.message, 'success')
+        } else {
+            showToast(res.state, res.message)
         }
     }
 
