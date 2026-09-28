@@ -25,7 +25,7 @@ Respond in JSON format only, no explanation, no markdown:
             }
             const validPriorities = ['Low', 'Medium', 'High']
             if (!validPriorities.includes(suggestion.priority)) {
-                suggestion.category = 'Medium'
+                suggestion.priority = 'Medium'
             }
             return res.status(200).json({success: true, suggestion})
         } catch (err) {
