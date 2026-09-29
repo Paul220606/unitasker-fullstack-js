@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 
 import { publicRoutes, privateRoutes, onlyPublicRoutes } from './router'
+import { checkHealth } from '../api/health.api'
 import DefaultLayout from '../shared/layouts/DefaultLayout'
 
 const AppContext = createContext()
@@ -12,8 +13,12 @@ function App() {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState(() => (localStorage.getItem('user')|| ''))
     const [categoriesList, setCategoriesList] = useState(()=> localStorage.getItem('categories') || 'Housework, Schoolwork, Job, Other')
-    
     const [avaUrl, setAvaUrl] = useState()
+
+    useEffect(() => {
+        checkHealth().catch(() => {})
+    }, [])
+    
     let routes = [...publicRoutes, ...(user?privateRoutes:onlyPublicRoutes)]
     return (
         <AppContext.Provider value={{user, setUser, loading, setLoading, avaUrl, setAvaUrl, categoriesList, setCategoriesList}}>
