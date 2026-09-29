@@ -45,7 +45,7 @@ class AuthController {
                     email: existedData.email
                 })
             } else {
-                return res.status(201).json({
+                return res.status(404).json({
                 success: false,
                 state: 'Send pin failed',
                 message: 'There is no matched username or email.'
@@ -79,7 +79,7 @@ class AuthController {
             }
 
             if (Date.now() >= otpVerification.expiredAt) {
-                return res.status(201).json({
+                return res.status(410).json({
                     success: false,
                     state: 'Check pin failed',
                     message: 'The Pin has been expired, please click "Resend OTP".'
@@ -88,7 +88,7 @@ class AuthController {
             
             const isMatch = await bcrypt.compare(String(otp), otpVerification.otp)
             if (!isMatch) {
-                return res.status(201).json({
+                return res.status(401).json({
                     success: false,
                     state: 'Check pin failed',
                     message: `The Pin is not matched. ${MAX_ATTEMPTS - otpVerification.attempts} attempt(s) left.`
