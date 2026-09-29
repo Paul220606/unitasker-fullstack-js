@@ -68,7 +68,7 @@ export const checkPinHandler = (body, callCount) => {
             token: 'fake.jwt.token',
         })
     }
-    return json(201, {
+    return json(401, {
         success: false,
         state: 'Check pin failed',
         message: `The Pin is not matched. ${5 - callCount} attempt(s) left.`,

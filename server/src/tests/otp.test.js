@@ -75,6 +75,7 @@ describe('POST /api/auth/checkPin', () => {
     it('should fail with a wrong OTP and report remaining attempts', async () => {
         await seedOTP()
         const res = await checkPin('000000')
+        expect(res.status).toBe(401)
         expect(res.body.success).toBe(false)
         expect(res.body.message).toContain(`${MAX_ATTEMPTS - 1} attempt(s) left`)
     })
@@ -82,6 +83,7 @@ describe('POST /api/auth/checkPin', () => {
     it('should fail when the OTP has expired, even if correct', async() => {
         await seedOTP({expiresInMs: -1000})
         const res = await checkPin(KNOWN_OTP)
+        expect(res.status).toBe(410)
         expect(res.body.success).toBe(false)
         expect(res.body.message).toContain('expired')
         expect(res.body.token).toBeUndefined()
